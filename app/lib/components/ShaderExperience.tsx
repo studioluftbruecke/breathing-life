@@ -1,6 +1,7 @@
 import { Canvas } from "@react-three/fiber";
-import ExperienceWrapper from "./lib/components/ExperienceWrapper";
+import ExperienceWrapper from "@/app/lib/components/ExperienceWrapper";
 import * as THREE from 'three'
+import ShaderPlane from "./ShaderPlane";
 
 
 export default function ShaderExperience() {
@@ -8,10 +9,13 @@ export default function ShaderExperience() {
     <>
     <ExperienceWrapper controls={{orbitControls: { }}}>
       <ambientLight />
-      <mesh>
+      {/* <mesh>
         <boxGeometry />
         <meshStandardMaterial />
-      </mesh>
+      </mesh> */}
+      <ShaderPlane
+        scale={[10, 10, 10]}
+      />
     </ExperienceWrapper>
     </>
   )

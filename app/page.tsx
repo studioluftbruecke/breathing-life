@@ -1,7 +1,7 @@
 "use client";
 
 
-import ShaderExperience from "./ShaderExperience";
+import ShaderExperience from "@/app/lib/components/ShaderExperience";
 
 export default function Home() {
   return (
