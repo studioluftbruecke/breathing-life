@@ -14,10 +14,10 @@ export default function ShaderExperience() {
         <boxGeometry />
         <meshStandardMaterial />
       </mesh> */}
-      {/* <ShaderPlane
+      <ShaderPlane
         scale={[10, 10, 10]}
-      /> */}
-      <PenroseTriangle />
+      />
+      {/* <PenroseTriangle /> */}
     </ExperienceWrapper>
     </>
   )
