@@ -8,7 +8,10 @@ import { useEffect, useRef, useState } from 'react'
 import vertexShader from '@/app/lib/shaders/vertex.glsl'
 import fragmentShader from '@/app/lib/shaders/fragment.glsl'
 import { useWindowSize } from '../hooks/useWindowSize'
-import { useControls } from 'leva'
+import { button, useControls } from 'leva'
+import { updateRowSupabase } from '../actions.ts/supabase'
+import { toast } from 'react-toastify';
+
 
 // Create custom shader material
 const CustomShaderMaterial = shaderMaterial(
@@ -37,30 +40,62 @@ declare global {
 }
 
 // Create the component that uses the shader
-function ShaderPlane(props: JSX.IntrinsicElements['mesh']){
+function ShaderPlane(props: JSX.IntrinsicElements['mesh'] & { filterValues: any }){
   // const [filterVar1, setFilterVar1] = useState(0)
   // const [filterVar2, setFilterVar2] = useState(0)
 
+  const [texturePath, _setTexturePath] = useState('/IMG_9969.jpg')
+  const [filterValues, setFilterValues] = useState<any>(props.filterValues?.filter_values)
+
+  useEffect(() => {
+    if (props.filterValues) {
+      setFilterValues(props.filterValues.filter_values)
+    }
+  }, [props.filterValues])
+
   const { filterVar1, filterVar2 } = useControls({ filterVar1: {
-    value: 0,
+    value: filterValues?.filterValue1 ?? 0,
     min: 0,
-    max: 23,
+    max: 10,
     step: 0.01,
   }, filterVar2: {
-    value: 0,
+    value: filterValues?.filterValue2 ?? 0,
     min: -100,
     max: 100,
     step: 0.1,
-  } })
+  },
+  Save: button(async (get) => {
+    const filterVar1 = get('filterVar1')
+    const filterVar2 = get('filterVar2')
+    await handleSaveFilterValues(filterVar1, filterVar2)
+    toast("Saved!")
+  })
+}, [filterValues?.filterValue1, filterValues?.filterValue2])
+
+
+async function handleSaveFilterValues(filterVar1: number, filterVar2: number) {
+  if (!props.filterValues.id) {
+    throw new Error('No id to store filterValues to')
+  }
+  const data = {
+    filter_values: {
+      filterValue1: filterVar1,
+      filterValue2: filterVar2
+    },
+  }
+  const result = await updateRowSupabase('test_refraction_lukso_db', data,
+    'id',
+    props.filterValues.id
+  )
+}
 
 
   const meshRef = useRef<THREE.Mesh>(null)
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const materialRef = useRef<any>(null)
 
-  const { texturePath, intensity } = {
-    texturePath: '/IMG_9969.jpg',
-    intensity: 1
+  const { intensity } = {
+    intensity: 3
   }
 
   // Load texture
@@ -78,6 +113,7 @@ function ShaderPlane(props: JSX.IntrinsicElements['mesh']){
   })
 
   return (
+    <>
     <mesh
       ref={meshRef}
       {...props}
@@ -96,7 +132,8 @@ function ShaderPlane(props: JSX.IntrinsicElements['mesh']){
         side={THREE.DoubleSide}
       />
     </mesh>
-  )
+    </>
+    )
 }
 
 export default ShaderPlane
