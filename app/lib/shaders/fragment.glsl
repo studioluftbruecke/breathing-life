@@ -18,7 +18,7 @@ void main() {
 
   // Claude shader fx
   // Add createGlitch
-  uv.x = createGlitch(uv);
+  // uv.x = createGlitch(uv);
   
   // Sample texture with distorted UVs
   vec4 texture = texture2D(uTexture, uv);
