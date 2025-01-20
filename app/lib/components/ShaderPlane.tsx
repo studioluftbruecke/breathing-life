@@ -57,11 +57,13 @@ function ShaderPlane(props: JSX.IntrinsicElements['mesh'] & { settings: Tables<'
   // }, [props.settings])
 
   const { filterVar1, filterVar2 } = useControls({ filterVar1: {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     value: (props.settings?.filter_values as any)?.filter_value_1 ?? 0,
     min: 0,
     max: 10,
     step: 0.01,
   }, filterVar2: {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     value: (props.settings?.filter_values as any)?.filter_value_2 ?? 0,
     min: -100,
     max: 100,
@@ -73,7 +75,11 @@ function ShaderPlane(props: JSX.IntrinsicElements['mesh'] & { settings: Tables<'
     await handleSaveFilterValues(_filterVar1, _filterVar2)
     toast("Saved!")
   })
-}, [(props.settings?.filter_values as any)?.filter_value_1, (props.settings?.filter_values as any)?.filter_value_2])
+}, [
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  (props.settings?.filter_values as any)?.filter_value_1,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  (props.settings?.filter_values as any)?.filter_value_2])
 
 
 async function handleSaveFilterValues(filterVar1: number, filterVar2: number) {
