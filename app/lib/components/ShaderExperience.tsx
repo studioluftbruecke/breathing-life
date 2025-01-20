@@ -12,6 +12,7 @@ import { ToastContainer } from 'react-toastify';
 
 export default function ShaderExperience() {
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [filterValues, setFilterValues] = useState<any>()
 
   useEffect(() => {
@@ -21,6 +22,7 @@ export default function ShaderExperience() {
         const filterValues = result[0] as unknown as {
           id: string,
           created_at: Date,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           filter_values: any,
         }
         setFilterValues(filterValues)

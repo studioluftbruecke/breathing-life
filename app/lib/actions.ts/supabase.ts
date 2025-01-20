@@ -3,7 +3,12 @@
 import { createClient } from '@/app/lib/utils/supabase/server';
 import { QueryData } from '@supabase/supabase-js';
 
-export async function fetchFromSupabase(table: string, select: string, match: Object) {
+export async function fetchFromSupabase(
+  table: string,
+  select: string,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  match: any
+) {
   const supabase = await createClient();
   const query = supabase.from(table).select(select).match(match);
   type ResultType = QueryData<typeof query>
@@ -14,7 +19,13 @@ export async function fetchFromSupabase(table: string, select: string, match: Ob
   return data as ResultType
 }
 
-export async function updateRowSupabase(table: string, updateData: Object, eqKey: string, eqValue: string) {
+export async function updateRowSupabase(
+  table: string,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  updateData: any,
+  eqKey: string,
+  eqValue: string
+) {
   const supabase = await createClient();
   const { data, error } = await supabase
     .from(table)

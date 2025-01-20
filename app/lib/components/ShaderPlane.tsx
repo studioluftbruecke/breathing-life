@@ -40,11 +40,13 @@ declare global {
 }
 
 // Create the component that uses the shader
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function ShaderPlane(props: JSX.IntrinsicElements['mesh'] & { filterValues: any }){
   // const [filterVar1, setFilterVar1] = useState(0)
   // const [filterVar2, setFilterVar2] = useState(0)
 
   const [texturePath, _setTexturePath] = useState('/IMG_9969.jpg')
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [filterValues, setFilterValues] = useState<any>(props.filterValues?.filter_values)
 
   useEffect(() => {
