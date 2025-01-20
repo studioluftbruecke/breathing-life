@@ -9,6 +9,7 @@ export async function fetchFromSupabase(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   match: any
 ) {
+  console.log('Enter fetchFromSupabase', table, select, match)
   const supabase = await createClient();
   const query = supabase.from(table).select(select).match(match);
   type ResultType = QueryData<typeof query>
@@ -26,6 +27,7 @@ export async function updateRowSupabase(
   eqKey: string,
   eqValue: string
 ) {
+  console.log('Enter updateRowSupabase', table, updateData, eqKey, eqValue)
   const supabase = await createClient();
   const { data, error } = await supabase
     .from(table)
