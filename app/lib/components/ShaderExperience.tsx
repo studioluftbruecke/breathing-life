@@ -8,15 +8,18 @@ import PenroseTriangle from "./PenroseTriangle";
 export default function ShaderExperience() {
   return (
     <>
-    <ExperienceWrapper controls={{orbitControls: { }}}>
+    <ExperienceWrapper
+      controls={{orbitControls: { }}}
+      initialCameraPosition={new THREE.Vector3(0, 0, 1)}
+      cameraFov={75}
+      environmentFilePath="/syferfontein_1d_clear_puresky_1k.hdr"
+    >
       <ambientLight />
       {/* <mesh>
         <boxGeometry />
         <meshStandardMaterial />
       </mesh> */}
-      <ShaderPlane
-        scale={[10, 10, 10]}
-      />
+      <ShaderPlane />
       {/* <PenroseTriangle /> */}
     </ExperienceWrapper>
     </>

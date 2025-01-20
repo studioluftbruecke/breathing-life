@@ -2,11 +2,12 @@
 import { extend, useFrame, useLoader } from '@react-three/fiber'
 import { shaderMaterial } from '@react-three/drei'
 import * as THREE from 'three'
-import { useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 // Import shaders
 import vertexShader from '@/app/lib/shaders/vertex.glsl'
 import fragmentShader from '@/app/lib/shaders/fragment.glsl'
+import { useWindowSize } from '../hooks/useWindowSize'
 
 // Create custom shader material
 const CustomShaderMaterial = shaderMaterial(
@@ -42,7 +43,7 @@ function ShaderPlane(props: JSX.IntrinsicElements['mesh']){
   const { texturePath, intensity } = {
     texturePath: '/IMG_9969.jpg',
     intensity: 1
-  } 
+  }
 
   // Load texture
   const texture = useLoader(THREE.TextureLoader, texturePath)
@@ -61,7 +62,6 @@ function ShaderPlane(props: JSX.IntrinsicElements['mesh']){
   return (
     <mesh
       ref={meshRef}
-      position={props.position ?? [0, 0, 0]}
       {...props}
     >
       <planeGeometry args={[1, 1, 16, 16]} />
