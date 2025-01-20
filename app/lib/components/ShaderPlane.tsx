@@ -48,32 +48,32 @@ function ShaderPlane(props: JSX.IntrinsicElements['mesh'] & { settings: Tables<'
 
   const [texturePath, _setTexturePath] = useState('/IMG_9969.jpg')
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const [filterValues, setFilterValues] = useState<any>(props.settings?.filter_values)
+  // const [filterValues, setFilterValues] = useState<any>(props.settings?.filter_values)
 
-  useEffect(() => {
-    if (props.settings) {
-      setFilterValues(props.settings.filter_values)
-    }
-  }, [props.settings])
+  // useEffect(() => {
+  //   if (props.settings) {
+  //     setFilterValues(props.settings.filter_values)
+  //   }
+  // }, [props.settings])
 
   const { filterVar1, filterVar2 } = useControls({ filterVar1: {
-    value: filterValues?.filter_value_1 ?? 0,
+    value: (props.settings?.filter_values as any)?.filter_value_1 ?? 0,
     min: 0,
     max: 10,
     step: 0.01,
   }, filterVar2: {
-    value: filterValues?.filter_value_2 ?? 0,
+    value: (props.settings?.filter_values as any)?.filter_value_2 ?? 0,
     min: -100,
     max: 100,
     step: 0.1,
   },
   Save: button(async (get) => {
-    const filterVar1 = get('filterVar1')
-    const filterVar2 = get('filterVar2')
-    await handleSaveFilterValues(filterVar1, filterVar2)
+    const _filterVar1 = get('filterVar1')
+    const _filterVar2 = get('filterVar2')
+    await handleSaveFilterValues(_filterVar1, _filterVar2)
     toast("Saved!")
   })
-}, [filterValues?.filter_value_1, filterValues?.filter_value_2])
+}, [(props.settings?.filter_values as any)?.filter_value_1, (props.settings?.filter_values as any)?.filter_value_2])
 
 
 async function handleSaveFilterValues(filterVar1: number, filterVar2: number) {

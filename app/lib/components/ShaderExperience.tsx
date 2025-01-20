@@ -16,7 +16,7 @@ export default function ShaderExperience() {
   const [settings, setSettings] = useState<any>()
 
   useEffect(() => {
-    const getFilterValues = async () => {
+    const getSettings = async () => {
       const result = await fetchFromSupabase("settings", '*', {})
       if (result.length > 0) {
         const settings = result[0] as unknown as {
@@ -25,10 +25,11 @@ export default function ShaderExperience() {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           filter_values: any,
         }
+        console.log('settings', settings)
         setSettings(settings)
       }
     }
-    getFilterValues()
+    getSettings()
   }, [])
 
 
