@@ -1,33 +1,37 @@
 // shaders/fragment.glsl
 uniform float uTime;
 uniform sampler2D uTexture;
-uniform float uIntensity;
+uniform float filterVar1; // Range 0.0 to 1.0 - Controls color shifting
+uniform float filterVar2; // Range 0.0 to 1.0 - Controls pixelation/distortion
+
 varying vec2 vUv;
 
-// "Glitch Effect" according to Claude
-float createGlitch(vec2 uv) {
-    float large = uv.x * 1e20;
-    return fract(large) * 2.0 - 1.0;
-}
-
-
 void main() {
-  // Create animated UVs
-  vec2 uv = vUv;
-  uv.x += sin(uv.y * 10.0 + uTime * 0.5) * 0.1 * uIntensity;
-
-  // Claude shader fx
-  // Add createGlitch
-  // uv.x = createGlitch(uv);
-  
-  // Sample texture with distorted UVs
-  vec4 texture = texture2D(uTexture, uv);
-  
-  // Add time-based color tinting
-  vec3 tint = 0.5 + 0.5 * cos(uTime + vec3(0,2,4));
-  
-  // Mix texture with effects
-  vec3 final = mix(texture.rgb, tint, 0.2 * uIntensity);
-  
-  gl_FragColor = vec4(final, texture.a);
+    // Get initial UV coordinates
+    vec2 uv = vUv;
+    
+    // Apply distortion based on filterVar2
+    float blockSize = max(0.001, 0.02 * filterVar2);
+    vec2 blockifiedUV = floor(uv / blockSize) * blockSize;
+    uv = mix(uv, blockifiedUV, filterVar2);
+    
+    // Sample the texture
+    vec4 texColor = texture2D(uTexture, uv);
+    
+    // Color manipulation based on filterVar1
+    vec3 shiftedColor = texColor.rgb;
+    
+    // Rotate the colors based on filterVar1
+    shiftedColor.r = mix(texColor.r, texColor.g, filterVar1 * 0.5);
+    shiftedColor.g = mix(texColor.g, texColor.b, filterVar1 * 0.5);
+    shiftedColor.b = mix(texColor.b, texColor.r, filterVar1 * 0.5);
+    
+    // Add some wave distortion
+    float wave = sin(uv.y * 10.0 + uTime) * filterVar2 * 0.1;
+    shiftedColor += vec3(wave);
+    
+    // Mix between original and filtered
+    vec3 finalColor = mix(texColor.rgb, shiftedColor, filterVar1);
+    
+    gl_FragColor = vec4(finalColor, texColor.a);
 }

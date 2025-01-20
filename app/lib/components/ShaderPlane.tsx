@@ -8,13 +8,15 @@ import { useEffect, useRef, useState } from 'react'
 import vertexShader from '@/app/lib/shaders/vertex.glsl'
 import fragmentShader from '@/app/lib/shaders/fragment.glsl'
 import { useWindowSize } from '../hooks/useWindowSize'
+import { useControls } from 'leva'
 
 // Create custom shader material
 const CustomShaderMaterial = shaderMaterial(
   {
     uTime: 0,
     uTexture: null,
-    uIntensity: 1.0
+    filterVar1: 0,
+    filterVar2: 0
   },
   vertexShader,
   fragmentShader
@@ -36,6 +38,22 @@ declare global {
 
 // Create the component that uses the shader
 function ShaderPlane(props: JSX.IntrinsicElements['mesh']){
+  // const [filterVar1, setFilterVar1] = useState(0)
+  // const [filterVar2, setFilterVar2] = useState(0)
+
+  const { filterVar1, filterVar2 } = useControls({ filterVar1: {
+    value: 0,
+    min: 0,
+    max: 23,
+    step: 0.01,
+  }, filterVar2: {
+    value: 0,
+    min: -100,
+    max: 100,
+    step: 0.1,
+  } })
+
+
   const meshRef = useRef<THREE.Mesh>(null)
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const materialRef = useRef<any>(null)
@@ -70,8 +88,10 @@ function ShaderPlane(props: JSX.IntrinsicElements['mesh']){
       {/* <customShaderMaterial ref={materialRef} side={THREE.DoubleSide} /> */}
       <customShaderMaterial 
         ref={materialRef}
-        transparent
         uTexture={texture}
+        filterVar1={filterVar1}
+        filterVar2={filterVar2}
+        transparent
         uIntensity={intensity}
         side={THREE.DoubleSide}
       />
