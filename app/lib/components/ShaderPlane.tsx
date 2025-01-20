@@ -11,6 +11,7 @@ import { useWindowSize } from '../hooks/useWindowSize'
 import { button, useControls } from 'leva'
 import { updateRowSupabase } from '../actions.ts/supabase'
 import { toast } from 'react-toastify';
+import { Tables } from '@/supabase.types'
 
 
 // Create custom shader material
@@ -41,27 +42,27 @@ declare global {
 
 // Create the component that uses the shader
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function ShaderPlane(props: JSX.IntrinsicElements['mesh'] & { filterValues: any }){
+function ShaderPlane(props: JSX.IntrinsicElements['mesh'] & { settings: Tables<'settings'> }){
   // const [filterVar1, setFilterVar1] = useState(0)
   // const [filterVar2, setFilterVar2] = useState(0)
 
   const [texturePath, _setTexturePath] = useState('/IMG_9969.jpg')
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const [filterValues, setFilterValues] = useState<any>(props.filterValues?.filter_values)
+  const [filterValues, setFilterValues] = useState<any>(props.settings?.filter_values)
 
   useEffect(() => {
-    if (props.filterValues) {
-      setFilterValues(props.filterValues.filter_values)
+    if (props.settings) {
+      setFilterValues(props.settings.filter_values)
     }
-  }, [props.filterValues])
+  }, [props.settings])
 
   const { filterVar1, filterVar2 } = useControls({ filterVar1: {
-    value: filterValues?.filterValue1 ?? 0,
+    value: filterValues?.filter_value_1 ?? 0,
     min: 0,
     max: 10,
     step: 0.01,
   }, filterVar2: {
-    value: filterValues?.filterValue2 ?? 0,
+    value: filterValues?.filter_value_2 ?? 0,
     min: -100,
     max: 100,
     step: 0.1,
@@ -72,22 +73,22 @@ function ShaderPlane(props: JSX.IntrinsicElements['mesh'] & { filterValues: any 
     await handleSaveFilterValues(filterVar1, filterVar2)
     toast("Saved!")
   })
-}, [filterValues?.filterValue1, filterValues?.filterValue2])
+}, [filterValues?.filter_value_1, filterValues?.filter_value_2])
 
 
 async function handleSaveFilterValues(filterVar1: number, filterVar2: number) {
-  if (!props.filterValues.id) {
-    throw new Error('No id to store filterValues to')
+  if (!props.settings.id) {
+    throw new Error('No id to store settings to')
   }
   const data = {
     filter_values: {
-      filterValue1: filterVar1,
-      filterValue2: filterVar2
+      filter_value_1: filterVar1,
+      filter_value_2: filterVar2
     },
   }
-  const result = await updateRowSupabase('test_refraction_lukso_db', data,
+  const result = await updateRowSupabase('settings', data,
     'id',
-    props.filterValues.id
+    props.settings.id
   )
 }
 

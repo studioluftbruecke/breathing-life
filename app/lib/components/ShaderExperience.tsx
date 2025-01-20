@@ -13,21 +13,19 @@ import { ToastContainer } from 'react-toastify';
 export default function ShaderExperience() {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const [filterValues, setFilterValues] = useState<any>()
+  const [settings, setSettings] = useState<any>()
 
   useEffect(() => {
     const getFilterValues = async () => {
-      const result = await fetchFromSupabase("test_refraction_lukso_db", '*', {})
-      console.log('result', result)
+      const result = await fetchFromSupabase("settings", '*', {})
       if (result.length > 0) {
-        const filterValues = result[0] as unknown as {
+        const settings = result[0] as unknown as {
           id: string,
           created_at: Date,
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           filter_values: any,
         }
-        console.log('filterValues', filterValues)
-        setFilterValues(filterValues)
+        setSettings(settings)
       }
     }
     getFilterValues()
@@ -49,7 +47,7 @@ export default function ShaderExperience() {
         <meshStandardMaterial />
       </mesh> */}
       <ShaderPlane
-          filterValues={filterValues}
+          settings={settings}
         />
       {/* <PenroseTriangle /> */}
     </ExperienceWrapper>
