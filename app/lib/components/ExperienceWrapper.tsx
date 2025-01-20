@@ -8,7 +8,7 @@ import type { OrbitControls as OrbitControlsImpl } from 'three-stdlib'
 import { RefObject } from "react";
 import * as THREE from 'three'
 import ExperienceContext from "../contexts/ExperienceContext";
-
+import { Leva } from "leva";
 
 const LoadingScreen = dynamic(
   () => import('./LoadingScreen'),
@@ -59,7 +59,7 @@ function ExperienceWrapper({
   /**
    * Component State
    */
-  const [debugSettings, setDebugSettings] = useState<DebugSettingsType>({ debug: false, perf: false, axesHelper: false, debugInterface: false, PWA: false, consoleLog: false, displayMobileLogs: false, loadingScreen: 'none', disableAllInterfaces: false })
+  const [debugSettings, setDebugSettings] = useState<DebugSettingsType>({ debug: false, perf: false, axesHelper: false, debugInterface: false, PWA: false, consoleLog: false, displayMobileLogs: false, loadingScreen: 'none', disableAllInterfaces: false, leva: false })
 
   /**
    * Contexts
@@ -151,6 +151,15 @@ function ExperienceWrapper({
       })
     }
 
+    if (urlParams.get('leva') === 'true') {
+      setDebugSettings((prevState) => {
+        return {
+          ...prevState,
+          leva: true
+        }
+      })
+    }
+
     if (urlParams.get('loadingScreen')) {
       const loadingScreenQueryParam = urlParams.get('loadingScreen')
       setDebugSettings((prevState) => {
@@ -200,6 +209,9 @@ function ExperienceWrapper({
           setExperienceStarted={setExperienceStartedHandler}
         />
       </> : null}
+      <Leva
+        hidden={!debugSettings.leva}
+      />
       <KeyboardControls map={keyboardMap} >
         <Canvas
           flat

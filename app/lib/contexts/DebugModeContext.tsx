@@ -11,9 +11,10 @@ export type DebugSettingsType = {
   displayMobileLogs: boolean
   loadingScreen: LoadingScreenTypes
   disableAllInterfaces: boolean
+  leva: boolean
 }
 const DebugModeContext = createContext({
-  debugSettings: {debug: false, perf: false, axesHelper: false, debugInterface: false, PWA: false, consoleLog: false, displayMobileLogs: false, loadingScreen: 'none', disableAllInterfaces: false},
+  debugSettings: {debug: false, perf: false, axesHelper: false, debugInterface: false, PWA: false, consoleLog: false, displayMobileLogs: false, loadingScreen: 'none', disableAllInterfaces: false, leva: false},
   setDebugSettings: (state: DebugSettingsType) => { }
 });
 
