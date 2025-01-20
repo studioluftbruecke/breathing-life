@@ -18,6 +18,7 @@ export default function ShaderExperience() {
   useEffect(() => {
     const getFilterValues = async () => {
       const result = await fetchFromSupabase("test_refraction_lukso_db", '*', {})
+      console.log('result', result)
       if (result.length > 0) {
         const filterValues = result[0] as unknown as {
           id: string,
@@ -25,6 +26,7 @@ export default function ShaderExperience() {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           filter_values: any,
         }
+        console.log('filterValues', filterValues)
         setFilterValues(filterValues)
       }
     }
