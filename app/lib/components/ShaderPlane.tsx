@@ -24,8 +24,10 @@ extend({ CustomShaderMaterial })
 
 // Declare the custom material type for TypeScript
 declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace JSX {
     interface IntrinsicElements {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       customShaderMaterial: any
     }
   }
@@ -34,6 +36,7 @@ declare global {
 // Create the component that uses the shader
 function ShaderPlane(props: JSX.IntrinsicElements['mesh']){
   const meshRef = useRef<THREE.Mesh>(null)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const materialRef = useRef<any>(null)
 
   const { texturePath, intensity } = {

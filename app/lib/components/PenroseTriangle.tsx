@@ -1,12 +1,14 @@
 declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace JSX {
     interface IntrinsicElements {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       penroseMaterial: any
     }
   }
 }
 
-import { extend, useFrame } from '@react-three/fiber'
+import { extend } from '@react-three/fiber'
 import { shaderMaterial } from '@react-three/drei'
 import * as THREE from 'three'
 import { useRef } from 'react'

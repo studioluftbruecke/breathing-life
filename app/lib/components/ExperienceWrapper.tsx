@@ -54,7 +54,7 @@ function ExperienceWrapper({
    * Ref
    */
   const orbitRef = useRef<OrbitControlsImpl>(null!)
-  const [orbitControlsRef, setOrbitControlsRef] = useState<RefObject<OrbitControlsImpl>>(orbitRef)
+  const [orbitControlsRef, _setOrbitControlsRef] = useState<RefObject<OrbitControlsImpl>>(orbitRef)
 
   /**
    * Component State
@@ -152,7 +152,7 @@ function ExperienceWrapper({
     }
 
     if (urlParams.get('loadingScreen')) {
-      let loadingScreenQueryParam = urlParams.get('loadingScreen')
+      const loadingScreenQueryParam = urlParams.get('loadingScreen')
       setDebugSettings((prevState) => {
         const newObject: DebugSettingsType = {
           ...prevState

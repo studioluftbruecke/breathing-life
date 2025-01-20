@@ -46,7 +46,7 @@ export default function LoadingScreen({
       // setEnableEnterExperience(true)
       setExperienceStarted()
     }
-  }, [setEnableEnterExperience, experienceContext.allAudioFilesLoaded])
+  }, [setExperienceStarted, experienceContext.allAudioFilesLoaded])
 
   return <>
     {experienceStarted ? <></> : <>
