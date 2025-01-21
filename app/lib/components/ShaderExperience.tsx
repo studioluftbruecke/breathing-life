@@ -25,7 +25,6 @@ export default function ShaderExperience() {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           filter_values: any,
         }
-        console.log('settings', settings)
         setSettings(settings)
       }
     }
@@ -47,9 +46,11 @@ export default function ShaderExperience() {
         <boxGeometry />
         <meshStandardMaterial />
       </mesh> */}
-      <ShaderPlane
-          settings={settings}
-        />
+      {settings && settings.filter_values && <>
+        <ShaderPlane
+            settings={settings}
+          />
+      </>}
       {/* <PenroseTriangle /> */}
     </ExperienceWrapper>
     </>

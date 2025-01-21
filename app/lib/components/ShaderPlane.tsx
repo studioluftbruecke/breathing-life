@@ -7,7 +7,6 @@ import { useEffect, useRef, useState } from 'react'
 // Import shaders
 import vertexShader from '@/app/lib/shaders/vertex.glsl'
 import fragmentShader from '@/app/lib/shaders/fragment.glsl'
-import { useWindowSize } from '../hooks/useWindowSize'
 import { button, useControls } from 'leva'
 import { updateRowSupabase } from '../actions.ts/supabase'
 import { toast } from 'react-toastify';
@@ -42,7 +41,7 @@ declare global {
 
 // Create the component that uses the shader
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function ShaderPlane(props: JSX.IntrinsicElements['mesh'] & { settings: Tables<'settings'> }){
+function ShaderPlane(props: JSX.IntrinsicElements['mesh'] & { settings: Tables<'settings'> }) {
   // const [filterVar1, setFilterVar1] = useState(0)
   // const [filterVar2, setFilterVar2] = useState(0)
 
@@ -58,13 +57,13 @@ function ShaderPlane(props: JSX.IntrinsicElements['mesh'] & { settings: Tables<'
 
   const { filterVar1, filterVar2 } = useControls({ filterVar1: {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    value: (props.settings?.filter_values as any)?.filter_value_1 ?? 0,
+    value: (props.settings.filter_values as any)?.filter_value_1 ?? 0,
     min: 0,
     max: 10,
     step: 0.01,
   }, filterVar2: {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    value: (props.settings?.filter_values as any)?.filter_value_2 ?? 0,
+    value: (props.settings.filter_values as any)?.filter_value_2 ?? 0,
     min: -100,
     max: 100,
     step: 0.1,
@@ -77,9 +76,9 @@ function ShaderPlane(props: JSX.IntrinsicElements['mesh'] & { settings: Tables<'
   })
 }, [
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  (props.settings?.filter_values as any)?.filter_value_1,
+  (props.settings.filter_values as any)?.filter_value_1,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  (props.settings?.filter_values as any)?.filter_value_2])
+  (props.settings.filter_values as any)?.filter_value_2])
 
 
 async function handleSaveFilterValues(filterVar1: number, filterVar2: number) {
