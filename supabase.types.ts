@@ -36,16 +36,22 @@ export type Database = {
     Tables: {
       settings: {
         Row: {
+          environment_url: string | null
           filter_values: Json | null
           id: string
+          img_url: string | null
         }
         Insert: {
+          environment_url?: string | null
           filter_values?: Json | null
           id?: string
+          img_url?: string | null
         }
         Update: {
+          environment_url?: string | null
           filter_values?: Json | null
           id?: string
+          img_url?: string | null
         }
         Relationships: []
       }

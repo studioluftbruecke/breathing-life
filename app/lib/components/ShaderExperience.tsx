@@ -10,14 +10,14 @@ import { fetchFromSupabase } from "../actions.ts/supabase";
 import { ToastContainer } from 'react-toastify';
 
 
-export default function ShaderExperience() {
+export default function ShaderExperience(props: { nftAddress: string }) {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [settings, setSettings] = useState<any>()
 
   useEffect(() => {
     const getSettings = async () => {
-      const result = await fetchFromSupabase("settings", '*', {})
+      const result = await fetchFromSupabase("settings", '*', {id: props.nftAddress})
       if (result.length > 0) {
         const settings = result[0] as unknown as {
           id: string,
@@ -29,7 +29,7 @@ export default function ShaderExperience() {
       }
     }
     getSettings()
-  }, [])
+  }, [props.nftAddress])
 
 
   return (
@@ -39,14 +39,14 @@ export default function ShaderExperience() {
       controls={{orbitControls: { }}}
       initialCameraPosition={new THREE.Vector3(0, 0, 1)}
       cameraFov={75}
-      environmentFilePath="/syferfontein_1d_clear_puresky_1k.hdr"
+      environmentFilePath={settings?.environmnet_url ?? "/syferfontein_1d_clear_puresky_1k.hdr"}
     >
       <ambientLight />
       {/* <mesh>
         <boxGeometry />
         <meshStandardMaterial />
       </mesh> */}
-      {settings && settings.filter_values && <>
+      {settings && settings.filter_values && settings.img_url && <>
         <ShaderPlane
             settings={settings}
           />
