@@ -1,7 +1,13 @@
+'use client';
+
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+
+
 export default function Home() {
-  return (
-    <div className="items-center justify-items-center min-h-screen w-screen h-screen">
-      
-    </div>
-  );
+  const router = useRouter()
+  useEffect(() => {
+    router.push('/a61e22fb-0947-4dad-beb5-d812c25694df')
+  }, [router])
+  return (<></>);
 }
