@@ -39,7 +39,7 @@ export default function ShaderExperience(props: { nftAddress: string }) {
       controls={{orbitControls: { }}}
       initialCameraPosition={new THREE.Vector3(0, 0, 1)}
       cameraFov={75}
-      environmentFilePath={settings?.environment_url ?? "/syferfontein_1d_clear_puresky_1k.hdr"}
+      environmentFilePath={settings?.environment_url || "/syferfontein_1d_clear_puresky_1k.hdr"}
     >
       <ambientLight />
       {/* <mesh>
