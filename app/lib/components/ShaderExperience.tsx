@@ -13,7 +13,7 @@ import { ToastContainer } from 'react-toastify';
 export default function ShaderExperience(props: { nftAddress: string }) {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const [settings, setSettings] = useState<any>()
+  const [settings, setSettings] = useState<any>(null)
 
   useEffect(() => {
     const getSettings = async () => {
@@ -39,7 +39,7 @@ export default function ShaderExperience(props: { nftAddress: string }) {
       controls={{orbitControls: { }}}
       initialCameraPosition={new THREE.Vector3(0, 0, 1)}
       cameraFov={75}
-      environmentFilePath={settings?.environmnet_url ?? "/syferfontein_1d_clear_puresky_1k.hdr"}
+      environmentFilePath={settings?.environment_url ?? "/syferfontein_1d_clear_puresky_1k.hdr"}
     >
       <ambientLight />
       {/* <mesh>
