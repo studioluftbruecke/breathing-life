@@ -10,6 +10,7 @@ import { fetchFromSupabase } from "../actions.ts/supabase";
 import { ToastContainer } from 'react-toastify';
 import { TemporalInterpolationShaderPlane } from "./TemporalInterpolationShaderPlane";
 import { MyTestShaderPlane } from "./MyTestShaderPlane";
+import { TemporalInterpolationGlitchShaderPlane } from "./TemporalInterpolationGlitchShaderPlane";
 
 
 export default function ShaderExperience(props: { nftAddress: string }) {
@@ -52,7 +53,7 @@ export default function ShaderExperience(props: { nftAddress: string }) {
           {/* <ShaderPlane
             settings={settings}
           /> */}
-          <TemporalInterpolationShaderPlane
+          <TemporalInterpolationGlitchShaderPlane
             settings={settings}
           />
         </>}

@@ -1,12 +1,11 @@
-import { extend, useLoader } from "@react-three/fiber";
-import { shaderMaterial, useFBO } from "@react-three/drei";
-// import { vertexShader, fragmentShader } from "@/app/lib/shaders/TemporalShader"; // Import shaders
-import { useRef, useEffect, useState } from "react";
-import { LinearFilter, WebGLRenderTarget } from "three";
-import { useFrame } from "@react-three/fiber";
-import * as THREE from "three";
-import vertexShader from '@/app/lib/shaders/temporal_frame_interpolation/vertex.glsl'
-import fragmentShader from '@/app/lib/shaders/temporal_frame_interpolation/fragment.glsl'
+import { extend } from "@react-three/fiber";
+import { shaderMaterial } from "@react-three/drei";
+import vertexShader from '@/app/lib/shaders/temporal_frame_glitch/vertex.glsl'
+import fragmentShader from '@/app/lib/shaders/temporal_frame_glitch/fragment.glsl'
+import { WebGLRenderTarget, TextureLoader, LinearFilter } from "three";
+import { Canvas, useFrame, useLoader } from "@react-three/fiber";
+import { useThree } from "@react-three/fiber";
+import { useRef, useState, useEffect } from "react";
 import { Tables } from "@/supabase.types";
 import { useControls } from "leva";
 
@@ -21,6 +20,7 @@ const TemporalShaderMaterial = shaderMaterial(
     noiseFactor: 0.02,
     time: 0,
     mixFactor: 0,  // Starts with image, then fades to effect
+    glitchIntensity: 0,  // Controls glitch level dynamically
   },
   vertexShader,
   fragmentShader
@@ -41,13 +41,12 @@ declare global {
 }
 
 
-
-export const TemporalInterpolationShaderPlane = (props: JSX.IntrinsicElements['mesh'] & { settings: Tables<'settings'> }) => {
-  const shaderRef = useRef<any>(null!);
-  // const { gl, scene, camera } = useThree();
+export const TemporalInterpolationGlitchShaderPlane = (props: JSX.IntrinsicElements['mesh'] & { settings: Tables<'settings'> }) => {
+  const shaderRef = useRef<any>();
+  const { gl, scene, camera } = useThree();
 
   // Load the image texture
-  const imageTexture = useLoader(THREE.TextureLoader, props.settings.img_url!)
+  const imageTexture = useLoader(TextureLoader, props.settings.img_url!);
 
   // Create ping-pong framebuffers
   let [fboA, setFboA] = useState(() => new WebGLRenderTarget(window.innerWidth, window.innerHeight));
@@ -55,16 +54,18 @@ export const TemporalInterpolationShaderPlane = (props: JSX.IntrinsicElements['m
 
   // Track time for transition effect
   // const [mixFactor, setMixFactor] = useState(0);
+  // const [glitchIntensity, setGlitchIntensity] = useState(0);
 
   useEffect(() => {
     fboA.texture.minFilter = fboB.texture.minFilter = LinearFilter;
   }, [fboA, fboB]);
-  
-  const { decaySpeed, noiseFactor, mixFactor } = useControls({
-    decaySpeed: { value: 0.01, min: 0.01, max: 0.99, step: 0.01 },
-    noiseFactor: { value: 0.02, min: 0.0, max: 1.0, step: 0.01 },
-    mixFactor: { value: 0.01, min: 0.0, max: 1.0, step: 0.01 },
-  });
+
+  const { decaySpeed, noiseFactor, mixFactor, glitchIntensity } = useControls({
+      decaySpeed: { value: 0.01, min: 0.01, max: 0.99, step: 0.01 },
+      noiseFactor: { value: 0.02, min: 0.0, max: 1.0, step: 0.01 },
+      mixFactor: { value: 0.01, min: 0.0, max: 1.0, step: 0.01 },
+      glitchIntensity: { value: 0.01, min: 0.0, max: 10.0, step: 0.01 },
+    });
 
   useFrame(({ gl, scene, camera }, delta) => {
     if (!shaderRef.current) return;
@@ -83,6 +84,13 @@ export const TemporalInterpolationShaderPlane = (props: JSX.IntrinsicElements['m
     shaderRef.current.imageTexture = imageTexture;
     shaderRef.current.time += delta;
 
+    // Increase mixFactor over time for a smooth transition
+    shaderRef.current.mixFactor = mixFactor;
+
+    // Randomly trigger glitch effects
+    // setGlitchIntensity(Math.random() > 0.95 ? 0.5 : 0.0);
+    shaderRef.current.glitchIntensity = glitchIntensity;
+
     // Swap buffers for next frame
     [setFboA, setFboB] = [setFboB, setFboA];
   });
@@ -90,11 +98,7 @@ export const TemporalInterpolationShaderPlane = (props: JSX.IntrinsicElements['m
   return (
     <mesh>
       <planeGeometry args={[1, 1]} />
-      <temporalShaderMaterial
-        ref={shaderRef}
-        key={TemporalShaderMaterial.key}
-        side={THREE.DoubleSide}
-      />
+      <temporalShaderMaterial ref={shaderRef} />
     </mesh>
   );
 };
