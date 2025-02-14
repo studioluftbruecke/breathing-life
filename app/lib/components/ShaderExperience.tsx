@@ -7,6 +7,7 @@ import { fetchFromSupabase } from "../actions.ts/supabase";
 import { ToastContainer } from 'react-toastify';
 import { PsychedelicPlane } from "./PsychedelicShaderPlane";
 import { BreathingPlane } from "./BreathingPlane";
+import { MultiFxPlane } from "./MultiFxPlane";
 
 
 export default function ShaderExperience(props: { nftAddress: string }) {
@@ -55,7 +56,10 @@ export default function ShaderExperience(props: { nftAddress: string }) {
           {/* <PsychedelicPlane
             settings={settings}
           /> */}
-          <BreathingPlane
+          {/* <BreathingPlane
+            settings={settings}
+          /> */}
+          <MultiFxPlane
             settings={settings}
           />
         </>}
