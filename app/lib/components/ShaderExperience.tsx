@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { fetchFromSupabase } from "../actions.ts/supabase";
 import { ToastContainer } from 'react-toastify';
 import { PsychedelicPlane } from "./PsychedelicShaderPlane";
+import { BreathingPlane } from "./BreathingPlane";
 
 
 export default function ShaderExperience(props: { nftAddress: string }) {
@@ -51,7 +52,10 @@ export default function ShaderExperience(props: { nftAddress: string }) {
           {/* <TemporalInterpolationGlitchShaderPlane
             settings={settings}
           /> */}
-          <PsychedelicPlane
+          {/* <PsychedelicPlane
+            settings={settings}
+          /> */}
+          <BreathingPlane
             settings={settings}
           />
         </>}
