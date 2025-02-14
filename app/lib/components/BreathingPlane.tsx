@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import * as THREE from 'three'
 import { Canvas, extend, useFrame } from '@react-three/fiber'
 import { shaderMaterial, useTexture } from '@react-three/drei'
@@ -13,8 +13,8 @@ const BreathingShaderMaterial = shaderMaterial(
   {
     uTexture: null,
     uTime: 0,
-    uBreathingSpeed: 0,
-    uBreathingIntensity: 0,
+    uWarpSpeed: 0,
+    uWarpIntensity: 0,
   },
   vertexShader,
   fragmentShader,
@@ -38,20 +38,46 @@ export function BreathingPlane(props: JSX.IntrinsicElements['mesh'] & { settings
 
   // Load the texture
   const texture = useTexture(props.settings.img_url!)
-  texture.wrapS = texture.wrapT = THREE.RepeatWrapping
+  texture.wrapS = THREE.ClampToEdgeWrapping;
+  texture.wrapT = THREE.ClampToEdgeWrapping;
 
-  const { uBreathingSpeed, uBreathingIntensity } = useControls({
-    uBreathingSpeed: { value: 0.01, min: 0.01, max: 1.0, step: 0.01 },
-    uBreathingIntensity: { value: 0.02, min: 0.0, max: 1.0, step: 0.01 },
+  const { warpSpeed, warpIntensity, warpMode } = useControls({
+    warpSpeed: { value: 0.1, min: -10.0, max: 10.0, step: 0.01 },
+    warpIntensity: { value: 0.05, min: -5.0, max: 5.0, step: 0.01 },
+    warpMode: {
+      options: ['mirror', 'clamp', 'repeat'],
+      value: 'mirror',
+    }
   });
+
+
+  useEffect(() => {
+    switch (warpMode) {
+      case 'clamp':
+        texture.wrapS = THREE.ClampToEdgeWrapping;
+        texture.wrapT = THREE.ClampToEdgeWrapping;
+        break;
+      case 'repeat':
+        texture.wrapS = THREE.RepeatWrapping;
+        texture.wrapT = THREE.RepeatWrapping;
+        texture.repeat.set(1, 1); // Tile 2x2
+        break;
+      case 'mirror':
+        texture.wrapS = THREE.MirroredRepeatWrapping;
+        texture.wrapT = THREE.MirroredRepeatWrapping;
+        texture.repeat.set(2, 2); // Tile 4x4
+        break;
+    }
+    texture.needsUpdate = true;
+  }, [warpMode])
 
 
   // Update time uniform on each frame
   useFrame((state) => {
     if (shaderRef.current) {
       shaderRef.current.uniforms.uTime.value = state.clock.getElapsedTime()
-      shaderRef.current.uniforms.uBreathingSpeed.value = uBreathingSpeed
-      shaderRef.current.uniforms.uBreathingIntensity.value = uBreathingIntensity
+      shaderRef.current.uniforms.uWarpSpeed.value = warpSpeed
+      shaderRef.current.uniforms.uWarpIntensity.value = warpIntensity
     }
   })
 
