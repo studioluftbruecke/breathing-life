@@ -2,7 +2,7 @@
 import { extend, useFrame, useLoader } from '@react-three/fiber'
 import { shaderMaterial } from '@react-three/drei'
 import * as THREE from 'three'
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 
 // Import shaders
 import vertexShader from '@/app/lib/shaders/vertex.glsl'
@@ -132,6 +132,7 @@ async function handleSaveFilterValues(filterVar1: number, filterVar2: number) {
       {/* <customShaderMaterial ref={materialRef} side={THREE.DoubleSide} /> */}
       <customShaderMaterial 
         ref={materialRef}
+        key={CustomShaderMaterial.key}
         uTexture={texture}
         filterVar1={filterVar1}
         filterVar2={filterVar2}

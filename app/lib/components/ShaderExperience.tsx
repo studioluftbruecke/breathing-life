@@ -8,6 +8,8 @@ import PenroseTriangle from "./PenroseTriangle";
 import { useEffect, useState } from "react";
 import { fetchFromSupabase } from "../actions.ts/supabase";
 import { ToastContainer } from 'react-toastify';
+import { TemporalInterpolationShaderPlane } from "./TemporalInterpolationShaderPlane";
+import { MyTestShaderPlane } from "./MyTestShaderPlane";
 
 
 export default function ShaderExperience(props: { nftAddress: string }) {
@@ -17,7 +19,7 @@ export default function ShaderExperience(props: { nftAddress: string }) {
 
   useEffect(() => {
     const getSettings = async () => {
-      const result = await fetchFromSupabase("settings", '*', {id: props.nftAddress})
+      const result = await fetchFromSupabase("settings", '*', { id: props.nftAddress })
       if (result.length > 0) {
         const settings = result[0] as unknown as {
           id: string,
@@ -34,25 +36,28 @@ export default function ShaderExperience(props: { nftAddress: string }) {
 
   return (
     <>
-    <ToastContainer />
-    <ExperienceWrapper
-      controls={{orbitControls: { }}}
-      initialCameraPosition={new THREE.Vector3(0, 0, 1)}
-      cameraFov={75}
-      environmentFilePath={settings?.environment_url || "/syferfontein_1d_clear_puresky_1k.hdr"}
-    >
-      <ambientLight />
-      {/* <mesh>
+      <ToastContainer />
+      <ExperienceWrapper
+        controls={{ orbitControls: {} }}
+        initialCameraPosition={new THREE.Vector3(0, 0, 1)}
+        cameraFov={75}
+        environmentFilePath={settings?.environment_url || "/syferfontein_1d_clear_puresky_1k.hdr"}
+      >
+        <ambientLight />
+        {/* <mesh>
         <boxGeometry />
         <meshStandardMaterial />
       </mesh> */}
-      {settings && settings.filter_values && settings.img_url && <>
-        <ShaderPlane
+        {settings && settings.filter_values && settings.img_url && <>
+          {/* <ShaderPlane
+            settings={settings}
+          /> */}
+          <TemporalInterpolationShaderPlane
             settings={settings}
           />
-      </>}
-      {/* <PenroseTriangle /> */}
-    </ExperienceWrapper>
+        </>}
+        {/* <PenroseTriangle /> */}
+      </ExperienceWrapper>
     </>
   )
 }
