@@ -1,16 +1,11 @@
 'use client';
 
-import { Canvas } from "@react-three/fiber";
 import ExperienceWrapper from "@/app/lib/components/ExperienceWrapper";
 import * as THREE from 'three'
-import ShaderPlane from "./ShaderPlane";
-import PenroseTriangle from "./PenroseTriangle";
 import { useEffect, useState } from "react";
 import { fetchFromSupabase } from "../actions.ts/supabase";
 import { ToastContainer } from 'react-toastify';
-import { TemporalInterpolationShaderPlane } from "./TemporalInterpolationShaderPlane";
-import { MyTestShaderPlane } from "./MyTestShaderPlane";
-import { TemporalInterpolationGlitchShaderPlane } from "./TemporalInterpolationGlitchShaderPlane";
+import { PsychedelicPlane } from "./PsychedelicShaderPlane";
 
 
 export default function ShaderExperience(props: { nftAddress: string }) {
@@ -53,7 +48,10 @@ export default function ShaderExperience(props: { nftAddress: string }) {
           {/* <ShaderPlane
             settings={settings}
           /> */}
-          <TemporalInterpolationGlitchShaderPlane
+          {/* <TemporalInterpolationGlitchShaderPlane
+            settings={settings}
+          /> */}
+          <PsychedelicPlane
             settings={settings}
           />
         </>}
