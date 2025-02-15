@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 import * as THREE from 'three'
-import { Canvas, extend, useFrame } from '@react-three/fiber'
+import { Canvas, extend, useFrame, useThree } from '@react-three/fiber'
 import { shaderMaterial, useTexture } from '@react-three/drei'
 import { Tables } from "@/supabase.types";
 import vertexShader from '@/app/lib/shaders/breathing/vertex.glsl'
@@ -43,6 +43,8 @@ declare global {
 }
 export function MultiFxPlane(props: JSX.IntrinsicElements['mesh'] & { settings: Tables<'settings'> }) {
   const shaderRef = useRef<any>(null)
+  const [dimensions, setDimensions] = useState<{ width: number; height: number }>({width: 0, height: 0});
+  const { viewport } = useThree();
 
   const [texturePath, setTexturePath] = useState(props.settings.img_url!)
 
@@ -75,11 +77,28 @@ export function MultiFxPlane(props: JSX.IntrinsicElements['mesh'] & { settings: 
     image: { image: undefined }
   });
 
-
   useEffect(() => {
-    if (image) {
-      setTexturePath(image)
-    }
+    if (!image) return;
+    setTexturePath(image)
+    const img = new Image();
+    img.src = image;
+    img.onload = () => {
+      // Calculate aspect ratio
+      const aspectRatio = img.width / img.height;
+
+      // Ensure the plane fits within the camera's view
+      const maxWidth = viewport.width * 0.8; // 80% of viewport width
+      const maxHeight = viewport.height * 0.8; // 80% of viewport height
+
+      let planeWidth = maxWidth;
+      let planeHeight = maxWidth / aspectRatio;
+
+      if (planeHeight > maxHeight) {
+        planeHeight = maxHeight;
+        planeWidth = maxHeight * aspectRatio;
+      }
+      setDimensions({ width: planeWidth, height: planeHeight });
+    };
   }, [image]);
 
 
@@ -122,7 +141,7 @@ export function MultiFxPlane(props: JSX.IntrinsicElements['mesh'] & { settings: 
 
   return (
     <mesh>
-      <planeGeometry args={[1, 1]} />
+      <planeGeometry args={[dimensions.width, dimensions.height]} />
       <breathingShaderMaterial
         ref={shaderRef}
         key={BreathingShaderMaterial.key}

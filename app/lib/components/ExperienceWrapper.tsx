@@ -239,7 +239,7 @@ function ExperienceWrapper({
               panSpeed={controls.orbitControls.panSpeed ?? 1}
               rotateSpeed={controls.orbitControls.rotateSpeed ?? 1}
               maxDistance={maxCameraDistance}
-              minDistance={1}
+              minDistance={0.03}
               maxPolarAngle={controls.orbitControls.maxPolarAngle ?? Math.PI}
               minPolarAngle={controls.orbitControls.minPolarAngle ?? 0}
             />}
