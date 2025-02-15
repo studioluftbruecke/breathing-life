@@ -5,7 +5,8 @@ import { shaderMaterial, useTexture } from '@react-three/drei'
 import { Tables } from "@/supabase.types";
 import vertexShader from '@/app/lib/shaders/breathing/vertex.glsl'
 import fragmentShader from '@/app/lib/shaders/breathing/fragmentMultiFx.glsl'
-import { useControls } from 'leva';
+import { button, useControls } from 'leva';
+import { toast } from 'react-toastify';
 
 
 // Create shader material
@@ -43,12 +44,14 @@ declare global {
 export function MultiFxPlane(props: JSX.IntrinsicElements['mesh'] & { settings: Tables<'settings'> }) {
   const shaderRef = useRef<any>(null)
 
+  const [texturePath, setTexturePath] = useState(props.settings.img_url!)
+
   // Load the texture
-  const texture = useTexture(props.settings.img_url!)
+  const texture = useTexture(texturePath)
   texture.wrapS = THREE.ClampToEdgeWrapping;
   texture.wrapT = THREE.ClampToEdgeWrapping;
 
-  const { textureWrapMode, effectType, speed, intensity, frequency, noiseScale } = useControls({
+  const { textureWrapMode, effectType, speed, intensity, frequency, noiseScale, image } = useControls({
     // warpSpeed: { value: 0.1, min: -10.0, max: 10.0, step: 0.01 },
     // warpIntensity: { value: 0.05, min: -5.0, max: 5.0, step: 0.01 },
     textureWrapMode: {
@@ -56,7 +59,7 @@ export function MultiFxPlane(props: JSX.IntrinsicElements['mesh'] & { settings: 
       value: 'mirror',
     },
     effectType: {
-      value: 0,
+      value: 2,
       options: {
         'Breathing Wave': 0,
         'Spiral': 1,
@@ -65,11 +68,19 @@ export function MultiFxPlane(props: JSX.IntrinsicElements['mesh'] & { settings: 
         'Kaleidoscope': 4
       }
     },
-    speed: { value: 1.0, min: -5.0, max: 5.0, step: 0.1 },
-    intensity: { value: 0.02, min: -10.0, max: 10.0, step: 0.1 },
+    speed: { value: 0.05, min: -5.0, max: 5.0, step: 0.01 },
+    intensity: { value: 0.02, min: -10.0, max: 10.0, step: 0.01 },
     frequency: { value: 3.0, min: -20, max: 20, step: 0.1 },
-    noiseScale: { value: 4.0, min: -10, max: 10, step: 0.1 }
+    noiseScale: { value: 4.0, min: -10, max: 10, step: 0.1 },
+    image: { image: undefined }
   });
+
+
+  useEffect(() => {
+    if (image) {
+      setTexturePath(image)
+    }
+  }, [image]);
 
 
   useEffect(() => {
