@@ -8,6 +8,7 @@ import { ToastContainer } from 'react-toastify';
 import { PsychedelicPlane } from "./PsychedelicShaderPlane";
 import { BreathingPlane } from "./BreathingPlane";
 import { MultiFxPlane } from "./MultiFxPlane";
+import { BreathingLifePlane } from "./BreathingLifePlane";
 
 
 export default function ShaderExperience(props: { nftAddress: string }) {
@@ -59,7 +60,10 @@ export default function ShaderExperience(props: { nftAddress: string }) {
           {/* <BreathingPlane
             settings={settings}
           /> */}
-          <MultiFxPlane
+          {/* <MultiFxPlane
+            settings={settings}
+          /> */}
+          <BreathingLifePlane
             settings={settings}
           />
         </>}
