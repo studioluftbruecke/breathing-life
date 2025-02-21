@@ -9,6 +9,7 @@ import { PsychedelicPlane } from "./PsychedelicShaderPlane";
 import { BreathingPlane } from "./BreathingPlane";
 import { MultiFxPlane } from "./MultiFxPlane";
 import { BreathingLifePlane } from "./BreathingLifePlane";
+import { BreathingLifePlane_v2 } from "./BreathingLifePlane_v2";
 
 
 export default function ShaderExperience(props: { nftAddress: string }) {
@@ -63,7 +64,7 @@ export default function ShaderExperience(props: { nftAddress: string }) {
           {/* <MultiFxPlane
             settings={settings}
           /> */}
-          <BreathingLifePlane
+          <BreathingLifePlane_v2
             settings={settings}
           />
         </>}

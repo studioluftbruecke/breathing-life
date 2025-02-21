@@ -49,14 +49,14 @@ vec2 worleyGradient(vec2 p) {
 }
 
 void main() {
-    // Create more organic movement using both noise and its gradient
+  // Create more organic movement using both noise and its gradient
   vec2 gradient = worleyGradient(vUv);
   float noise = worleyNoise(vUv);
 
-    // Combine noise and gradient for more natural flow
+  // Combine noise and gradient for more natural flow
   vec2 uvOffset = (gradient * noise) * uIntensity;
 
-    // Add some temporal variation
+  // Add some temporal variation
   uvOffset *= sin(uTime * 0.5) * 0.5 + 0.5;
 
   vec2 distortedUV = vUv + uvOffset;
