@@ -14,14 +14,43 @@ vec2 hash2(vec2 p) {
   return fract(sin(p) * 43758.5453123);
 }
 
-// Worley noise function
+// // Standard Worley noise function
+// float worleyNoise(vec2 p) {
+//   p *= uNoiseScale;
+//   vec2 i_st = floor(p);
+//   vec2 f_st = fract(p);
+//   float minDist = 1.0;
+
+//   // Check neighboring cells
+//   for(int y = -1; y <= 1; y++) {
+//     for(int x = -1; x <= 1; x++) {
+//       vec2 neighbor = vec2(float(x), float(y));
+//       vec2 point = hash2(i_st + neighbor);
+
+//       // Animate the point
+//       point = 0.5 + 0.5 * sin(uTime * uWorleySpeed + 6.2831 * point);
+
+//       vec2 diff = neighbor + point - f_st;
+//       float dist = length(diff);
+//       minDist = min(minDist, dist);
+//     }
+//   }
+//   return minDist;
+// }
+
+// Polynomial worley noise function
+float smoothMin(float a, float b, float k) {
+    float h = max(k - abs(a - b), 0.0) / k;
+    return min(a, b) - h * h * k * 0.25;
+}
+
 float worleyNoise(vec2 p) {
   p *= uNoiseScale;
   vec2 i_st = floor(p);
   vec2 f_st = fract(p);
   float minDist = 1.0;
+  float secondMinDist = 1.0;
 
-  // Check neighboring cells
   for(int y = -1; y <= 1; y++) {
     for(int x = -1; x <= 1; x++) {
       vec2 neighbor = vec2(float(x), float(y));
@@ -32,11 +61,53 @@ float worleyNoise(vec2 p) {
 
       vec2 diff = neighbor + point - f_st;
       float dist = length(diff);
-      minDist = min(minDist, dist);
+
+      if (dist < minDist) {
+        secondMinDist = minDist;
+        minDist = dist;
+      } else if (dist < secondMinDist) {
+        secondMinDist = dist;
+      }
     }
   }
-  return minDist;
+
+  // Smooth blending of F1 and F2 distances
+  return smoothMin(minDist, secondMinDist, 0.2);
 }
+
+
+// // F1 - F2 distance function
+// float worleyNoise(vec2 p) {
+//   p *= uNoiseScale;
+//   vec2 i_st = floor(p);
+//   vec2 f_st = fract(p);
+//   float minDist = 1.0;
+//   float secondMinDist = 1.0;
+
+//   for(int y = -1; y <= 1; y++) {
+//     for(int x = -1; x <= 1; x++) {
+//       vec2 neighbor = vec2(float(x), float(y));
+//       vec2 point = hash2(i_st + neighbor);
+
+//       // Animate the point
+//       point = 0.5 + 0.5 * sin(uTime * uWorleySpeed + 6.2831 * point);
+
+//       vec2 diff = neighbor + point - f_st;
+//       float dist = length(diff);
+
+//       if (dist < minDist) {
+//         secondMinDist = minDist;
+//         minDist = dist;
+//       } else if (dist < secondMinDist) {
+//         secondMinDist = dist;
+//       }
+//     }
+//   }
+
+//   return secondMinDist - minDist; // Difference gives smoother transitions
+// }
+
+
 
 // Improved gradient function
 vec2 worleyGradient(vec2 p) {
