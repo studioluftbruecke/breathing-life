@@ -114,7 +114,8 @@ export function BreathingLifePlane_v2(props: JSX.IntrinsicElements['mesh'] & { s
           uNoiseScale: { value: 0 },
         },
         vertexShader,
-        fragmentShader: simplexAndWorleyNoiseFragmentShader
+        fragmentShader: simplexAndWorleyNoiseFragmentShader,
+        side: THREE.DoubleSide
       })
     }
   }, [])
