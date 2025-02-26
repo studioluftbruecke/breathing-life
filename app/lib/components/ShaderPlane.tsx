@@ -8,7 +8,7 @@ import { useRef, useState } from 'react'
 import vertexShader from '@/app/lib/shaders/vertex.glsl'
 import fragmentShader from '@/app/lib/shaders/fragment.glsl'
 import { button, useControls } from 'leva'
-import { updateRowSupabase } from '../actions.ts/supabase'
+// import { updateRowSupabase } from '../actions.ts/supabase'
 import { toast } from 'react-toastify';
 import { Tables } from '@/supabase.types'
 
@@ -91,10 +91,10 @@ async function handleSaveFilterValues(filterVar1: number, filterVar2: number) {
       filter_value_2: filterVar2
     },
   }
-  const result = await updateRowSupabase('settings', data,
-    'id',
-    props.settings.id
-  )
+  // const result = await updateRowSupabase('settings', data,
+  //   'id',
+  //   props.settings.id
+  // )
 }
 
 

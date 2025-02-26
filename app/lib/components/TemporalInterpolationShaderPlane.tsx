@@ -50,8 +50,8 @@ export const TemporalInterpolationShaderPlane = (props: JSX.IntrinsicElements['m
   const imageTexture = useLoader(THREE.TextureLoader, props.settings.img_url!)
 
   // Create ping-pong framebuffers
-  let [fboA, setFboA] = useState(() => new WebGLRenderTarget(window.innerWidth, window.innerHeight));
-  let [fboB, setFboB] = useState(() => new WebGLRenderTarget(window.innerWidth, window.innerHeight));
+  const [fboA, setFboA] = useState(() => new WebGLRenderTarget(window.innerWidth, window.innerHeight));
+  const [fboB, setFboB] = useState(() => new WebGLRenderTarget(window.innerWidth, window.innerHeight));
 
   // Track time for transition effect
   // const [mixFactor, setMixFactor] = useState(0);
@@ -84,7 +84,7 @@ export const TemporalInterpolationShaderPlane = (props: JSX.IntrinsicElements['m
     shaderRef.current.time += delta;
 
     // Swap buffers for next frame
-    [setFboA, setFboB] = [setFboB, setFboA];
+    // [setFboA, setFboB] = [setFboB, setFboA];
   });
 
   return (

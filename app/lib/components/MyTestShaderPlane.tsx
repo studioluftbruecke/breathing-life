@@ -18,6 +18,7 @@ const MyShaderMaterial = shaderMaterial(
 extend({ MyShaderMaterial });
 
 declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace JSX {
     interface IntrinsicElements {
       myShaderMaterial: any

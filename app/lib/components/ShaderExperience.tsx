@@ -3,7 +3,6 @@
 import ExperienceWrapper from "@/app/lib/components/ExperienceWrapper";
 import * as THREE from 'three'
 import { useEffect, useState } from "react";
-import { fetchFromSupabase } from "../actions.ts/supabase";
 import { ToastContainer } from 'react-toastify';
 import { PsychedelicPlane } from "./PsychedelicShaderPlane";
 import { BreathingPlane } from "./BreathingPlane";
