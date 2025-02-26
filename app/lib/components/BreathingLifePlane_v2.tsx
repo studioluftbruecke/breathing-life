@@ -15,7 +15,7 @@ export function BreathingLifePlane_v2(props: JSX.IntrinsicElements['mesh'] & { s
 
   const [texturePath, setTexturePath] = useState(props.settings?.img_url ?? '/IMG_9969.jpg')
 
-  // Load the texture
+  // Load texture
   const texture = useTexture(texturePath)
   texture.wrapS = THREE.ClampToEdgeWrapping;
   texture.wrapT = THREE.ClampToEdgeWrapping;
