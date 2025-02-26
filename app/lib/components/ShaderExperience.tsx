@@ -17,21 +17,21 @@ export default function ShaderExperience(props: { nftAddress: string }) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [settings, setSettings] = useState<any>(null)
 
-  useEffect(() => {
-    const getSettings = async () => {
-      const result = await fetchFromSupabase("settings", '*', { id: props.nftAddress })
-      if (result.length > 0) {
-        const settings = result[0] as unknown as {
-          id: string,
-          created_at: Date,
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          filter_values: any,
-        }
-        setSettings(settings)
-      }
-    }
-    getSettings()
-  }, [props.nftAddress])
+  // useEffect(() => {
+  //   const getSettings = async () => {
+  //     const result = await fetchFromSupabase("settings", '*', { id: props.nftAddress })
+  //     if (result.length > 0) {
+  //       const settings = result[0] as unknown as {
+  //         id: string,
+  //         created_at: Date,
+  //         // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  //         filter_values: any,
+  //       }
+  //       setSettings(settings)
+  //     }
+  //   }
+  //   getSettings()
+  // }, [props.nftAddress])
 
 
   return (
@@ -64,10 +64,10 @@ export default function ShaderExperience(props: { nftAddress: string }) {
           {/* <MultiFxPlane
             settings={settings}
           /> */}
-          <BreathingLifePlane_v2
-            settings={settings}
-          />
         </>}
+        <BreathingLifePlane_v2
+          settings={settings}
+        />
         {/* <PenroseTriangle /> */}
       </ExperienceWrapper>
     </>

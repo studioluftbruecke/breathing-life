@@ -13,24 +13,25 @@ export function BreathingLifePlane_v2(props: JSX.IntrinsicElements['mesh'] & { s
   const [dimensions, setDimensions] = useState<{ width: number; height: number }>({ width: 0, height: 0 });
   const { viewport } = useThree();
 
-  const [texturePath, setTexturePath] = useState(props.settings.img_url!)
+  const [texturePath, setTexturePath] = useState(props.settings?.img_url ?? '/IMG_9969.jpg')
 
   // Load the texture
   const texture = useTexture(texturePath)
   texture.wrapS = THREE.ClampToEdgeWrapping;
   texture.wrapT = THREE.ClampToEdgeWrapping;
 
-  const { textureWrapMode, effectType, simplexSpeed, simplexIntensity, worleySpeed, worleyIntensity, mixNoise, noiseScale, image } = useControls({
+  const textureWrapMode = 'mirror'
+  const { simplexSpeed, simplexIntensity, worleySpeed, worleyIntensity, mixNoise, noiseScale, image } = useControls({
     // warpSpeed: { value: 0.1, min: -10.0, max: 10.0, step: 0.01 },
     // warpIntensity: { value: 0.05, min: -5.0, max: 5.0, step: 0.01 },
-    textureWrapMode: {
-      options: ['mirror', 'clamp', 'repeat'],
-      value: 'mirror',
-    },
-    effectType: {
-      value: 'simplexAndWorley',
-      options: ['simplexAndWorley']
-    },
+    // textureWrapMode: {
+    //   options: ['mirror', 'clamp', 'repeat'],
+    //   value: 'mirror',
+    // },
+    // effectType: {
+    //   value: 'simplexAndWorley',
+    //   options: ['simplexAndWorley']
+    // },
     simplexSpeed: { value: 0.05, min: 0.0, max: 1.0, step: 0.01 },
     simplexIntensity: { value: 0.01, min: 0.0, max: 0.1, step: 0.001 },
     worleySpeed: { value: 0.05, min: 0.0, max: 1.0, step: 0.01 },
@@ -67,15 +68,15 @@ export function BreathingLifePlane_v2(props: JSX.IntrinsicElements['mesh'] & { s
 
   useEffect(() => {
     switch (textureWrapMode) {
-      case 'clamp':
-        texture.wrapS = THREE.ClampToEdgeWrapping;
-        texture.wrapT = THREE.ClampToEdgeWrapping;
-        break;
-      case 'repeat':
-        texture.wrapS = THREE.RepeatWrapping;
-        texture.wrapT = THREE.RepeatWrapping;
-        texture.repeat.set(1, 1); // Tile 2x2
-        break;
+      // case 'clamp':
+      //   texture.wrapS = THREE.ClampToEdgeWrapping;
+      //   texture.wrapT = THREE.ClampToEdgeWrapping;
+      //   break;
+      // case 'repeat':
+      //   texture.wrapS = THREE.RepeatWrapping;
+      //   texture.wrapT = THREE.RepeatWrapping;
+      //   texture.repeat.set(1, 1); // Tile 2x2
+      //   break;
       case 'mirror':
         texture.wrapS = THREE.MirroredRepeatWrapping;
         texture.wrapT = THREE.MirroredRepeatWrapping;
@@ -83,7 +84,7 @@ export function BreathingLifePlane_v2(props: JSX.IntrinsicElements['mesh'] & { s
         break;
     }
     texture.needsUpdate = true;
-  }, [textureWrapMode])
+  }, [textureWrapMode, texture])
 
 
   // Update time uniform on each frame
@@ -129,7 +130,7 @@ export function BreathingLifePlane_v2(props: JSX.IntrinsicElements['mesh'] & { s
 
 
   return (
-    <mesh ref={meshRef} material={materials[effectType]}>
+    <mesh ref={meshRef} material={materials['simplexAndWorley']}>
       <planeGeometry args={[dimensions.width, dimensions.height]} />
     </mesh>
   )
