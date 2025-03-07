@@ -21,7 +21,15 @@ export function BreathingLifePlane_v2(props: JSX.IntrinsicElements['mesh'] & { s
   texture.wrapT = THREE.ClampToEdgeWrapping;
 
   const textureWrapMode = 'mirror'
-  const { simplexSpeed, simplexIntensity, worleySpeed, worleyIntensity, mixNoise, noiseScale, image } = useControls({
+  const { 
+    'Mix Wave / Geometric': mixNoise,
+    'Scale': noiseScale,
+    'Wave Speed': simplexSpeed,
+    'Wave Intensity': simplexIntensity,
+    'Worley Speed': worleySpeed,
+    'Worley Intensity': worleyIntensity,
+    image
+  } = useControls({
     // warpSpeed: { value: 0.1, min: -10.0, max: 10.0, step: 0.01 },
     // warpIntensity: { value: 0.05, min: -5.0, max: 5.0, step: 0.01 },
     // textureWrapMode: {
@@ -32,12 +40,12 @@ export function BreathingLifePlane_v2(props: JSX.IntrinsicElements['mesh'] & { s
     //   value: 'simplexAndWorley',
     //   options: ['simplexAndWorley']
     // },
-    simplexSpeed: { value: 0.05, min: 0.0, max: 1.0, step: 0.01 },
-    simplexIntensity: { value: 0.01, min: 0.0, max: 0.1, step: 0.001 },
-    worleySpeed: { value: 0.05, min: 0.0, max: 1.0, step: 0.01 },
-    worleyIntensity: { value: 0.01, min: 0.0, max: 0.1, step: 0.001 },
-    mixNoise: { value: 0.2, min: 0.0, max: 1.0, step: 0.01 },
-    noiseScale: { value: 5.0, min: 0.0, max: 10.0, step: 0.1 },
+    'Mix Wave / Geometric': { value: 0.2, min: 0.0, max: 1.0, step: 0.01 },
+    'Scale': { value: 5.0, min: 0.0, max: 10.0, step: 0.1 },
+    'Wave Speed': { value: 0.05, min: 0.0, max: 1.0, step: 0.01 },
+    'Wave Intensity': { value: 0.01, min: 0.0, max: 0.1, step: 0.001 },
+    'Worley Speed': { value: 0.05, min: 0.0, max: 1.0, step: 0.01 },
+    'Worley Intensity': { value: 0.01, min: 0.0, max: 0.1, step: 0.001 },
     image: { image: undefined }
   });
 
