@@ -4,15 +4,11 @@ import ExperienceWrapper from "@/app/lib/components/ExperienceWrapper";
 import * as THREE from 'three'
 import { useEffect, useState } from "react";
 import { ToastContainer } from 'react-toastify';
-import { PsychedelicPlane } from "./PsychedelicShaderPlane";
-import { BreathingPlane } from "./BreathingPlane";
-import { MultiFxPlane } from "./MultiFxPlane";
-import { BreathingLifePlane } from "./BreathingLifePlane";
 import { BreathingLifePlane_v2 } from "./BreathingLifePlane_v2";
+import ShaderSettingsInterface from "./ShaderSettingsInterface";
 
 
 export default function ShaderExperience(props: { nftAddress: string }) {
-
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [settings, setSettings] = useState<any>(null)
 
@@ -36,11 +32,12 @@ export default function ShaderExperience(props: { nftAddress: string }) {
   return (
     <>
       <ToastContainer />
+      <ShaderSettingsInterface />
       <ExperienceWrapper
         controls={{ orbitControls: {} }}
         initialCameraPosition={new THREE.Vector3(0, 0, 1)}
         cameraFov={75}
-        environmentFilePath={settings?.environment_url || "/syferfontein_1d_clear_puresky_1k.hdr"}
+        // environmentFilePath={settings?.environment_url || "/syferfontein_1d_clear_puresky_1k.hdr"}
       >
         <ambientLight />
         {/* <mesh>

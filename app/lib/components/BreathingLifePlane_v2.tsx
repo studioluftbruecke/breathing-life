@@ -5,7 +5,7 @@ import { shaderMaterial, useTexture } from '@react-three/drei'
 import { Tables } from "@/supabase.types";
 import vertexShader from '@/app/lib/shaders/breathingLife/vertex.glsl'
 import simplexAndWorleyNoiseFragmentShader from '@/app/lib/shaders/breathingLife/simplexAndWorleyNoiseFragment.glsl'
-import { useControls } from 'leva';
+import { useShaderSettings } from '../stores/useShaderSettings';
 
 
 export function BreathingLifePlane_v2(props: JSX.IntrinsicElements['mesh'] & { settings: Tables<'settings'> }) {
@@ -15,39 +15,55 @@ export function BreathingLifePlane_v2(props: JSX.IntrinsicElements['mesh'] & { s
 
   const [texturePath, setTexturePath] = useState(props.settings?.img_url ?? '/IMG_9969.jpg')
 
+  const { mixNoise, noiseScale, simplexSpeed, simplexIntensity, worleySpeed, worleyIntensity, image } = useShaderSettings()
+
   // Load texture
   const texture = useTexture(texturePath)
   texture.wrapS = THREE.ClampToEdgeWrapping;
   texture.wrapT = THREE.ClampToEdgeWrapping;
-
   const textureWrapMode = 'mirror'
-  const { 
-    'Mix Wave / Geometric': mixNoise,
-    'Scale': noiseScale,
-    'Wave Speed': simplexSpeed,
-    'Wave Intensity': simplexIntensity,
-    'Worley Speed': worleySpeed,
-    'Worley Intensity': worleyIntensity,
-    image
-  } = useControls({
-    // warpSpeed: { value: 0.1, min: -10.0, max: 10.0, step: 0.01 },
-    // warpIntensity: { value: 0.05, min: -5.0, max: 5.0, step: 0.01 },
-    // textureWrapMode: {
-    //   options: ['mirror', 'clamp', 'repeat'],
-    //   value: 'mirror',
-    // },
-    // effectType: {
-    //   value: 'simplexAndWorley',
-    //   options: ['simplexAndWorley']
-    // },
-    'Mix Wave / Geometric': { value: 0.2, min: 0.0, max: 1.0, step: 0.01 },
-    'Scale': { value: 5.0, min: 0.0, max: 10.0, step: 0.1 },
-    'Wave Speed': { value: 0.05, min: 0.0, max: 1.0, step: 0.01 },
-    'Wave Intensity': { value: 0.01, min: 0.0, max: 0.1, step: 0.001 },
-    'Worley Speed': { value: 0.05, min: 0.0, max: 1.0, step: 0.01 },
-    'Worley Intensity': { value: 0.01, min: 0.0, max: 0.1, step: 0.001 },
-    image: { image: undefined }
-  });
+
+  
+  // const {
+  //   // 'Background 1': backgorundColor1,
+  //   // 'Background 2': backgorundColor2,
+  //   'Mix Wave / Geometric': mixNoise,
+  //   'Scale': noiseScale,
+  //   'Wave Speed': simplexSpeed,
+  //   'Wave Intensity': simplexIntensity,
+  //   'Worley Speed': worleySpeed,
+  //   'Worley Intensity': worleyIntensity,
+  //   image
+  // } = useControls({
+  //   // warpSpeed: { value: 0.1, min: -10.0, max: 10.0, step: 0.01 },
+  //   // warpIntensity: { value: 0.05, min: -5.0, max: 5.0, step: 0.01 },
+  //   // textureWrapMode: {
+  //   //   options: ['mirror', 'clamp', 'repeat'],
+  //   //   value: 'mirror',
+  //   // },
+  //   // effectType: {
+  //   //   value: 'simplexAndWorley',
+  //   //   options: ['simplexAndWorley']
+  //   // },
+  //   // 'Background 1': { r: 200, b: 125, g: 106, a: 0.4 },
+  //   // 'Background 2': '#123abc',
+  //   'Mix Wave / Geometric': { value: 0.2, min: 0.0, max: 1.0, step: 0.01 },
+  //   'Scale': { value: 5.0, min: 0.0, max: 10.0, step: 0.1 },
+  //   'Wave Speed': { value: 0.05, min: 0.0, max: 1.0, step: 0.01 },
+  //   'Wave Intensity': { value: 0.01, min: 0.0, max: 0.1, step: 0.001 },
+  //   'Worley Speed': { value: 0.05, min: 0.0, max: 1.0, step: 0.01 },
+  //   'Worley Intensity': { value: 0.01, min: 0.0, max: 0.1, step: 0.001 },
+  //   image: { image: undefined }
+  // });
+
+  // useEffect(() => {
+  //   if (!document) return;
+  //   const experienceWrapperCanvas = document.getElementById('experience-wrapper-canvas')
+  //   if (!experienceWrapperCanvas) return;
+  //   // Create a linear gradient background color with the two colors
+  //   const gradient = `linear-gradient(to bottom, ${backgorundColor1}, ${backgorundColor2})`
+  //   experienceWrapperCanvas.style.background = gradient
+  // }, [backgorundColor1, backgorundColor2])
 
   useEffect(() => {
     if (!image) return;
@@ -75,6 +91,7 @@ export function BreathingLifePlane_v2(props: JSX.IntrinsicElements['mesh'] & { s
 
 
   useEffect(() => {
+    if (!texture) return;
     switch (textureWrapMode) {
       // case 'clamp':
       //   texture.wrapS = THREE.ClampToEdgeWrapping;

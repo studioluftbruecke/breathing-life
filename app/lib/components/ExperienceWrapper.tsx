@@ -2,13 +2,13 @@ import { Suspense, useContext, useEffect, useMemo, useRef, useState } from "reac
 import DebugModeContext, { LoadingScreenTypes, DebugSettingsType } from "@/app/lib/contexts/DebugModeContext";
 import { Environment, KeyboardControls, OrbitControls } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
-import { Physics } from "@react-three/rapier";
 import dynamic from "next/dynamic";
 import type { OrbitControls as OrbitControlsImpl } from 'three-stdlib'
 import { RefObject } from "react";
 import * as THREE from 'three'
 import ExperienceContext from "../contexts/ExperienceContext";
 import { Leva } from "leva";
+
 
 const LoadingScreen = dynamic(
   () => import('./LoadingScreen'),
@@ -37,7 +37,7 @@ export type ExperienceWrapperProps = {
       maxPolarAngle?: number
       minPolarAngle?: number
     }
-  } | null 
+  } | null
   initialCameraPosition?: THREE.Vector3
   loadingScreen?: 'LoadingScreen' | null
   maxCameraDistance?: number
@@ -46,7 +46,7 @@ export type ExperienceWrapperProps = {
 
 function ExperienceWrapper({
   initialCameraPosition = new THREE.Vector3(0, 2, -15),
-  controls=null,
+  controls = null,
   maxCameraDistance = 500,
   ...props
 }: React.PropsWithChildren<ExperienceWrapperProps>) {
@@ -64,7 +64,7 @@ function ExperienceWrapper({
   /**
    * Contexts
    */
-  const {experienceContext, setExperienceContext} = useContext(ExperienceContext)
+  const { experienceContext, setExperienceContext } = useContext(ExperienceContext)
 
 
   useEffect(() => {
@@ -213,25 +213,34 @@ function ExperienceWrapper({
         hidden={!debugSettings.leva}
       />
       <KeyboardControls map={keyboardMap} >
-        <Canvas
-          flat
-          shadows
-          dpr={[1, 2]}
-          camera={{
-            fov: props.cameraFov ?? 60,
-            near: 0.01,
-            far: maxCameraDistance * 2,
-            position: initialCameraPosition
-          }}
-          gl={{
-            logarithmicDepthBuffer: true,
-            preserveDrawingBuffer: true
-          }}
-        >
-          {debugSettings.axesHelper ? <axesHelper args={[1000]} /> : null}
+        <div id="experience-wrapper-canvas-container">
+          <Canvas
+            id="experience-wrapper-canvas"
+            flat
+            shadows
+            dpr={[1, 2]}
+            camera={{
+              fov: props.cameraFov ?? 60,
+              near: 0.01,
+              far: maxCameraDistance * 2,
+              position: initialCameraPosition
+            }}
+            gl={{
+              logarithmicDepthBuffer: true,
+              preserveDrawingBuffer: true,
+              localClippingEnabled: true
+            }}
+            style={{
+              position: "absolute",
+              inset: "0",
+              touchAction: "none",
+              background: 'transparent'
+            }}
+          >
+            {debugSettings.axesHelper ? <axesHelper args={[1000]} /> : null}
 
-          {props.environmentFilePath ? <CustomEnvironment environmentFilePath={props.environmentFilePath} /> : null}
-          {controls && controls.orbitControls && <OrbitControls
+            {props.environmentFilePath ? <CustomEnvironment environmentFilePath={props.environmentFilePath} /> : null}
+            {controls && controls.orbitControls && <OrbitControls
               ref={orbitControlsRef}
               makeDefault
               target={controls.orbitControls.target ?? new THREE.Vector3(0, 0, 0)}
@@ -243,15 +252,13 @@ function ExperienceWrapper({
               maxPolarAngle={controls.orbitControls.maxPolarAngle ?? Math.PI}
               minPolarAngle={controls.orbitControls.minPolarAngle ?? 0}
             />}
-          <Suspense fallback={null}>
-            <Physics timeStep="vary" debug={debugSettings.debug}>
+            <Suspense fallback={null}>
               {props.children}
-            </Physics>
-          </Suspense>
-
-        </Canvas>
-    </KeyboardControls>
-  </DebugModeContext.Provider >
+            </Suspense>
+          </Canvas>
+        </div>
+      </KeyboardControls>
+    </DebugModeContext.Provider >
   </>
 }
 
