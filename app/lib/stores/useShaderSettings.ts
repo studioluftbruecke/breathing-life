@@ -2,14 +2,16 @@ import { create } from 'zustand'
 
 interface ShaderSettingsState {
   mixNoise: number
-  noiseScale: number
+  worleyNoiseScale: number
+  simplexNoiseScale: number
   simplexSpeed: number
   simplexIntensity: number
   worleySpeed: number
   worleyIntensity: number
   image: string
   setMixNoise: (mixNoise: number) => void
-  setNoiseScale: (noiseScale: number) => void
+  setWorleyNoiseScale: (worleyNoiseScale: number) => void
+  setSimplexNoiseScale: (simplexNoiseScale: number) => void
   setSimplexSpeed: (simplexSpeed: number) => void
   setSimplexIntensity: (simplexIntensity: number) => void
   setWorleySpeed: (worleySpeed: number) => void
@@ -19,14 +21,16 @@ interface ShaderSettingsState {
 
 export const useShaderSettings = create<ShaderSettingsState>((set) => ({
   mixNoise: 0.2,
-  noiseScale: 5.0,
+  worleyNoiseScale: 5.0,
+  simplexNoiseScale: 5.0,
   simplexSpeed: 0.05,
   simplexIntensity: 0.01,
   worleySpeed: 0.05,
   worleyIntensity: 0.01,
   image: '',
   setMixNoise: (mixNoise: number) => set({ mixNoise }),
-  setNoiseScale: (noiseScale: number) => set({ noiseScale }),
+  setWorleyNoiseScale: (worleyNoiseScale: number) => set({ worleyNoiseScale }),
+  setSimplexNoiseScale: (simplexNoiseScale: number) => set({ simplexNoiseScale }),
   setSimplexSpeed: (simplexSpeed: number) => set({ simplexSpeed }),
   setSimplexIntensity: (simplexIntensity: number) => set({ simplexIntensity }),
   setWorleySpeed: (worleySpeed: number) => set({ worleySpeed }),

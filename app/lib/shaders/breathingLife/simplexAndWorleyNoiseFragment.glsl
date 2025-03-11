@@ -4,7 +4,8 @@ uniform float uWorleySpeed;
 uniform float uSimplexIntensity;
 uniform float uWorleyIntensity;
 uniform float uMixNoise;
-uniform float uNoiseScale;
+uniform float uWorleyNoiseScale;
+uniform float uSimplexNoiseScale;
 uniform sampler2D uTexture;
 varying vec2 vUv;
 
@@ -22,7 +23,7 @@ float smoothMin(float a, float b, float k) {
 }
 
 float worleyNoise(vec2 p) {
-  p *= uNoiseScale;
+  p *= uWorleyNoiseScale;
   vec2 i_st = floor(p);
   vec2 f_st = fract(p);
   float minDist = 1.0;
@@ -107,7 +108,7 @@ float snoise(vec2 v) {
 
 void main() {
   // SIMPLEX NOISE
-  float noiseValue = snoise(vUv * uNoiseScale + uTime * uSimplexSpeed);
+  float noiseValue = snoise(vUv * uSimplexNoiseScale + uTime * uSimplexSpeed);
   vec2 simplexUvOffset = vec2(noiseValue * uSimplexIntensity, noiseValue * uSimplexIntensity);
 
   // WORLEY NOISE
@@ -119,7 +120,7 @@ void main() {
   vec2 worleyUvOffset = (gradient * noise) * uWorleyIntensity;
 
   // Add some temporal variation
-  worleyUvOffset *= sin(uTime * uWorleySpeed) * 0.5;
+  worleyUvOffset *= sin(uTime * uWorleySpeed) * 0.15 + 0.42;
 
   // Mix simplex and worley noise
   vec2 uvOffset = mix(simplexUvOffset, worleyUvOffset, uMixNoise);

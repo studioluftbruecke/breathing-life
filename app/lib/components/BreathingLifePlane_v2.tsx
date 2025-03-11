@@ -15,7 +15,7 @@ export function BreathingLifePlane_v2(props: JSX.IntrinsicElements['mesh'] & { s
 
   const [texturePath, setTexturePath] = useState(props.settings?.img_url ?? '/IMG_9969.jpg')
 
-  const { mixNoise, noiseScale, simplexSpeed, simplexIntensity, worleySpeed, worleyIntensity, image } = useShaderSettings()
+  const { mixNoise, worleyNoiseScale, simplexNoiseScale, simplexSpeed, simplexIntensity, worleySpeed, worleyIntensity, image } = useShaderSettings()
 
   // Load texture
   const texture = useTexture(texturePath)
@@ -119,7 +119,8 @@ export function BreathingLifePlane_v2(props: JSX.IntrinsicElements['mesh'] & { s
       shaderMaterial.uniforms.uTime.value = state.clock.getElapsedTime()
       shaderMaterial.uniforms.uSimplexSpeed.value = simplexSpeed
       shaderMaterial.uniforms.uWorleySpeed.value = worleySpeed
-      shaderMaterial.uniforms.uNoiseScale.value = noiseScale
+      shaderMaterial.uniforms.uWorleyNoiseScale.value = worleyNoiseScale
+      shaderMaterial.uniforms.uSimplexNoiseScale.value = simplexNoiseScale
       shaderMaterial.uniforms.uSimplexIntensity.value = simplexIntensity
       shaderMaterial.uniforms.uWorleyIntensity.value = worleyIntensity
       shaderMaterial.uniforms.uMixNoise.value = mixNoise
@@ -137,7 +138,8 @@ export function BreathingLifePlane_v2(props: JSX.IntrinsicElements['mesh'] & { s
           uSimplexIntensity: { value: 0 },
           uWorleyIntensity: { value: 0 },
           uMixNoise: { value: 0 },
-          uNoiseScale: { value: 0 },
+          uWorleyNoiseScale: { value: 0 },
+          uSimplexNoiseScale: { value: 0 },
         },
         vertexShader,
         fragmentShader: simplexAndWorleyNoiseFragmentShader,
