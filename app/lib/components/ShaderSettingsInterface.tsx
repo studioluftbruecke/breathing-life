@@ -76,7 +76,15 @@ export default function ShaderSettingsInterface() {
                       <Diamond size={24} />
                       <span className="text-sm font-bold mx-2">Mix</span>
                     </div>
-                    <Slider className="w-[47%] ml-4" defaultValue={[33]} max={1} step={0.01} value={[mixNoise]} onValueChange={(value: number[]) => setMixNoise(value[0])} />
+                    <Slider
+                      className="w-[47%] ml-4"
+                      defaultValue={[33]}
+                      max={1}
+                      step={0.01}
+                      value={[mixNoise]}
+                      onValueChange={(value: number[]) => setMixNoise(value[0])}
+                      disabled={image === ''}
+                    />
                     <div className="w-[18%]">
                       <Input
                         type="number"
@@ -84,6 +92,7 @@ export default function ShaderSettingsInterface() {
                         value={Math.round(mixNoise * 100)}
                         onChange={(e) => setMixNoise((Number(e.target.value) / 100 || 0))}
                         className="p-2 h-8"
+                        disabled={image === ''}
                       />
                     </div>
                   </div>
@@ -95,7 +104,15 @@ export default function ShaderSettingsInterface() {
                       <Waves size={24} />
                       <span className="text-sm font-bold mx-2">Speed</span>
                     </div>
-                    <Slider className="w-[47%] ml-4" defaultValue={[0.05]} max={1.0} step={0.01} value={[simplexSpeed]} onValueChange={(value: number[]) => setSimplexSpeed(value[0])} />
+                    <Slider
+                      className="w-[47%] ml-4"
+                      defaultValue={[0.05]}
+                      max={1.0}
+                      step={0.01}
+                      value={[simplexSpeed]}
+                      onValueChange={(value: number[]) => setSimplexSpeed(value[0])}
+                      disabled={image === ''}
+                    />
                     <div className="w-[18%]">
                       <Input
                         type="number"
@@ -103,6 +120,7 @@ export default function ShaderSettingsInterface() {
                         value={Math.round(simplexSpeed * 100)}
                         onChange={(e) => setSimplexSpeed((Number(e.target.value) / 100 || 0))}
                         className="p-2 h-8"
+                        disabled={image === ''}
                       />
                     </div>
                   </div>
@@ -111,7 +129,15 @@ export default function ShaderSettingsInterface() {
                       <Waves size={24} />
                       <span className="text-sm font-bold mx-2">Intensity</span>
                     </div>
-                    <Slider className="w-[47%] ml-4" defaultValue={[0.01]} max={0.1} step={0.001} value={[simplexIntensity]} onValueChange={(value: number[]) => setSimplexIntensity(value[0])} />
+                    <Slider
+                      className="w-[47%] ml-4"
+                      defaultValue={[0.01]}
+                      max={0.1}
+                      step={0.001}
+                      value={[simplexIntensity]}
+                      onValueChange={(value: number[]) => setSimplexIntensity(value[0])}
+                      disabled={image === ''}
+                    />
                     <div className="w-[18%]">
                       <Input
                         type="number"
@@ -119,6 +145,7 @@ export default function ShaderSettingsInterface() {
                         value={Math.round(simplexIntensity * 1000)}
                         onChange={(e) => setSimplexIntensity((Number(e.target.value) / 1000 || 0))}
                         className="p-2 h-8"
+                        disabled={image === ''}
                       />
                     </div>
                   </div>
@@ -128,7 +155,15 @@ export default function ShaderSettingsInterface() {
                       <Waves size={24} />
                       <span className="text-sm font-bold mx-2">Scale</span>
                     </div>
-                    <Slider className="w-[47%] ml-4" defaultValue={[5.0]} max={100.0} step={0.1} value={[simplexNoiseScale]} onValueChange={(value: number[]) => setSimplexNoiseScale(value[0])} />
+                    <Slider
+                      className="w-[47%] ml-4"
+                      defaultValue={[5.0]}
+                      max={100.0}
+                      step={0.1}
+                      value={[simplexNoiseScale]}
+                      onValueChange={(value: number[]) => setSimplexNoiseScale(value[0])}
+                      disabled={image === ''}
+                    />
                     <div className="w-[18%]">
                       <Input
                         type="number"
@@ -136,6 +171,7 @@ export default function ShaderSettingsInterface() {
                         value={Math.round(simplexNoiseScale)}
                         onChange={(e) => setSimplexNoiseScale((Number(e.target.value) || 0))}
                         className="p-2 h-8"
+                        disabled={image === ''}
                       />
                     </div>
                   </div>
@@ -145,7 +181,15 @@ export default function ShaderSettingsInterface() {
                     <div className="flex flex-row space-between items-center w-[35%]"><Diamond size={24} />
                       <span className="text-sm font-bold mx-2">Speed</span>
                     </div>
-                    <Slider className="w-[47%] ml-4" defaultValue={[0.05]} max={1.0} step={0.01} value={[worleySpeed]} onValueChange={(value: number[]) => setWorleySpeed(value[0])} />
+                    <Slider
+                      className="w-[47%] ml-4"
+                      defaultValue={[0.05]}
+                      max={1.0}
+                      step={0.01}
+                      value={[worleySpeed]}
+                      onValueChange={(value: number[]) => setWorleySpeed(value[0])}
+                      disabled={image === ''}
+                    />
                     <div className="w-[18%]">
                       <Input
                         type="number"
@@ -153,6 +197,7 @@ export default function ShaderSettingsInterface() {
                         value={Math.round(worleySpeed * 100)}
                         onChange={(e) => setWorleySpeed((Number(e.target.value) / 100 || 0))}
                         className="p-2 h-8"
+                        disabled={image === ''}
                       />
                     </div>
                   </div>
@@ -161,7 +206,15 @@ export default function ShaderSettingsInterface() {
                       <Diamond size={24} />
                       <span className="text-sm font-bold mx-2">Intensity</span>
                     </div>
-                    <Slider className="w-[47%] ml-4" defaultValue={[0.01]} max={0.1} step={0.001} value={[worleyIntensity]} onValueChange={(value: number[]) => setWorleyIntensity(value[0])} />
+                    <Slider
+                      className="w-[47%] ml-4"
+                      defaultValue={[0.01]}
+                      max={0.1}
+                      step={0.001}
+                      value={[worleyIntensity]}
+                      onValueChange={(value: number[]) => setWorleyIntensity(value[0])}
+                      disabled={image === ''}
+                    />
                     <div className="w-[18%]">
                       <Input
                         type="number"
@@ -169,6 +222,7 @@ export default function ShaderSettingsInterface() {
                         value={Math.round(worleyIntensity * 1000)}
                         onChange={(e) => setWorleyIntensity((Number(e.target.value) / 1000 || 0))}
                         className="p-2 h-8"
+                        disabled={image === ''}
                       />
                     </div>
                   </div>
@@ -178,7 +232,15 @@ export default function ShaderSettingsInterface() {
                       <Diamond size={24} />
                       <span className="text-sm font-bold mx-2">Scale</span>
                     </div>
-                    <Slider className="w-[47%] ml-4" defaultValue={[5.0]} max={100.0} step={0.1} value={[worleyNoiseScale]} onValueChange={(value: number[]) => setWorleyNoiseScale(value[0])} />
+                    <Slider
+                      className="w-[47%] ml-4"
+                      defaultValue={[5.0]}
+                      max={100.0}
+                      step={0.1}
+                      value={[worleyNoiseScale]}
+                      onValueChange={(value: number[]) => setWorleyNoiseScale(value[0])}
+                      disabled={image === ''}
+                    />
                     <div className="w-[18%]">
                       <Input
                         type="number"
@@ -186,6 +248,7 @@ export default function ShaderSettingsInterface() {
                         value={Math.round(worleyNoiseScale)}
                         onChange={(e) => setWorleyNoiseScale((Number(e.target.value) || 0))}
                         className="p-2 h-8"
+                        disabled={image === ''}
                       />
                     </div>
                   </div>
@@ -199,10 +262,12 @@ export default function ShaderSettingsInterface() {
               <div className="w-full h-full space-y-2">
                 <div className="grid grid-cols-2 gap-2">
                   <div className="small-react-colorful flex flex-col justify-center items-center">
+                    <Input className="w-[120px] mb-2" type="text" value={gradientColor1} onChange={(e) => { setGradientColor1(e.target.value) }} />
                     <HexColorPicker className="w-10 small-react-colorful" color={gradientColor1} onChange={(color: string) => { setGradientColor1(color) }} />
                       <span className="text-sm text-muted-foreground font-bold mt-2">Gradient Color 1</span>
                   </div>
                   <div className="small-react-colorful flex flex-col justify-center items-center">
+                    <Input className="w-[120px] mb-2" type="text" value={gradientColor2} onChange={(e) => { setGradientColor2(e.target.value) }} />
                     <HexColorPicker className="small-react-colorful" color={gradientColor2} onChange={(color: string) => { setGradientColor2(color) }} />
                     <span className="text-sm text-muted-foreground font-bold mt-2">Gradient Color 2</span>
                   </div>
