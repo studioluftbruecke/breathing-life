@@ -5,7 +5,10 @@ import * as THREE from 'three'
 import { useEffect, useState } from "react";
 import { ToastContainer } from 'react-toastify';
 import { BreathingLifePlane_v2 } from "./BreathingLifePlane_v2";
-import ShaderSettingsInterface from "./ShaderSettingsInterface";
+import dynamic from "next/dynamic";
+// import ShaderSettingsInterface from "./ShaderSettingsInterface";
+
+const ShaderSettingsInterface = dynamic(() => import('./ShaderSettingsInterface'), { ssr: false })
 
 
 export default function ShaderExperience(props: { nftAddress: string }) {

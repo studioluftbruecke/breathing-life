@@ -9,6 +9,14 @@ const config: Config = {
   ],
   theme: {
   	extend: {
+			fontFamily: {
+        'alumni-sans': ['var(--font-alumni-sans)'],
+        'electrolize': ['var(--font-electrolize)'],
+        'manrope': ['var(--font-manrope)'],
+				'charm': ['var(--font-charm)'],
+				'finger-paint': ['var(--font-finger-paint)'],
+				'rubik-glitch': ['var(--font-rubik-glitch)'],
+      },
   		colors: {
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
