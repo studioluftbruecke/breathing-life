@@ -1,7 +1,7 @@
 import { Slider } from "@/app/lib/components/ui/slider"
 import { useShaderSettings } from "../stores/useShaderSettings"
 import { Button } from "./ui/button"
-import { useRef } from "react"
+import { useEffect, useRef } from "react"
 import {
   Accordion,
   AccordionContent,
@@ -11,12 +11,43 @@ import {
 import { Diamond, Resize, Waves } from "@phosphor-icons/react/dist/ssr"
 import { InputWithUnit } from "./ui/input-with-unit"
 import { Input } from "./ui/input"
-
+import { isHexColor, isValidNumber } from "@/app/lib/utils/utils";
+import { HexColorPicker } from "react-colorful";
 
 
 export default function ShaderSettingsInterface() {
   const fileInputRef = useRef<HTMLInputElement>(null)
-  const { mixNoise, worleyNoiseScale, simplexNoiseScale, simplexSpeed, simplexIntensity, worleySpeed, worleyIntensity, image, setMixNoise, setWorleyNoiseScale, setSimplexNoiseScale, setSimplexSpeed, setSimplexIntensity, setWorleySpeed, setWorleyIntensity, setImage } = useShaderSettings()
+  
+  const { 
+    mixNoise, 
+    worleyNoiseScale, 
+    simplexNoiseScale, 
+    simplexSpeed, 
+    simplexIntensity, 
+    worleySpeed, 
+    worleyIntensity, 
+    image, 
+    gradientColor1, 
+    gradientColor2, 
+    setMixNoise, 
+    setWorleyNoiseScale, 
+    setSimplexNoiseScale, 
+    setSimplexSpeed, 
+    setSimplexIntensity, 
+    setWorleySpeed, 
+    setWorleyIntensity, 
+    setImage, 
+    setGradientColor1, 
+    setGradientColor2 
+  } = useShaderSettings()
+
+  useEffect(() => {
+    // Update the CSS background value of #experience-wrapper-canvas-container
+    const canvasContainer = document.getElementById('experience-wrapper-canvas-container')
+    if (canvasContainer) {
+      canvasContainer.style.background = `linear-gradient(135deg, ${gradientColor1} 0%, ${gradientColor2} 100%)`
+    }
+  }, [gradientColor1, gradientColor2])
 
   return (
     <div className="fixed top-0 right-0 z-50 p-8 min-w-[420px] max-w-[420px]">
@@ -33,7 +64,7 @@ export default function ShaderSettingsInterface() {
         {/* <Separator className="w-full my-4" /> */}
 
         <Accordion type="single" collapsible>
-          <AccordionItem value="item-1" className="border-none">
+          <AccordionItem value="customize" className="border-none">
             <AccordionTrigger>Customize</AccordionTrigger>
             <AccordionContent>
               <div className="w-full h-full space-y-2">
@@ -157,6 +188,23 @@ export default function ShaderSettingsInterface() {
                         className="p-2 h-8"
                       />
                     </div>
+                  </div>
+                </div>
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+          <AccordionItem value="background" className="border-none">
+            <AccordionTrigger>Background</AccordionTrigger>
+            <AccordionContent>
+              <div className="w-full h-full space-y-2">
+                <div className="grid grid-cols-2 gap-2">
+                  <div className="small-react-colorful flex flex-col justify-center items-center">
+                    <HexColorPicker className="w-10 small-react-colorful" color={gradientColor1} onChange={(color: string) => { setGradientColor1(color) }} />
+                      <span className="text-sm text-muted-foreground font-bold mt-2">Gradient Color 1</span>
+                  </div>
+                  <div className="small-react-colorful flex flex-col justify-center items-center">
+                    <HexColorPicker className="small-react-colorful" color={gradientColor2} onChange={(color: string) => { setGradientColor2(color) }} />
+                    <span className="text-sm text-muted-foreground font-bold mt-2">Gradient Color 2</span>
                   </div>
                 </div>
               </div>

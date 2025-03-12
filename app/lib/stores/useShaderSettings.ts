@@ -9,6 +9,8 @@ interface ShaderSettingsState {
   worleySpeed: number
   worleyIntensity: number
   image: string
+  gradientColor1: string
+  gradientColor2: string
   setMixNoise: (mixNoise: number) => void
   setWorleyNoiseScale: (worleyNoiseScale: number) => void
   setSimplexNoiseScale: (simplexNoiseScale: number) => void
@@ -17,6 +19,8 @@ interface ShaderSettingsState {
   setWorleySpeed: (worleySpeed: number) => void
   setWorleyIntensity: (worleyIntensity: number) => void
   setImage: (image: string) => void
+  setGradientColor1: (gradientColor1: string) => void
+  setGradientColor2: (gradientColor2: string) => void
 }
 
 export const useShaderSettings = create<ShaderSettingsState>((set) => ({
@@ -28,6 +32,8 @@ export const useShaderSettings = create<ShaderSettingsState>((set) => ({
   worleySpeed: 0.05,
   worleyIntensity: 0.01,
   image: '',
+  gradientColor1: '#123abc',
+  gradientColor2: '#abc123',
   setMixNoise: (mixNoise: number) => set({ mixNoise }),
   setWorleyNoiseScale: (worleyNoiseScale: number) => set({ worleyNoiseScale }),
   setSimplexNoiseScale: (simplexNoiseScale: number) => set({ simplexNoiseScale }),
@@ -36,4 +42,6 @@ export const useShaderSettings = create<ShaderSettingsState>((set) => ({
   setWorleySpeed: (worleySpeed: number) => set({ worleySpeed }),
   setWorleyIntensity: (worleyIntensity: number) => set({ worleyIntensity }),
   setImage: (image: string) => set({ image }),
+  setGradientColor1: (gradientColor1: string) => set({ gradientColor1 }),
+  setGradientColor2: (gradientColor2: string) => set({ gradientColor2 }),
 }))
