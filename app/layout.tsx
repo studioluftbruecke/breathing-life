@@ -60,7 +60,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" data-theme="lukso">
+    <html lang="en" data-theme="pink">
       <body
         className={`${alumniSansPinstripe.variable} ${electrolize.variable} ${manrope.variable} ${carm.variable} ${fingerPaint.variable} ${rubikGlitch.variable} antialiased font-manrope`}
       >

@@ -81,10 +81,10 @@ export default function ShaderSettingsInterface() {
           <h1 className="text-xl font-finger-paint">Breathing Life</h1>
           <div className="flex flex-row items-center w-full justify-center">
             <div className="w-full flex flex-col items-end justify-center mr-3 hover:cursor-pointer text-center" onClick={() => {
-              setTheme(theme === 'lukso' ? 'dark' : (theme === 'light' ? 'lukso' : 'light'))
+              setTheme(theme === 'pink' ? 'dark' : (theme === 'light' ? 'pink' : 'light'))
             }}>
               <div className="flex flex-col items-center justify-center">
-                <span className="text-xs text-primary/80">Theme</span>
+                <div className="text-xs text-primary/80"><span className="relative top-[1px]">Theme</span></div>
                 <div className="text-xs text-primary/80 italic">{theme}</div>
               </div>
             </div>
