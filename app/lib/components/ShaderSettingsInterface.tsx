@@ -398,6 +398,16 @@ export default function ShaderSettingsInterface() {
               </div>
             </AccordionContent>
           </AccordionItem>
+          <AccordionItem value="feedback" className="border-none">
+            <AccordionTrigger>Feedback</AccordionTrigger>
+            <AccordionContent>
+              <div className="w-full h-full space-y-2 flex flex-col items-center">
+                <span className="text-sm text-primary font-bold">Do you have any feedback?</span>
+                <span className="text-sm text-primary">We are happy to hear from you via</span>
+                <span className="text-sm text-primary">hi@studioluftbruecke.org</span>
+              </div>
+            </AccordionContent>
+          </AccordionItem>
         </Accordion>
       </div>
     </div>
