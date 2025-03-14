@@ -16,6 +16,6 @@ export const isValidNumber = (value: number) => {
 }
 
 export const isHexColor = (color: string) => {  
-  var reg=/^#[0-9A-F]{6}[0-9a-f]{0,2}$/i;
+  const reg=/^#[0-9A-F]{6}[0-9a-f]{0,2}$/i;
   return reg.test(color)
 }
