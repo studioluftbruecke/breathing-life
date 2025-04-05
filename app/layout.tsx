@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { ThemeProvider } from 'next-themes'
+import { UpProvider } from "./lib/providers/UpProvider";
 
 
 const geistSans = localFont({
@@ -65,7 +66,9 @@ export default function RootLayout({
         className={`${alumniSansPinstripe.variable} ${electrolize.variable} ${manrope.variable} ${carm.variable} ${fingerPaint.variable} ${rubikGlitch.variable} antialiased font-manrope`}
       >
         <ThemeProvider enableSystem={false}>
-          {children}
+          <UpProvider>
+            {children}
+          </UpProvider>
         </ThemeProvider>
       </body>
     </html>

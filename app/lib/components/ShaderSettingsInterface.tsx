@@ -87,7 +87,7 @@ export default function ShaderSettingsInterface() {
 
   return (
     <>
-      <div className={`fixed top-4 left-4 w-8 h-8 z-50 ${isToggled ? 'hidden' : ''}`}>
+      <div className={`fixed top-8 right-8 w-8 h-8 z-50 ${isToggled ? 'hidden' : ''}`}>
         <animated.div
           style={{
             opacity: transparencySpring?.to((t: number) => 1 - t / 100),
@@ -102,7 +102,7 @@ export default function ShaderSettingsInterface() {
           </Button>
         </animated.div>
       </div>
-      <div className={`fixed top-4 left-0 w-full max-w-screen md:w-fit md:left-4 flex flex-col justify-center items-center md:items-end z-50 ${isToggled ? '' : 'hidden'}`}>
+      <div className={`fixed top-8 right-0 w-full max-w-screen md:w-fit md:right-8 flex flex-col justify-center items-center md:items-end z-50 ${isToggled ? '' : 'hidden'}`}>
         <animated.div
           id="shader-settings-interface"
           className="w-full h-full min-w-[280px] max-w-[360px] space-y-4 border rounded-md p-4 bg-background"
