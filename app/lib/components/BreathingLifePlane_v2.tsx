@@ -1,73 +1,39 @@
 import { useState, useRef, useEffect, useMemo } from 'react'
 import * as THREE from 'three'
-import { extend, useFrame, useThree } from '@react-three/fiber'
-import { shaderMaterial, useTexture } from '@react-three/drei'
-import { Tables } from "@/supabase.types";
+import { useFrame, useThree } from '@react-three/fiber'
+import { useTexture } from '@react-three/drei'
 import vertexShader from '@/app/lib/shaders/breathingLife/vertex.glsl'
 import simplexAndWorleyNoiseFragmentShader from '@/app/lib/shaders/breathingLife/simplexAndWorleyNoiseFragment.glsl'
-import { useShaderSettings } from '../stores/useShaderSettings';
 
 
-export function BreathingLifePlane_v2(props: JSX.IntrinsicElements['mesh'] & { settings: Tables<'settings'> }) {
+export function BreathingLifePlane_v2(props: JSX.IntrinsicElements['mesh'] & {
+  settings: {
+    mixNoise: number,
+    worleyNoiseScale: number,
+    simplexNoiseScale: number,
+    simplexSpeed: number,
+    simplexIntensity: number,
+    worleySpeed: number,
+    worleyIntensity: number,
+    image: string
+  }
+}) {
+  const { mixNoise, worleyNoiseScale, simplexNoiseScale, simplexSpeed, simplexIntensity, worleySpeed, worleyIntensity, image } = props.settings
+  if (!image) return null
+
   const meshRef = useRef<THREE.Mesh>(null)
   const [dimensions, setDimensions] = useState<{ width: number; height: number }>({ width: 0, height: 0 });
   const { viewport } = useThree();
 
-  const [texturePath, setTexturePath] = useState(props.settings?.img_url ?? '/IMG_9969.jpg')
-
-  const { mixNoise, worleyNoiseScale, simplexNoiseScale, simplexSpeed, simplexIntensity, worleySpeed, worleyIntensity, image } = useShaderSettings()
-
   // Load texture
-  const texture = useTexture(texturePath)
-  texture.wrapS = THREE.ClampToEdgeWrapping;
-  texture.wrapT = THREE.ClampToEdgeWrapping;
-  const textureWrapMode = 'mirror'
+  const texture = useTexture(image)
+  texture.wrapS = THREE.MirroredRepeatWrapping;
+  texture.wrapT = THREE.MirroredRepeatWrapping;
+  texture.repeat.set(2, 2);
 
-  
-  // const {
-  //   // 'Background 1': backgorundColor1,
-  //   // 'Background 2': backgorundColor2,
-  //   'Mix Wave / Geometric': mixNoise,
-  //   'Scale': noiseScale,
-  //   'Wave Speed': simplexSpeed,
-  //   'Wave Intensity': simplexIntensity,
-  //   'Worley Speed': worleySpeed,
-  //   'Worley Intensity': worleyIntensity,
-  //   image
-  // } = useControls({
-  //   // warpSpeed: { value: 0.1, min: -10.0, max: 10.0, step: 0.01 },
-  //   // warpIntensity: { value: 0.05, min: -5.0, max: 5.0, step: 0.01 },
-  //   // textureWrapMode: {
-  //   //   options: ['mirror', 'clamp', 'repeat'],
-  //   //   value: 'mirror',
-  //   // },
-  //   // effectType: {
-  //   //   value: 'simplexAndWorley',
-  //   //   options: ['simplexAndWorley']
-  //   // },
-  //   // 'Background 1': { r: 200, b: 125, g: 106, a: 0.4 },
-  //   // 'Background 2': '#123abc',
-  //   'Mix Wave / Geometric': { value: 0.2, min: 0.0, max: 1.0, step: 0.01 },
-  //   'Scale': { value: 5.0, min: 0.0, max: 10.0, step: 0.1 },
-  //   'Wave Speed': { value: 0.05, min: 0.0, max: 1.0, step: 0.01 },
-  //   'Wave Intensity': { value: 0.01, min: 0.0, max: 0.1, step: 0.001 },
-  //   'Worley Speed': { value: 0.05, min: 0.0, max: 1.0, step: 0.01 },
-  //   'Worley Intensity': { value: 0.01, min: 0.0, max: 0.1, step: 0.001 },
-  //   image: { image: undefined }
-  // });
-
-  // useEffect(() => {
-  //   if (!document) return;
-  //   const experienceWrapperCanvas = document.getElementById('experience-wrapper-canvas')
-  //   if (!experienceWrapperCanvas) return;
-  //   // Create a linear gradient background color with the two colors
-  //   const gradient = `linear-gradient(to bottom, ${backgorundColor1}, ${backgorundColor2})`
-  //   experienceWrapperCanvas.style.background = gradient
-  // }, [backgorundColor1, backgorundColor2])
 
   useEffect(() => {
     if (!image) return;
-    setTexturePath(image)
     const img = new Image();
     img.src = image;
     img.onload = () => {
@@ -89,27 +55,11 @@ export function BreathingLifePlane_v2(props: JSX.IntrinsicElements['mesh'] & { s
     };
   }, [image]);
 
-
   useEffect(() => {
-    if (!texture) return;
-    switch (textureWrapMode) {
-      // case 'clamp':
-      //   texture.wrapS = THREE.ClampToEdgeWrapping;
-      //   texture.wrapT = THREE.ClampToEdgeWrapping;
-      //   break;
-      // case 'repeat':
-      //   texture.wrapS = THREE.RepeatWrapping;
-      //   texture.wrapT = THREE.RepeatWrapping;
-      //   texture.repeat.set(1, 1); // Tile 2x2
-      //   break;
-      case 'mirror':
-        texture.wrapS = THREE.MirroredRepeatWrapping;
-        texture.wrapT = THREE.MirroredRepeatWrapping;
-        texture.repeat.set(2, 2); // Tile 4x4
-        break;
-    }
-    texture.needsUpdate = true;
-  }, [textureWrapMode, texture])
+    if (!meshRef.current) return
+    const shaderMaterial = meshRef.current.material as THREE.ShaderMaterial
+    shaderMaterial.uniforms.uTexture.value = texture
+  }, [texture])
 
 
   // Update time uniform on each frame
@@ -147,13 +97,6 @@ export function BreathingLifePlane_v2(props: JSX.IntrinsicElements['mesh'] & { s
       })
     }
   }, [])
-
-
-  useEffect(() => {
-    if (!meshRef.current) return
-    const shaderMaterial = meshRef.current.material as THREE.ShaderMaterial
-    shaderMaterial.uniforms.uTexture.value = texture
-  }, [texture])
 
 
   return (

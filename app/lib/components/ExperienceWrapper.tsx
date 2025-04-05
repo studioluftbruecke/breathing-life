@@ -1,19 +1,12 @@
-import { Suspense, useContext, useEffect, useMemo, useRef, useState } from "react";
+import { Suspense, useContext, useEffect, useRef, useState } from "react";
 import DebugModeContext, { LoadingScreenTypes, DebugSettingsType } from "@/app/lib/contexts/DebugModeContext";
-import { Environment, KeyboardControls, OrbitControls } from "@react-three/drei";
+import { Environment, OrbitControls } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
-import dynamic from "next/dynamic";
 import type { OrbitControls as OrbitControlsImpl } from 'three-stdlib'
 import { RefObject } from "react";
 import * as THREE from 'three'
 import ExperienceContext from "../contexts/ExperienceContext";
-import { Leva } from "leva";
 
-
-const LoadingScreen = dynamic(
-  () => import('./LoadingScreen'),
-  { ssr: false }
-)
 
 function CustomEnvironment(props: { environmentFilePath: string }) {
   return <>
@@ -173,91 +166,52 @@ function ExperienceWrapper({
 
   }, [])
 
-
-  const keyboardMap = useMemo(() => {
-    return [
-      { name: 'forward', keys: ['ArrowUp', 'KeyW'] },
-      { name: 'backward', keys: ['ArrowDown', 'KeyS'] },
-      { name: 'leftward', keys: ['ArrowLeft', 'KeyA'] },
-      { name: 'rightward', keys: ['ArrowRight', 'KeyD'] },
-      { name: 'rotateR', keys: ['KeyE'] },
-      { name: 'rotateL', keys: ['KeyQ'] },
-      { name: 'rotateReset', keys: ['KeyR'] },
-      { name: 'jump', keys: ['Space'] },
-      { name: 'run', keys: ['Shift'] },
-      { name: 'action1', keys: ['1'] },
-      { name: 'action2', keys: ['2'] },
-      { name: 'action3', keys: ['3'] },
-      // { name: 'action4', keys: ['KeyF'] }
-    ]
-  }, [])
-
-
-  const setExperienceStartedHandler = () => {
-    setExperienceContext({
-      ...experienceContext,
-      started: true
-    })
-  }
-
-
   return <>
     <DebugModeContext.Provider value={{ debugSettings, setDebugSettings }}>
-      {props.loadingScreen === 'LoadingScreen' || debugSettings.loadingScreen === 'default' ? <>
-        <LoadingScreen
-          experienceStarted={experienceContext.started}
-          setExperienceStarted={setExperienceStartedHandler}
-        />
-      </> : null}
-      <Leva
-        hidden={!debugSettings.leva}
-      />
-      <KeyboardControls map={keyboardMap} >
-        <div id="experience-wrapper-canvas-container">
-          <Canvas
-            id="experience-wrapper-canvas"
-            flat
-            shadows
-            dpr={[1, 2]}
-            camera={{
-              fov: props.cameraFov ?? 60,
-              near: 0.01,
-              far: maxCameraDistance * 2,
-              position: initialCameraPosition
-            }}
-            gl={{
-              logarithmicDepthBuffer: true,
-              preserveDrawingBuffer: true,
-              localClippingEnabled: true
-            }}
-            style={{
-              position: "absolute",
-              inset: "0",
-              touchAction: "none",
-              background: 'transparent'
-            }}
-          >
-            {debugSettings.axesHelper ? <axesHelper args={[1000]} /> : null}
+      <div id="experience-wrapper-canvas-container">
+        <Canvas
+          id="experience-wrapper-canvas"
+          flat
+          shadows
+          dpr={[1, 2]}
+          camera={{
+            fov: props.cameraFov ?? 60,
+            near: 0.01,
+            far: maxCameraDistance * 2,
+            position: initialCameraPosition
+          }}
+          gl={{
+            logarithmicDepthBuffer: true,
+            preserveDrawingBuffer: true,
+            localClippingEnabled: true
+          }}
+          style={{
+            position: "absolute",
+            inset: "0",
+            touchAction: "none",
+            background: 'transparent'
+          }}
+        >
+          {debugSettings.axesHelper ? <axesHelper args={[1000]} /> : null}
 
-            {props.environmentFilePath ? <CustomEnvironment environmentFilePath={props.environmentFilePath} /> : null}
-            {controls && controls.orbitControls && <OrbitControls
-              ref={orbitControlsRef}
-              makeDefault
-              target={controls.orbitControls.target ?? new THREE.Vector3(0, 0, 0)}
-              dampingFactor={controls.orbitControls.dampingFactor ?? 1}
-              panSpeed={controls.orbitControls.panSpeed ?? 1}
-              rotateSpeed={controls.orbitControls.rotateSpeed ?? 1}
-              maxDistance={maxCameraDistance}
-              minDistance={0.03}
-              maxPolarAngle={controls.orbitControls.maxPolarAngle ?? Math.PI}
-              minPolarAngle={controls.orbitControls.minPolarAngle ?? 0}
-            />}
-            <Suspense fallback={null}>
-              {props.children}
-            </Suspense>
-          </Canvas>
-        </div>
-      </KeyboardControls>
+          {props.environmentFilePath ? <CustomEnvironment environmentFilePath={props.environmentFilePath} /> : null}
+          {controls && controls.orbitControls && <OrbitControls
+            ref={orbitControlsRef}
+            makeDefault
+            target={controls.orbitControls.target ?? new THREE.Vector3(0, 0, 0)}
+            dampingFactor={controls.orbitControls.dampingFactor ?? 1}
+            panSpeed={controls.orbitControls.panSpeed ?? 1}
+            rotateSpeed={controls.orbitControls.rotateSpeed ?? 1}
+            maxDistance={maxCameraDistance}
+            minDistance={0.03}
+            maxPolarAngle={controls.orbitControls.maxPolarAngle ?? Math.PI}
+            minPolarAngle={controls.orbitControls.minPolarAngle ?? 0}
+          />}
+          <Suspense fallback={null}>
+            {props.children}
+          </Suspense>
+        </Canvas>
+      </div>
     </DebugModeContext.Provider >
   </>
 }
