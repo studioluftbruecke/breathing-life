@@ -6,7 +6,7 @@ import vertexShader from '@/app/lib/shaders/breathingLife/vertex.glsl'
 import simplexAndWorleyNoiseFragmentShader from '@/app/lib/shaders/breathingLife/simplexAndWorleyNoiseFragment.glsl'
 
 
-export function BreathingLifePlane_v2(props: JSX.IntrinsicElements['mesh'] & {
+export function BreathingLifePlane(props: JSX.IntrinsicElements['mesh'] & {
   settings: {
     mixNoise: number,
     worleyNoiseScale: number,
@@ -30,6 +30,28 @@ export function BreathingLifePlane_v2(props: JSX.IntrinsicElements['mesh'] & {
   texture.wrapS = THREE.MirroredRepeatWrapping;
   texture.wrapT = THREE.MirroredRepeatWrapping;
   texture.repeat.set(2, 2);
+
+  const materials: { [key: string]: THREE.ShaderMaterial } = useMemo(() => {
+    return {
+      simplexAndWorley: new THREE.ShaderMaterial({
+        uniforms: {
+          uTexture: { value: 0 },
+          uTime: { value: 0 },
+          uSimplexSpeed: { value: 0 },
+          uWorleySpeed: { value: 0 },
+          uSimplexIntensity: { value: 0 },
+          uWorleyIntensity: { value: 0 },
+          uMixNoise: { value: 0 },
+          uWorleyNoiseScale: { value: 0 },
+          uSimplexNoiseScale: { value: 0 },
+        },
+        vertexShader,
+        fragmentShader: simplexAndWorleyNoiseFragmentShader,
+        side: THREE.DoubleSide
+      })
+    }
+  }, [])
+
 
 
   useEffect(() => {
@@ -76,28 +98,6 @@ export function BreathingLifePlane_v2(props: JSX.IntrinsicElements['mesh'] & {
       shaderMaterial.uniforms.uMixNoise.value = mixNoise
     }
   })
-
-  const materials: { [key: string]: THREE.ShaderMaterial } = useMemo(() => {
-    return {
-      simplexAndWorley: new THREE.ShaderMaterial({
-        uniforms: {
-          uTexture: { value: 0 },
-          uTime: { value: 0 },
-          uSimplexSpeed: { value: 0 },
-          uWorleySpeed: { value: 0 },
-          uSimplexIntensity: { value: 0 },
-          uWorleyIntensity: { value: 0 },
-          uMixNoise: { value: 0 },
-          uWorleyNoiseScale: { value: 0 },
-          uSimplexNoiseScale: { value: 0 },
-        },
-        vertexShader,
-        fragmentShader: simplexAndWorleyNoiseFragmentShader,
-        side: THREE.DoubleSide
-      })
-    }
-  }, [])
-
 
   return (
     <mesh ref={meshRef} material={materials['simplexAndWorley']}>
