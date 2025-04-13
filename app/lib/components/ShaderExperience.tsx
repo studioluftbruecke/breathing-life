@@ -11,7 +11,7 @@ import { useShaderSettings } from "../stores/useShaderSettings";
 const ShaderSettingsInterface = dynamic(() => import('./ShaderSettingsInterface'), { ssr: false })
 
 
-export default function ShaderExperience(props: { nftAddress: string }) {
+export default function ShaderExperience() {
   const { mixNoise, worleyNoiseScale, simplexNoiseScale, simplexSpeed, simplexIntensity, worleySpeed, worleyIntensity, image } = useShaderSettings()
 
   return (
