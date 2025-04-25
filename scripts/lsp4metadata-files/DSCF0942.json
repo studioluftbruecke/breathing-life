@@ -1,0 +1,36 @@
+{
+  "LSP4Metadata": {
+    "name": "Breathing Life #2",
+    "description": "Breathing Life no. 2",
+    "links": [
+      {
+        "title": "Breathing Life - Studio Luftbruecke",
+        "url": "https://breathinglife.studioluftbruecke.org"
+      }
+    ],
+    "icon": [
+      {
+        "width": 1920,
+        "height": 1080,
+        "url": "https://emerald-broad-dolphin-376.mypinata.cloud/ipfs/bafybeigbuzqeilzgqcyd3ebhih2sgyqnxgtmk6juqg4ptne3mfze32buvy/DSCF0942.jpg",
+        "verification": {
+          "method": "keccak256(bytes)",
+          "data": "0xeaec66a173667c1a1f3b4ea9fd4fb2e241b26b61fdb9c15ccd37dfc7ac11f62f"
+        }
+      }
+    ],
+    "images": [
+      [
+        {
+          "width": 1920,
+          "height": 1080,
+          "url": "https://emerald-broad-dolphin-376.mypinata.cloud/ipfs/bafybeigbuzqeilzgqcyd3ebhih2sgyqnxgtmk6juqg4ptne3mfze32buvy/DSCF0942.jpg",
+          "verification": {
+            "method": "keccak256(bytes)",
+            "data": "0xeaec66a173667c1a1f3b4ea9fd4fb2e241b26b61fdb9c15ccd37dfc7ac11f62f"
+          }
+        }
+      ]
+    ]
+  }
+}
