@@ -24,6 +24,7 @@ import {
   ERC725YDataKeys,
 } from '@lukso/lsp-smart-contracts/constants';
 import SetLSP8MetadataButton from './SetLSP8MetadataButton';
+import MintTokenButton from './MintTokenButton';
 
 // Interface for LSP4 Metadata
 interface LSP4Metadata {
@@ -47,7 +48,9 @@ const publicClient = createPublicClient({
 // ]);
 
 // Contract address of Breathing Life - Test
-const contractAddress = '0x47ab3d663c2053c9ca3091eb838ee7da2319df01';
+const COLLECTION_ADDRESS = process.env.NEXT_PUBLIC_COLLECTION_ADDRESS;
+const TOKEN_ID = '0x0000000000000000000000000000000000000000000000000000000000000001';
+const COLLECTION_OWNER = process.env.NEXT_PUBLIC_COLLECTION_OWNER //  '0xA3f2344DcfA511FB6adAb0E655f8B7EFEFD9652E'; // UP or controller address
 
 // LSP4 Metadata key
 const lsp4MetadataKey = ERC725YDataKeys.LSP4['LSP4Metadata'] as `0x${string}`
@@ -69,14 +72,14 @@ export default function Home() {
 
       // Fetch balance
       const tokenIdsResult = await publicClient.readContract({
-        address: contractAddress,
+        address: COLLECTION_ADDRESS as `0x${string}`,
         abi: lsp8IdentifiableDigitalAssetAbi,
         functionName: 'tokenIdsOf',
         args: [address],
       });
 
       const myResult = await publicClient.readContract({
-        address: contractAddress,
+        address: COLLECTION_ADDRESS as `0x${string}`,
         abi: lsp8IdentifiableDigitalAssetAbi,
         functionName: 'getData',
         args: [lsp4TokenNameKey],
@@ -90,7 +93,8 @@ export default function Home() {
       const formattedTokenIds = tokenIdsResult as `0x${string}`[];
       setBreathingLifeTokenIds(formattedTokenIds);
       setBreathingLifeTokenBalance(formattedTokenIds.length);
-      setAccountHasAccess(formattedTokenIds.length > 0);
+      // setAccountHasAccess(formattedTokenIds.length > 0);
+      setAccountHasAccess(true);
 
       console.log('formattedTokenIds', formattedTokenIds)
       // Fetch metadata for each tokenId
@@ -99,7 +103,7 @@ export default function Home() {
         for (const tokenId of formattedTokenIds) {
           const tokenIdTyped = tokenId as `0x${string}`
           const metadataResult = await publicClient.readContract({
-            address: contractAddress,
+            address: COLLECTION_ADDRESS as `0x${string}`,
             abi: lsp8IdentifiableDigitalAssetAbi,
             functionName: 'getDataForTokenId',
             args: [tokenIdTyped, lsp4MetadataKey],
@@ -142,7 +146,7 @@ export default function Home() {
     } else {
       console.warn('No accounts found');
       setBreathingLifeTokenBalance(0);
-      setAccountHasAccess(false);
+      setAccountHasAccess(true);
     }
   }, [upContext.accounts])
 
@@ -171,11 +175,21 @@ export default function Home() {
             )}
           </div>
         </> : <>
+        <div className='flex flex-col space-y-2 mb-8'>
+          <span>Contract Address:</span>
+          <span>{COLLECTION_ADDRESS}</span>
+        </div>
           <div className='flex flex-col space-y-4'>
             {breathingLifeTokenIds.map((tokenId, index) => {
-              return <span key={index} className='text-xl font-bold'>{tokenId}</span>
+              return <span key={index} className='text-xs font-bold'>{tokenId}</span>
             })}
-            <SetLSP8MetadataButton />
+            <SetLSP8MetadataButton tokenId={TOKEN_ID as `0x${string}`} collectionOwner={COLLECTION_OWNER as string} />
+            <MintTokenButton
+              tokenId={TOKEN_ID as `0x${string}`}
+              toAddress={upContext.accounts[0] as `0x${string}`}
+              collectionAddress={COLLECTION_ADDRESS as `0x${string}`}
+              collectionOwner={COLLECTION_OWNER as `0x${string}`}
+            />
           </div>
         </>}
       </div>
