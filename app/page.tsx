@@ -97,12 +97,9 @@ export default function Home() {
     return <LandingPage />
   }
 
-  console.log('profileData', profileData)
-
-
   return (
     <>
-      <div className="flex flex-col items-center min-h-dvh w-screen h-dvh">
+      <div className="flex flex-col items-center w-screen h-dvh">
         {!accountHasAccess ? <>
           {!profileData && <>
             <div className='flex flex-col'>
@@ -113,18 +110,18 @@ export default function Home() {
               <Separator className="my-4" />
             </div>
           </>}
-            <div className='flex flex-col items-center mt-12 max-w-md text-center'>
-              <h1 className="font-finger-paint text-4xl mb-4">Breathing Life</h1>
-              <p className="">“Breathing Life” is a creative tool for animating images into breath-taking visual experiences. Inspired by altered visionary states the images come to life in a natural way, while it is also possible to create otherworldly effects.</p>
-            </div>
-          {profileData && <>
-          <div className='flex flex-col items-center mt-16'>
-            <div><p>Connected as {profileData.name}</p></div>
-            <div>Get access by minting the access token here.</div>
-            {totalSupply !== undefined && <>
-              <div>Access tokens left: {MAX_SUPPLY - totalSupply}</div>
-            </>}
+          <div className='flex flex-col items-center mt-12 max-w-md text-center'>
+            <h1 className="font-finger-paint text-4xl mb-4">Breathing Life</h1>
+            <p className="">“Breathing Life” is a creative tool for animating images into breath-taking visual experiences. Inspired by altered visionary states the images come to life in a natural way, while it is also possible to create otherworldly effects.</p>
           </div>
+          {profileData && <>
+            <div className='flex flex-col items-center mt-16'>
+              <div><p>Connected as {profileData.name}</p></div>
+              <div>Get access by minting the access token here.</div>
+              {totalSupply !== undefined && <>
+                <div>Access tokens left: {MAX_SUPPLY - totalSupply}</div>
+              </>}
+            </div>
           </>}
         </> : <ShaderExperience />}
       </div>

@@ -22,12 +22,6 @@ export default function ShaderSettingsInterface() {
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [accordionValue, setAccordionValue] = useState('image')
   const { theme, setTheme } = useTheme()
-  console.log('theme', theme)
-  // useEffect(() => {
-  //   if (theme !== 'dark') {
-  //     setTheme('dark')
-  //   }
-  // }, [])
 
   const {
     mixNoise,
@@ -95,7 +89,7 @@ export default function ShaderSettingsInterface() {
           }}
         >
           <Button
-            variant={'ghost'}
+            variant={'default'}
             className={`border rounded-md w-8 h-8 flex items-center justify-center`}
             onClick={handleToggle}
           >

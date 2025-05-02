@@ -172,9 +172,7 @@ export function UpProvider({ children }: UpProviderProps) {
 
   return (
     <UpContext.Provider value={data}>
-      <div className="min-h-screen flex items-center justify-center">
-        {children}
-      </div>
+      {children}
     </UpContext.Provider>
   );
 }

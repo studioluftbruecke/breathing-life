@@ -9,7 +9,12 @@ import { ThemeProvider } from 'next-themes';
 
 export function Providers({ children }: { children: ReactNode }) {
   return (
-    <ThemeProvider attribute="data-mode">
+    <ThemeProvider
+      attribute="data-theme" // Use data-theme attribute (default)
+      defaultTheme="light"   // Set the default theme
+      themes={['light', 'dark', 'pink']} // Explicitly list available themes
+      enableSystem={false} // Disable system theme preference if you only want manual selection
+    >
       <UpProvider>
         <ApolloProvider client={client}>
           <ProfileProvider>
