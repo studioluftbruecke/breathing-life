@@ -2,11 +2,11 @@ import { useState, useRef, useEffect, useMemo } from 'react'
 import * as THREE from 'three'
 import { useFrame, useThree } from '@react-three/fiber'
 import { useTexture } from '@react-three/drei'
-import vertexShader from '@/app/lib/shaders/breathingLife/vertex.glsl'
-import simplexAndWorleyNoiseFragmentShader from '@/app/lib/shaders/breathingLife/simplexAndWorleyNoiseFragment.glsl'
+import vertexShader from '@/lib/shaders/breathingLife/vertex.glsl'
+import simplexAndWorleyNoiseFragmentShader from '@/lib/shaders/breathingLife/simplexAndWorleyNoiseFragment.glsl'
 
 
-export function BreathingLifePlane(props: JSX.IntrinsicElements['mesh'] & {
+interface BreathingLifePlaneProps {
   settings: {
     mixNoise: number,
     worleyNoiseScale: number,
@@ -17,9 +17,16 @@ export function BreathingLifePlane(props: JSX.IntrinsicElements['mesh'] & {
     worleyIntensity: number,
     image: string
   }
-}) {
-  const { mixNoise, worleyNoiseScale, simplexNoiseScale, simplexSpeed, simplexIntensity, worleySpeed, worleyIntensity, image } = props.settings
+}
+
+export function BreathingLifePlaneWrapper(props: BreathingLifePlaneProps) {
+  const { image } = props.settings
   if (!image) return null
+  return <BreathingLifePlane {...props} />
+}
+
+function BreathingLifePlane(props: BreathingLifePlaneProps) {
+  const { mixNoise, worleyNoiseScale, simplexNoiseScale, simplexSpeed, simplexIntensity, worleySpeed, worleyIntensity, image } = props.settings
 
   const meshRef = useRef<THREE.Mesh>(null)
   const [dimensions, setDimensions] = useState<{ width: number; height: number }>({ width: 0, height: 0 });

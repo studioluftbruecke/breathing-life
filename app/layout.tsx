@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import { ThemeProvider } from 'next-themes'
-import { UpProvider } from "./lib/providers/UpProvider";
+import { Providers } from "@/lib/providers/providers";
 
 
 const geistSans = localFont({
@@ -61,15 +60,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" data-theme="pink">
+    <html lang="en" data-theme="light">
       <body
-        className={`${alumniSansPinstripe.variable} ${electrolize.variable} ${manrope.variable} ${carm.variable} ${fingerPaint.variable} ${rubikGlitch.variable} antialiased font-manrope`}
+        className={`${alumniSansPinstripe.variable} ${electrolize.variable} ${manrope.variable} ${carm.variable} ${fingerPaint.variable} ${rubikGlitch.variable} antialiased font-electrolize`}
       >
-        <ThemeProvider enableSystem={false}>
-          <UpProvider>
-            {children}
-          </UpProvider>
-        </ThemeProvider>
+        <Providers>
+          {children}
+        </Providers>
       </body>
     </html>
   );

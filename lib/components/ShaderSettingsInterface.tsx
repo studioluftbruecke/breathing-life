@@ -1,6 +1,6 @@
 'use client'
 
-import { Slider } from "@/app/lib/components/ui/slider"
+import { Slider } from "@/lib/components/ui/slider"
 import { useShaderSettings } from "../stores/useShaderSettings"
 import { Button } from "./ui/button"
 import { useEffect, useRef, useState } from "react"
@@ -9,7 +9,7 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@/app/lib/components/ui/accordion"
+} from "@/lib/components/ui/accordion"
 import { Diamond, Gear, Waves, X } from "@phosphor-icons/react/dist/ssr"
 import { Input } from "./ui/input"
 import { HexColorPicker } from "react-colorful";
@@ -22,11 +22,6 @@ export default function ShaderSettingsInterface() {
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [accordionValue, setAccordionValue] = useState('image')
   const { theme, setTheme } = useTheme()
-  useEffect(() => {
-    if (theme !== 'dark') {
-      setTheme('dark')
-    }
-  }, [])
 
   const {
     mixNoise,
@@ -94,7 +89,7 @@ export default function ShaderSettingsInterface() {
           }}
         >
           <Button
-            variant={'ghost'}
+            variant={'default'}
             className={`border rounded-md w-8 h-8 flex items-center justify-center`}
             onClick={handleToggle}
           >
