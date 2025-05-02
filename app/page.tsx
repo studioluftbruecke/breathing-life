@@ -23,6 +23,7 @@ const publicClient = createPublicClient({
 import { lsp7DigitalAssetAbi } from '@lukso/lsp-smart-contracts/abi';
 import { Button } from './lib/components/ui/button';
 import { LandingPage } from './LandingPage';
+import { MoveLeft } from 'lucide-react';
 
 
 const CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_LSP7_CONTRACT_ADDRESS;
@@ -105,10 +106,23 @@ export default function Home() {
     <>
       <div className="items-center justify-items-center min-h-dvh w-screen h-dvh">
         {!accountHasAccess ? <>
-          <div className="flex flex-col p-12 items-center">
-            <h1 className="font-finger-paint text-4xl">Breathing Life</h1>
-            <Separator className="my-4" />
-            {upContext.accounts && upContext.accounts[0] ? (
+          <div className="flex flex-col items-center h-full">
+            <div className='flex flex-col'>
+              <div className='flex flex-row items-center mt-4'>
+                <MoveLeft />
+                <p className='ml-8'>Please connect your profile on the top left of this window.</p>
+              </div>
+              <Separator className="my-4" />
+            </div>
+            <div className='flex flex-col items-center mt-12 max-w-md text-center'>
+              <h1 className="font-finger-paint text-4xl mb-4">Breathing Life</h1>
+              <p className="text-sm mb-4">“Breathing Life” is a creative tool for animating images into breath-taking visual experiences. Inspired by altered visionary states the images come to life in a natural way, while it is also possible to create otherworldly effects.</p>
+              {totalSupply !== undefined && <>
+                <div>Access tokens left: {MAX_SUPPLY - totalSupply}</div>
+              </>}
+            </div>
+            <div></div>
+            {/* {upContext.accounts && upContext.accounts[0] ? (
               <>
                 <div className="flex flex-col items-center w-full max-w-2xl">
                   <h2 className="text-xl mt-4">Connected profile:</h2>
@@ -126,7 +140,7 @@ export default function Home() {
               </>
             ) : (
               <div>Please connect your profile on the top left of this window.</div>
-            )}
+            )} */}
           </div>
         </> : <>
           <ShaderExperience />
