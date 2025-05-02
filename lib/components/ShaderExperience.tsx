@@ -1,6 +1,6 @@
 'use client';
 
-import ExperienceWrapper from "@/app/lib/components/ExperienceWrapper";
+import ExperienceWrapper from "@/lib/components/ExperienceWrapper";
 import * as THREE from 'three'
 import { ToastContainer } from 'react-toastify';
 import { BreathingLifePlane } from "./BreathingLifePlane";

@@ -2,8 +2,8 @@ import { useState, useRef, useEffect, useMemo } from 'react'
 import * as THREE from 'three'
 import { useFrame, useThree } from '@react-three/fiber'
 import { useTexture } from '@react-three/drei'
-import vertexShader from '@/app/lib/shaders/breathingLife/vertex.glsl'
-import simplexAndWorleyNoiseFragmentShader from '@/app/lib/shaders/breathingLife/simplexAndWorleyNoiseFragment.glsl'
+import vertexShader from '@/lib/shaders/breathingLife/vertex.glsl'
+import simplexAndWorleyNoiseFragmentShader from '@/lib/shaders/breathingLife/simplexAndWorleyNoiseFragment.glsl'
 
 
 export function BreathingLifePlane(props: JSX.IntrinsicElements['mesh'] & {

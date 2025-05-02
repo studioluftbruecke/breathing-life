@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { cn } from "@/app/lib/utils/utils"
+import { cn } from "@/lib/utils/utils"
 
 interface InputWithUnitProps extends React.InputHTMLAttributes<HTMLInputElement> {
   unit: string

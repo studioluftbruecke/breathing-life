@@ -1,5 +1,5 @@
 import { Suspense, useContext, useEffect, useRef, useState } from "react";
-import DebugModeContext, { LoadingScreenTypes, DebugSettingsType } from "@/app/lib/contexts/DebugModeContext";
+import DebugModeContext, { LoadingScreenTypes, DebugSettingsType } from "@/lib/contexts/DebugModeContext";
 import { Environment, OrbitControls } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import type { OrbitControls as OrbitControlsImpl } from 'three-stdlib'
