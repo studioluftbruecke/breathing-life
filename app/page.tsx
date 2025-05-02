@@ -10,40 +10,69 @@ import {
   parseAbi,
   Address,
 } from 'viem';
-import { luksoTestnet } from 'viem/chains';
+import { lukso, luksoTestnet } from 'viem/chains';
 import ShaderExperience from './lib/components/ShaderExperience';
 import Link from 'next/link';
 
 
 const publicClient = createPublicClient({
-  chain: luksoTestnet,
+  chain: process.env.NEXT_PUBLIC_MODE === 'TEST' ? luksoTestnet : lukso,
   transport: http(),
 });
 
-const LSP7_ABI = parseAbi([
-  'function balanceOf(address owner) view returns (uint256)'
-]);
+import { lsp7DigitalAssetAbi } from '@lukso/lsp-smart-contracts/abi';
+import { Button } from './lib/components/ui/button';
+import { LandingPage } from './LandingPage';
+
+
+const CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_LSP7_CONTRACT_ADDRESS;
+const MAX_SUPPLY = Number(process.env.NEXT_PUBLIC_LSP7_CONTRACT_MAX_SUPPLY ?? 100);
 
 
 export default function Home() {
   const upContext = useUpProvider();
+  const [isClient, setIsClient] = useState(false);
   const [accountHasAccess, setAccountHasAccess] = useState(false);
-  const [offForNewShoresTokenBalance, setOffForNewShoresTokenBalance] = useState<number>();
+  const [tokenBalance, setTokenBalance] = useState<number>();
+  const [totalSupply, setTotalSupply] = useState<number>();
+
+  useEffect(() => {
+    console.log('Setting isClient to true');
+    setIsClient(true);
+  }, []);
+
+  useEffect(() => {
+    async function getTotalSupply() {
+      try {
+        const totalSupply = await publicClient.readContract({
+          address: CONTRACT_ADDRESS as Address,
+          abi: lsp7DigitalAssetAbi,
+          functionName: 'totalSupply',
+        });
+        console.log('totalSupply', totalSupply);
+        setTotalSupply(Number(totalSupply));
+      } catch (error) {
+        console.error('Error fetching total supply:', error);
+        throw error;
+      }
+    }
+
+    getTotalSupply();
+  }, [])
 
   useEffect(() => {
     const fetchOffForNewShoresTestBalance = async (address: Address) => {
       // Contract address of Off For New Shores - Test
-      const contractAddress = '0x726993bdddf47407e79f8ee164ec2dc23b73bb41';
 
       // Fetch balance
       const balanceResult = await publicClient.readContract({
-        address: contractAddress,
-        abi: LSP7_ABI,
+        address: CONTRACT_ADDRESS as Address,
+        abi: lsp7DigitalAssetAbi,
         functionName: 'balanceOf',
         args: [address],
       });
       const balance = Number(balanceResult);
-      setOffForNewShoresTokenBalance(balance);
+      setTokenBalance(balance);
       setAccountHasAccess(balance > 0);
     }
 
@@ -51,10 +80,25 @@ export default function Home() {
       fetchOffForNewShoresTestBalance(upContext.accounts[0]);
     } else {
       console.warn('No accounts found');
-      setOffForNewShoresTokenBalance(0);
+      setTokenBalance(0);
       setAccountHasAccess(false);
     }
   }, [upContext.accounts])
+
+
+  const handleGetAccess = () => {
+    console.log('handleGetAccess');
+  }
+
+
+  if (!isClient) {
+    console.log('Rendering null during server-side rendering');
+    return null;
+  }
+
+  if (!upContext.isMiniApp) {
+    return <LandingPage />
+  }
 
 
   return (
@@ -74,6 +118,10 @@ export default function Home() {
                     target='_blank'
                     className='underline text-blue-500'
                   >Universal Page</Link> to get access or contact hi@studioluftbruecke.org if this is a mistake.</div>
+                  {totalSupply !== undefined && <>
+                    <div>Access tokens left: {MAX_SUPPLY - totalSupply}</div>
+                  </>}
+                  <Button onClick={handleGetAccess}>Get Access</Button>
                 </div>
               </>
             ) : (

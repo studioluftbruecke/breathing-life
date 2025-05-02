@@ -15,6 +15,15 @@ import {
   useMemo,
 } from "react";
 
+declare global {
+  interface Window {
+    lukso?: unknown;
+    ethereum?: {
+      isUniversalProfileExtension?: boolean;
+    };
+  }
+}
+
 interface UpProviderContext {
   provider: UPClientProvider | null;
   client: ReturnType<typeof createWalletClient> | null;
@@ -26,9 +35,19 @@ interface UpProviderContext {
   setSelectedAddress: (address: `0x${string}` | null) => void;
   isSearching: boolean;
   setIsSearching: (isSearching: boolean) => void;
+  isMiniApp: boolean;
 }
 
 const UpContext = createContext<UpProviderContext | undefined>(undefined);
+
+// Function to check if we're in a mini-app context (iframe)
+const isMiniAppContext = () => {
+  try {
+    return window.self !== window.top;
+  } catch (e) {
+    return true;
+  }
+};
 
 const provider =
   typeof window !== "undefined" ? createClientUPProvider() : null;
@@ -48,14 +67,11 @@ interface UpProviderProps {
 export function UpProvider({ children }: UpProviderProps) {
   const [chainId, setChainId] = useState<number>(0);
   const [accounts, setAccounts] = useState<Array<`0x${string}`>>([]);
-  const [contextAccounts, setContextAccounts] = useState<Array<`0x${string}`>>(
-    []
-  );
+  const [contextAccounts, setContextAccounts] = useState<Array<`0x${string}`>>([]);
   const [walletConnected, setWalletConnected] = useState(false);
-  const [selectedAddress, setSelectedAddress] = useState<`0x${string}` | null>(
-    null
-  );
+  const [selectedAddress, setSelectedAddress] = useState<`0x${string}` | null>(null);
   const [isSearching, setIsSearching] = useState(false);
+  const [isMiniApp] = useState(() => typeof window !== 'undefined' && isMiniAppContext());
   const [account] = accounts ?? [];
   const [contextAccount] = contextAccounts ?? [];
 
@@ -127,14 +143,8 @@ export function UpProvider({ children }: UpProviderProps) {
         provider.removeListener("chainChanged", chainChanged);
       };
     }
-    // If you want to be responsive to account changes
-    // you also need to look at the first account rather
-    // then the length or the whole array. Unfortunately react doesn't properly
-    // look at array values like vue or knockout.
   }, [client, account, contextAccount]);
 
-  // There has to be a useMemo to make sure the context object doesn't change on every
-  // render.
   const data = useMemo(() => {
     return {
       provider,
@@ -147,6 +157,7 @@ export function UpProvider({ children }: UpProviderProps) {
       setSelectedAddress,
       isSearching,
       setIsSearching,
+      isMiniApp,
     };
   }, [
     client,
@@ -156,10 +167,12 @@ export function UpProvider({ children }: UpProviderProps) {
     walletConnected,
     selectedAddress,
     isSearching,
+    isMiniApp,
   ]);
+
   return (
     <UpContext.Provider value={data}>
-      <div className="min-h-screen w-full h-full">
+      <div className="min-h-screen flex items-center justify-center">
         {children}
       </div>
     </UpContext.Provider>
