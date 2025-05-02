@@ -3,7 +3,7 @@
 import ExperienceWrapper from "@/lib/components/ExperienceWrapper";
 import * as THREE from 'three'
 import { ToastContainer } from 'react-toastify';
-import { BreathingLifePlane } from "./BreathingLifePlane";
+import { BreathingLifePlaneWrapper } from "./BreathingLifePlane";
 import dynamic from "next/dynamic";
 import { useShaderSettings } from "../stores/useShaderSettings";
 
@@ -24,7 +24,7 @@ export default function ShaderExperience() {
         cameraFov={75}
       >
         <ambientLight />
-        <BreathingLifePlane
+        <BreathingLifePlaneWrapper
           settings={{
             mixNoise,
             worleyNoiseScale,
