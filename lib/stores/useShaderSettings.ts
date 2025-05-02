@@ -31,7 +31,7 @@ export const useShaderSettings = create<ShaderSettingsState>((set) => ({
   simplexIntensity: 0.01,
   worleySpeed: 0.05,
   worleyIntensity: 0.01,
-  image: '',
+  image: '/Breathing-Life-Cover-Image.jpg',
   gradientColor1: '#ffffff',
   gradientColor2: '#ffffff',
   setMixNoise: (mixNoise: number) => set({ mixNoise }),

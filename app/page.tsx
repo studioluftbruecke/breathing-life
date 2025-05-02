@@ -7,12 +7,19 @@ import { useUpProvider } from "../lib/providers/UpProvider";
 import {
   createPublicClient,
   http,
-  parseAbi,
   Address,
 } from 'viem';
 import { lukso, luksoTestnet } from 'viem/chains';
 import ShaderExperience from '../lib/components/ShaderExperience';
-import Link from 'next/link';
+import { Avatar, AvatarFallback, AvatarImage } from '@/lib/components/ui/avatar';
+
+
+// Helper function to transform IPFS URL to Universal Profile cloud URL
+function transformIpfsUrl(ipfsUrl: string): string {
+  if (!ipfsUrl || !ipfsUrl.startsWith('ipfs://')) return '';
+  const hash = ipfsUrl.replace('ipfs://', '');
+  return `https://api.universalprofile.cloud/ipfs/${hash}`;
+}
 
 
 const publicClient = createPublicClient({
@@ -24,6 +31,7 @@ import { lsp7DigitalAssetAbi } from '@lukso/lsp-smart-contracts/abi';
 import { LandingPage } from './LandingPage';
 import { MoveLeft } from 'lucide-react';
 import { useProfile } from '@/lib/providers/ProfileProvider';
+import Image from 'next/image';
 
 
 const CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_LSP7_CONTRACT_ADDRESS;
@@ -100,15 +108,7 @@ export default function Home() {
   return (
     <>
       <div className="flex flex-col items-center w-screen h-dvh">
-
-        <div className='flex flex-col items-center mt-12 max-w-md text-center'>
-          <h1 className="font-finger-paint text-4xl mb-4">Breathing Life</h1>
-          <p className="">“Breathing Life” is a creative tool for animating images into breath-taking visual experiences. Inspired by altered visionary states the images come to life in a natural way, while it is also possible to create otherworldly effects.</p>
-          <p className='mt-8'>Coming very soon...</p>
-        </div>
-
-
-        {/* {!accountHasAccess ? <>
+        {!accountHasAccess ? <>
           {!profileData && <>
             <div className='flex flex-col'>
               <div className='flex flex-row items-center mt-4'>
@@ -124,14 +124,21 @@ export default function Home() {
           </div>
           {profileData && <>
             <div className='flex flex-col items-center mt-16'>
-              <div><p>Connected as {profileData.name}</p></div>
+              <div className='flex flex-row items-center justify-center'>
+                <span className='mr-4 text-sm'>Connected as:</span>
+                <Avatar className='h-8 w-8 mr-2'>
+                  <AvatarImage src={profileData.profileImages.length > 0 ? transformIpfsUrl(profileData.profileImages[0].url) : ''} />
+                  <AvatarFallback>{profileData.name.slice(0, 2)}</AvatarFallback>
+                </Avatar>
+                <span className=''>{profileData.name}</span>
+              </div>
               <div>Get access by minting the access token here.</div>
               {totalSupply !== undefined && <>
                 <div>Access tokens left: {MAX_SUPPLY - totalSupply}</div>
               </>}
             </div>
           </>}
-        </> : <ShaderExperience />} */}
+        </> : <ShaderExperience />}
       </div>
     </>
   );

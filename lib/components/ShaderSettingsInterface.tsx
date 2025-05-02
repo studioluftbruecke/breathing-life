@@ -63,7 +63,7 @@ export default function ShaderSettingsInterface() {
 
   // Define the spring animation for transparency
   const { transparencySpring } = useSpring({
-    transparencySpring: isToggled ? 100 : 0,
+    transparencySpring: isToggled ? transparency : 0,
     config: { tension: 170, friction: 26 }, // Adjust for desired animation feel
   });
 
@@ -97,7 +97,7 @@ export default function ShaderSettingsInterface() {
           </Button>
         </animated.div>
       </div>
-      <div className={`fixed top-8 right-0 w-full max-w-screen md:w-fit md:right-8 flex flex-col justify-center items-center md:items-end z-50 ${isToggled ? '' : 'hidden'}`}>
+      <div className={`fixed top-8 right-0 w-full max-w-screen max-h-[90dvh] overflow-scroll md:w-fit md:right-8 flex flex-col items-center md:items-end z-50 ${isToggled ? '' : 'hidden'}`}>
         <animated.div
           id="shader-settings-interface"
           className="w-full h-full min-w-[280px] max-w-[360px] space-y-4 border rounded-md p-4 bg-background"
@@ -443,8 +443,8 @@ export default function ShaderSettingsInterface() {
               <AccordionTrigger>Feedback</AccordionTrigger>
               <AccordionContent>
                 <div className="w-full h-full space-y-2 flex flex-col items-center">
-                  <span className="text-sm text-primary font-bold">Do you have any feedback?</span>
-                  <span className="text-sm text-primary">We are happy to hear from you via</span>
+                  <span className="text-sm text-primary font-bold">Do you have any feedback or questions?</span>
+                  <span className="text-sm text-primary">Leave a message via</span>
                   <span className="text-sm text-primary">hi@studioluftbruecke.org</span>
                 </div>
               </AccordionContent>
