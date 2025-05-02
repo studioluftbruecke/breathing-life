@@ -100,7 +100,15 @@ export default function Home() {
   return (
     <>
       <div className="flex flex-col items-center w-screen h-dvh">
-        {!accountHasAccess ? <>
+
+        <div className='flex flex-col items-center mt-12 max-w-md text-center'>
+          <h1 className="font-finger-paint text-4xl mb-4">Breathing Life</h1>
+          <p className="">“Breathing Life” is a creative tool for animating images into breath-taking visual experiences. Inspired by altered visionary states the images come to life in a natural way, while it is also possible to create otherworldly effects.</p>
+          <p className='mt-8'>Coming very soon...</p>
+        </div>
+
+
+        {/* {!accountHasAccess ? <>
           {!profileData && <>
             <div className='flex flex-col'>
               <div className='flex flex-row items-center mt-4'>
@@ -123,7 +131,7 @@ export default function Home() {
               </>}
             </div>
           </>}
-        </> : <ShaderExperience />}
+        </> : <ShaderExperience />} */}
       </div>
     </>
   );
