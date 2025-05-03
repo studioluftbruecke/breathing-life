@@ -19,7 +19,11 @@ import { useSpring, animated } from '@react-spring/web'
 import Image from "next/image"
 import { useProfile } from "../providers/ProfileProvider"
 import { useUpProvider } from "../providers/UpProvider"
-import Link from "next/link"
+
+
+const DARK_BACKGROUND_HEX = '#000000'
+const LIGHT_BACKGROUND_HEX = '#FFFFFF'
+const LUFT_BACKGROUND_HEX = '#170056'
 
 
 export default function ShaderSettingsInterface(props: {
@@ -97,7 +101,7 @@ export default function ShaderSettingsInterface(props: {
           }}
         >
           <Button
-            variant={'default'}
+            variant={'ghost'}
             className={`border rounded-md w-8 h-8 flex items-center justify-center`}
             onClick={handleToggle}
           >
@@ -117,7 +121,9 @@ export default function ShaderSettingsInterface(props: {
             <h1 className="w-full text-xl font-finger-paint">Breathing Life</h1>
             <div className="flex flex-row items-center w-full justify-center">
               <div className="flex flex-col items-end justify-center mr-3 hover:cursor-pointer text-center" onClick={() => {
-                setTheme(theme === 'pink' ? 'dark' : (theme === 'light' ? 'pink' : 'light'))
+                setGradientColor1(theme === 'luft' ? DARK_BACKGROUND_HEX : (theme === 'light' ? LUFT_BACKGROUND_HEX : LIGHT_BACKGROUND_HEX))
+                setGradientColor2(theme === 'luft' ? DARK_BACKGROUND_HEX : (theme === 'light' ? LUFT_BACKGROUND_HEX : LIGHT_BACKGROUND_HEX))
+                setTheme(theme === 'luft' ? 'dark' : (theme === 'light' ? 'luft' : 'light'))
               }}>
                 <div className="flex flex-col items-center justify-center">
                   <div className="text-xs text-primary/80"><span className="relative top-[1px]">Theme</span></div>
@@ -495,9 +501,9 @@ export default function ShaderSettingsInterface(props: {
               <AccordionTrigger>Feedback</AccordionTrigger>
               <AccordionContent>
                 <div className="w-full h-full space-y-2 flex flex-col items-center">
-                  <span className="text-sm text-primary font-bold">Do you have any feedback or questions?</span>
-                  <span className="text-sm text-primary">Leave a message via</span>
-                  <span className="text-sm text-primary">hi@studioluftbruecke.org</span>
+                  <span className="text-sm font-bold">Do you have any feedback or questions?</span>
+                  <span className="text-sm">Leave a message via</span>
+                  <span className="text-sm">hi@studioluftbruecke.org</span>
                 </div>
               </AccordionContent>
             </AccordionItem>

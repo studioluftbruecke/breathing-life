@@ -1,0 +1,94 @@
+/*
+  Create by Gemini on May 3rd 2025. Storing here for reference.
+*/
+
+
+
+html[data-theme="custom-light"] {
+  --background: 0 0% 100%; /* White (#FFFFFF) */
+  --foreground: 256 100% 16.9%; /* Dark Violet (#170056) */
+
+  --card: 0 0% 84.7%; /* Light Gray (#D8D8D8) - Subtle card background */
+  --card-foreground: 256 100% 16.9%; /* Dark Violet (#170056) - Text on card */
+
+  --popover: 227 37% 65.1%; /* Mid Bluish-Gray (#8594C7) */
+  --popover-foreground: 256 100% 16.9%; /* Dark Violet (#170056) - Text on popover */
+
+  --primary: 256 100% 48.1%; /* Primary Action (#4100F5) */
+  --primary-foreground: 0 0% 100%; /* White (#FFFFFF) - Text on primary */
+
+  --secondary: 227 37% 65.1%; /* Mid Bluish-Gray (#8594C7) */
+  --secondary-foreground: 256 100% 16.9%; /* Dark Violet (#170056) - Text on secondary */
+
+  --muted: 0 0% 84.7%; /* Light Gray (#D8D8D8) - Subtle elements */
+  --muted-foreground: 227 37% 65.1%; /* Mid Bluish-Gray (#8594C7) - Slightly desaturated text */
+
+  --accent: 77 88% 67.6%; /* Lime Green (#CDF564) */
+  --accent-foreground: 256 100% 16.9%; /* Dark Violet (#170056) - Text on accent */
+
+  /* Destructive is tricky without a red/orange. Using the primary color as a fallback. */
+  --destructive: 256 100% 48.1%; /* Primary Action (#4100F5) - Fallback */
+  --destructive-foreground: 0 0% 100%; /* White (#FFFFFF) - Text on destructive */
+
+  --border: 0 0% 84.7%; /* Light Gray (#D8D8D8) */
+  --input: 0 0% 84.7%; /* Light Gray (#D8D8D8) */
+  --ring: 256 100% 48.1%; /* Primary Action (#4100F5) - For focus rings */
+
+  /* Chart colors using the available palette */
+  --chart-1: 256 100% 48.1%; /* Primary Action (#4100F5) */
+  --chart-2: 77 88% 67.6%; /* Lime Green (#CDF564) */
+  --chart-3: 227 37% 65.1%; /* Mid Bluish-Gray (#8594C7) */
+  --chart-4: 256 100% 16.9%; /* Dark Violet (#170056) */
+  --chart-5: 0 0% 84.7%; /* Light Gray (#D8D8D8) - Note: Low contrast on white bg */
+
+  /* Gradient examples - using available colors */
+  /* You might not need these if you don't use gradients */
+  --card-gradient1: 227 37% 65.1%; /* Mid Bluish-Gray (#8594C7) */
+  --popover-gradient1: 0 0% 100%; /* White (#FFFFFF) */
+  --primary-gradient1: 227 37% 65.1%; /* Mid Bluish-Gray (#8594C7) */
+  --secondary-gradient: 77 88% 67.6%; /* Lime Green (#CDF564) */
+}
+
+/* Optional: Define a dark theme using the same palette */
+html[data-theme="custom-dark"] {
+  --background: 256 100% 16.9%; /* Dark Violet (#170056) */
+  --foreground: 0 0% 84.7%; /* Light Gray (#D8D8D8) */
+
+  --card: 0 0% 0%; /* Black (#000000) */
+  --card-foreground: 0 0% 84.7%; /* Light Gray (#D8D8D8) */
+
+  --popover: 0 0% 0%; /* Black (#000000) */
+  --popover-foreground: 0 0% 84.7%; /* Light Gray (#D8D8D8) */
+
+  --primary: 256 100% 48.1%; /* Primary Action (#4100F5) */
+  --primary-foreground: 0 0% 100%; /* White (#FFFFFF) */
+
+  --secondary: 227 37% 65.1%; /* Mid Bluish-Gray (#8594C7) */
+  --secondary-foreground: 256 100% 16.9%; /* Dark Violet (#170056) */
+
+  --muted: 0 0% 0%; /* Black (#000000) */
+  --muted-foreground: 227 37% 65.1%; /* Mid Bluish-Gray (#8594C7) */
+
+  --accent: 77 88% 67.6%; /* Lime Green (#CDF564) */
+  --accent-foreground: 256 100% 16.9%; /* Dark Violet (#170056) */
+
+  --destructive: 256 100% 48.1%; /* Primary Action (#4100F5) - Fallback */
+  --destructive-foreground: 0 0% 100%; /* White (#FFFFFF) */
+
+  --border: 227 37% 65.1%; /* Mid Bluish-Gray (#8594C7) */
+  --input: 227 37% 65.1%; /* Mid Bluish-Gray (#8594C7) */
+  --ring: 77 88% 67.6%; /* Lime Green (#CDF564) - For focus rings */
+
+  /* Chart colors using the available palette */
+  --chart-1: 256 100% 48.1%; /* Primary Action (#4100F5) */
+  --chart-2: 77 88% 67.6%; /* Lime Green (#CDF564) */
+  --chart-3: 227 37% 65.1%; /* Mid Bluish-Gray (#8594C7) */
+  --chart-4: 0 0% 84.7%; /* Light Gray (#D8D8D8) */
+  --chart-5: 0 0% 100%; /* White (#FFFFFF) */
+
+  /* Gradient examples - using available colors */
+  --card-gradient1: 227 37% 65.1%;
+  --popover-gradient1: 256 100% 16.9%;
+  --primary-gradient1: 227 37% 65.1%;
+  --secondary-gradient: 77 88% 67.6%;
+}
