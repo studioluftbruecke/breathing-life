@@ -264,7 +264,7 @@ export default function ShaderSettingsInterface(props: {
                     <div className="text-muted-foreground flex flex-row items-center gap-2 w-full">
                       <span className="w-50">Access required for image upload.</span>
                       {!isMiniApp ? <><span>Login currently only supported on the <a href={process.env.NEXT_PUBLIC_STUDIO_LUFTBRUECKE_UP_URL} target="_blank" className="underline text-blue-500">Grid</a>.</span></> : <>
-                        {!profileData ? <><span>Login via the "Connect" button on the top-left of this grid.</span></> : <><span>You don't have access yet. <a href={process.env.NEXT_PUBLIC_UNIVERSAL_PAGE_BREATHING_LIFE_DROP_URL} target="_blank" className="underline text-blue-500">Get access here</a>.</span></>}
+                        {!profileData ? <><span>Login via the &quot;Connect&quot; button on the top-left of this grid.</span></> : <><span>You don&apos;t have access yet. <a href={process.env.NEXT_PUBLIC_UNIVERSAL_PAGE_BREATHING_LIFE_DROP_URL} target="_blank" className="underline text-blue-500">Get access here</a>.</span></>}
                       </>}
                     </div>
                     </>}
