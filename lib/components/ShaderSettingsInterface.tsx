@@ -124,7 +124,7 @@ export default function ShaderSettingsInterface() {
                   value={[transparency]}
                   onValueChange={(value: number[]) => setTransparency(value[0])}
                   max={100}
-                  min={0}
+                  min={5}
                   step={1}
                 />
               </div>
