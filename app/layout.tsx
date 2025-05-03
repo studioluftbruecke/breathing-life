@@ -50,8 +50,8 @@ const rubikGlitch = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Refraction X Lukso Proof Of Concept",
-  description: "Just a proof of concept",
+  title: "Breathing Life - Studio Luftbrücke",
+  description: "Breathing Life is a next-gen shader application to create otherworldy visual animations.",
 };
 
 export default function RootLayout({
