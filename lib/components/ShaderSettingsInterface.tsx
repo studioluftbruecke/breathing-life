@@ -16,9 +16,22 @@ import { HexColorPicker } from "react-colorful";
 import { useTheme } from "next-themes"
 import { Separator } from "./ui/separator"
 import { useSpring, animated } from '@react-spring/web'
+import Image from "next/image"
+import { useProfile } from "../providers/ProfileProvider"
+import { useUpProvider } from "../providers/UpProvider"
+import Link from "next/link"
 
 
-export default function ShaderSettingsInterface() {
+const DARK_BACKGROUND_HEX = '#000000'
+const LIGHT_BACKGROUND_HEX = '#FFFFFF'
+const LUFT_BACKGROUND_HEX = '#170056'
+
+
+export default function ShaderSettingsInterface(props: {
+  userHasAccess: boolean
+}) {
+  const { profileData } = useProfile();
+  const { isMiniApp } = useUpProvider();
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [accordionValue, setAccordionValue] = useState('image')
   const { theme, setTheme } = useTheme()
@@ -63,7 +76,7 @@ export default function ShaderSettingsInterface() {
 
   // Define the spring animation for transparency
   const { transparencySpring } = useSpring({
-    transparencySpring: isToggled ? 100 : 0,
+    transparencySpring: isToggled ? transparency : 0,
     config: { tension: 170, friction: 26 }, // Adjust for desired animation feel
   });
 
@@ -89,7 +102,7 @@ export default function ShaderSettingsInterface() {
           }}
         >
           <Button
-            variant={'default'}
+            variant={'ghost'}
             className={`border rounded-md w-8 h-8 flex items-center justify-center`}
             onClick={handleToggle}
           >
@@ -97,7 +110,7 @@ export default function ShaderSettingsInterface() {
           </Button>
         </animated.div>
       </div>
-      <div className={`fixed top-8 right-0 w-full max-w-screen md:w-fit md:right-8 flex flex-col justify-center items-center md:items-end z-50 ${isToggled ? '' : 'hidden'}`}>
+      <div className={`fixed top-8 right-0 w-full max-w-screen max-h-[93dvh] overflow-scroll md:w-fit md:right-8 flex flex-col items-center md:items-end z-50 ${isToggled ? '' : 'hidden'}`}>
         <animated.div
           id="shader-settings-interface"
           className="w-full h-full min-w-[280px] max-w-[360px] space-y-4 border rounded-md p-4 bg-background"
@@ -109,7 +122,9 @@ export default function ShaderSettingsInterface() {
             <h1 className="w-full text-xl font-finger-paint">Breathing Life</h1>
             <div className="flex flex-row items-center w-full justify-center">
               <div className="flex flex-col items-end justify-center mr-3 hover:cursor-pointer text-center" onClick={() => {
-                setTheme(theme === 'pink' ? 'dark' : (theme === 'light' ? 'pink' : 'light'))
+                setGradientColor1(theme === 'luft' ? DARK_BACKGROUND_HEX : (theme === 'light' ? LUFT_BACKGROUND_HEX : LIGHT_BACKGROUND_HEX))
+                setGradientColor2(theme === 'luft' ? DARK_BACKGROUND_HEX : (theme === 'light' ? LUFT_BACKGROUND_HEX : LIGHT_BACKGROUND_HEX))
+                setTheme(theme === 'luft' ? 'dark' : (theme === 'light' ? 'luft' : 'light'))
               }}>
                 <div className="flex flex-col items-center justify-center">
                   <div className="text-xs text-primary/80"><span className="relative top-[1px]">Theme</span></div>
@@ -124,7 +139,7 @@ export default function ShaderSettingsInterface() {
                   value={[transparency]}
                   onValueChange={(value: number[]) => setTransparency(value[0])}
                   max={100}
-                  min={0}
+                  min={5}
                   step={1}
                 />
               </div>
@@ -213,18 +228,62 @@ export default function ShaderSettingsInterface() {
               <AccordionTrigger>Image</AccordionTrigger>
               <AccordionContent>
                 <div className="w-full h-full space-y-2">
-                  <div className="flex flex-row grid grid-cols-2 gap-8 w-full">
-                    <div className="flex flex-row items-center gap-2 w-full justify-between">
-                      {/* <label>Image</label> */}
+                  <div
+                    // className="flex flex-row items-center gap-2 w-full justify-between"
+                  >
+                    {isMiniApp && props.userHasAccess ? <>
+                    <div className="flex flex-row items-center gap-2">
                       <input ref={fileInputRef} className="hidden" type="file" accept="image/*" onChange={(e) => {
                         if (!e.target.files?.[0]) return;
                         const fileUrl = URL.createObjectURL(e.target.files[0]);
                         setImage(fileUrl);
                         setAccordionValue('')
                       }} />
-                      <Button variant={'secondary'} onClick={() => { fileInputRef.current?.click() }}>{image ? 'Update image' : 'Select image'}</Button>
+                      <Image
+                        src={image}
+                        alt="Image"
+                        width={50}
+                        height={50}
+                        className="rounded-md mr-1 w-12 h-12 object-cover aspect-square"
+                      />
+                      <Button
+                        variant={'default'}
+                        disabled={!props.userHasAccess || !isMiniApp}
+                        onClick={() => {
+                          if (!props.userHasAccess || !isMiniApp) {
+                            console.error('User has no access or is not on the grid.');
+                            return;
+                          }
+                          fileInputRef.current?.click()
+                        }}
+                      >
+                        {image ? 'Update image' : 'Select image'}
+                      </Button>
+                      </div>
+                    </> : <>
+                    <div className="text-muted-foreground flex flex-row items-center gap-2 w-full">
+                      <span className="w-50">Access required for image upload.</span>
+                      {!isMiniApp ? <><span>Login currently only supported on the <a href={process.env.NEXT_PUBLIC_STUDIO_LUFTBRUECKE_UP_URL} target="_blank" className="underline text-blue-500">Grid</a>.</span></> : <>
+                        {!profileData ? <><span>Login via the &quot;Connect&quot; button on the top-left of this grid.</span></> : <><span>You don&apos;t have access yet. <a href={process.env.NEXT_PUBLIC_UNIVERSAL_PAGE_BREATHING_LIFE_DROP_URL} target="_blank" className="underline text-blue-500">Get access here</a>.</span></>}
+                      </>}
                     </div>
+                    </>}
+                    {/* <div className="text-xs text-muted-foreground">
+                        {!isMiniApp && <>
+                          <div className="flex flex-col items-center">
+                            <span className="text-xs text-muted-foreground w-full text-center">
+                              Login currently only supported on the grid
+                            </span>
+                            <Link href="https://profile.link/studioluftbruecke@a7A6" target="_blank" className="underline text-blue-500">universaleverything.io</Link>
+                          </div>
+                        </>}
+                        {!profileData && isMiniApp && <>
+                          <span className=" w-full text-center">Please login on the top right of this window.</span>
+                        </>}
+                      </div> */}
                   </div>
+                  {/* <div className="flex flex-row w-full">
+                  </div> */}
                 </div>
               </AccordionContent>
             </AccordionItem>
@@ -439,13 +498,14 @@ export default function ShaderSettingsInterface() {
                 </div>
               </AccordionContent>
             </AccordionItem>
-            <AccordionItem value="feedback" className="border-none">
-              <AccordionTrigger>Feedback</AccordionTrigger>
+            <AccordionItem value="about" className="border-none">
+              <AccordionTrigger>About</AccordionTrigger>
               <AccordionContent>
-                <div className="w-full h-full space-y-2 flex flex-col items-center">
-                  <span className="text-sm text-primary font-bold">Do you have any feedback?</span>
-                  <span className="text-sm text-primary">We are happy to hear from you via</span>
-                  <span className="text-sm text-primary">hi@studioluftbruecke.org</span>
+                <div className="w-full h-full flex flex-col">
+                  <span>&#x0022;Breathing Life&#x0022; is a creative tool for animating images into breath-taking visual experiences. Inspired by altered visionary states, the images come to life in a natural way, while it is also possible to create otherworldly effects.</span>
+                  <span className="mt-2">This tool harnesses the mathematical elegance of Simplex Noise — known for its natural-looking randomness — alongside Worley Noise, famous for creating organic cellular patterns resembling natural textures like stone, water, and biological surfaces. Together, these algorithmic foundations generate fluid, ever evolving landscapes that both complement and reimagine the original image.</span>
+                  <Separator className="my-4" />
+                  <span className="text-sm">Do you have any questions or feedback?<br />Leave a message via <Link className="text-primary underline" href="mailto:hi@studioluftbruecke.org">hi@studioluftbruecke.org</Link></span>
                 </div>
               </AccordionContent>
             </AccordionItem>
