@@ -29,6 +29,8 @@ const publicClient = createPublicClient({
 
 import { lsp7DigitalAssetAbi } from '@lukso/lsp-smart-contracts/abi';
 import { useProfile } from '@/lib/providers/ProfileProvider';
+import Image from 'next/image';
+import Link from 'next/link';
 const CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_LSP7_CONTRACT_ADDRESS;
 const MAX_SUPPLY = Number(process.env.NEXT_PUBLIC_LSP7_CONTRACT_MAX_SUPPLY ?? 100);
 
@@ -133,6 +135,20 @@ export default function Home() {
             </div>
           </>}
         </> : <ShaderExperience />} */}
+      </div>
+      <div className='fixed bottom-2 left-2 z-50 h-8 flex flex-row items-center'>
+        <Link
+          href="https://studioluftbruecke.org"
+          target="_blank"
+        >
+          <Image
+            src="/Studio Luftbrücke Full Symbol.jpg"
+            alt="Studio Luftbruecke Logo"
+            width={50}
+            height={50}
+            className="rounded-full aspect-square object-cover h-8 w-8"
+          />
+        </Link>
       </div>
       {isMiniApp && <>
         <div className='fixed bottom-2 right-2 z-50 h-8 flex flex-row items-center'>
