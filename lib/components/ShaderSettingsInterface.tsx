@@ -16,9 +16,17 @@ import { HexColorPicker } from "react-colorful";
 import { useTheme } from "next-themes"
 import { Separator } from "./ui/separator"
 import { useSpring, animated } from '@react-spring/web'
+import Image from "next/image"
+import { useProfile } from "../providers/ProfileProvider"
+import { useUpProvider } from "../providers/UpProvider"
+import Link from "next/link"
 
 
-export default function ShaderSettingsInterface() {
+export default function ShaderSettingsInterface(props: {
+  userHasAccess: boolean
+}) {
+  const { profileData } = useProfile();
+  const { isMiniApp } = useUpProvider();
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [accordionValue, setAccordionValue] = useState('image')
   const { theme, setTheme } = useTheme()
@@ -213,18 +221,62 @@ export default function ShaderSettingsInterface() {
               <AccordionTrigger>Image</AccordionTrigger>
               <AccordionContent>
                 <div className="w-full h-full space-y-2">
-                  <div className="flex flex-row grid grid-cols-2 gap-8 w-full">
-                    <div className="flex flex-row items-center gap-2 w-full justify-between">
-                      {/* <label>Image</label> */}
+                  <div
+                    // className="flex flex-row items-center gap-2 w-full justify-between"
+                  >
+                    {isMiniApp && props.userHasAccess ? <>
+                    <div className="flex flex-row items-center gap-2">
                       <input ref={fileInputRef} className="hidden" type="file" accept="image/*" onChange={(e) => {
                         if (!e.target.files?.[0]) return;
                         const fileUrl = URL.createObjectURL(e.target.files[0]);
                         setImage(fileUrl);
                         setAccordionValue('')
                       }} />
-                      <Button variant={'secondary'} onClick={() => { fileInputRef.current?.click() }}>{image ? 'Update image' : 'Select image'}</Button>
+                      <Image
+                        src={image}
+                        alt="Image"
+                        width={50}
+                        height={50}
+                        className="rounded-md mr-1 w-12 h-12 object-cover aspect-square"
+                      />
+                      <Button
+                        variant={'default'}
+                        disabled={!props.userHasAccess || !isMiniApp}
+                        onClick={() => {
+                          if (!props.userHasAccess || !isMiniApp) {
+                            console.error('User has no access or is not on the grid.');
+                            return;
+                          }
+                          fileInputRef.current?.click()
+                        }}
+                      >
+                        {image ? 'Update image' : 'Select image'}
+                      </Button>
+                      </div>
+                    </> : <>
+                    <div className="text-muted-foreground flex flex-row items-center gap-2 w-full">
+                      <span className="w-50">Access required for image upload.</span>
+                      {!isMiniApp ? <><span>Login currently only supported on the <a href={process.env.NEXT_PUBLIC_STUDIO_LUFTBRUECKE_UP_URL} target="_blank" className="underline text-blue-500">Grid</a>.</span></> : <>
+                        {!profileData ? <><span>Login via the "Connect" button on the top-left of this grid.</span></> : <><span>You don't have access yet. <a href={process.env.NEXT_PUBLIC_UNIVERSAL_PAGE_BREATHING_LIFE_DROP_URL} target="_blank" className="underline text-blue-500">Get access here</a>.</span></>}
+                      </>}
                     </div>
+                    </>}
+                    {/* <div className="text-xs text-muted-foreground">
+                        {!isMiniApp && <>
+                          <div className="flex flex-col items-center">
+                            <span className="text-xs text-muted-foreground w-full text-center">
+                              Login currently only supported on the grid
+                            </span>
+                            <Link href="https://profile.link/studioluftbruecke@a7A6" target="_blank" className="underline text-blue-500">universaleverything.io</Link>
+                          </div>
+                        </>}
+                        {!profileData && isMiniApp && <>
+                          <span className=" w-full text-center">Please login on the top right of this window.</span>
+                        </>}
+                      </div> */}
                   </div>
+                  {/* <div className="flex flex-row w-full">
+                  </div> */}
                 </div>
               </AccordionContent>
             </AccordionItem>

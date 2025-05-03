@@ -28,21 +28,16 @@ const publicClient = createPublicClient({
 });
 
 import { lsp7DigitalAssetAbi } from '@lukso/lsp-smart-contracts/abi';
-import { LandingPage } from './LandingPage';
-import { MoveLeft } from 'lucide-react';
 import { useProfile } from '@/lib/providers/ProfileProvider';
-import Image from 'next/image';
-
-
 const CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_LSP7_CONTRACT_ADDRESS;
 const MAX_SUPPLY = Number(process.env.NEXT_PUBLIC_LSP7_CONTRACT_MAX_SUPPLY ?? 100);
 
 
 export default function Home() {
-  const upContext = useUpProvider();
   const { profileData } = useProfile();
+  const { isMiniApp, accounts } = useUpProvider();
   const [isClient, setIsClient] = useState(false);
-  const [accountHasAccess, setAccountHasAccess] = useState(false);
+  const [userHasAccess, setUserHasAccess] = useState(false);
   const [tokenBalance, setTokenBalance] = useState<number>();
   const [totalSupply, setTotalSupply] = useState<number>();
 
@@ -83,17 +78,17 @@ export default function Home() {
       });
       const balance = Number(balanceResult);
       setTokenBalance(balance);
-      setAccountHasAccess(balance > 0);
+      setUserHasAccess(balance > 0);
     }
 
-    if (upContext.accounts && upContext.accounts[0]) {
-      fetchOffForNewShoresTestBalance(upContext.accounts[0]);
+    if (accounts && accounts[0]) {
+      fetchOffForNewShoresTestBalance(accounts[0]);
     } else {
       console.warn('No accounts found');
       setTokenBalance(0);
-      setAccountHasAccess(false);
+      setUserHasAccess(false);
     }
-  }, [upContext.accounts])
+  }, [accounts])
 
 
   if (!isClient) {
@@ -101,14 +96,13 @@ export default function Home() {
     return null;
   }
 
-  if (!upContext.isMiniApp) {
-    return <LandingPage />
-  }
-
   return (
     <>
       <div className="flex flex-col items-center w-screen h-dvh">
-        {!accountHasAccess ? <>
+        <ShaderExperience
+          userHasAccess={userHasAccess}
+        />
+        {/* {!accountHasAccess ? <>
           {!profileData && <>
             <div className='flex flex-col'>
               <div className='flex flex-row items-center mt-4'>
@@ -138,8 +132,26 @@ export default function Home() {
               </>}
             </div>
           </>}
-        </> : <ShaderExperience />}
+        </> : <ShaderExperience />} */}
       </div>
+      {isMiniApp && <>
+        <div className='fixed bottom-2 right-2 z-50 h-8 flex flex-row items-center'>
+          {profileData ? <>
+            <div className='flex flex-row items-center justify-center text-sm text-muted-foreground'>
+              {/* <span className='mr-4'>Connected as:</span> */}
+              {profileData.profileImages.length > 0 && <>
+                <Avatar className='h-6 w-6 mr-2'>
+                  <AvatarImage className='object-cover' src={transformIpfsUrl(profileData.profileImages[0].url)} />
+                  <AvatarFallback>{profileData.name.slice(0, 2)}</AvatarFallback>
+                </Avatar>
+              </>}
+              <span className=''>{profileData.name}</span>
+            </div>
+          </> : <>
+            <div className='text-sm text-muted-foreground'>Not connected</div>
+          </>}
+        </div>
+      </>}
     </>
   );
 }

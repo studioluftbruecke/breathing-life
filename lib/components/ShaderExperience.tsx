@@ -11,13 +11,15 @@ import { useShaderSettings } from "../stores/useShaderSettings";
 const ShaderSettingsInterface = dynamic(() => import('./ShaderSettingsInterface'), { ssr: false })
 
 
-export default function ShaderExperience() {
+export default function ShaderExperience(props: {
+  userHasAccess: boolean
+}) {
   const { mixNoise, worleyNoiseScale, simplexNoiseScale, simplexSpeed, simplexIntensity, worleySpeed, worleyIntensity, image } = useShaderSettings()
 
   return (
     <>
       <ToastContainer />
-      <ShaderSettingsInterface />
+      <ShaderSettingsInterface userHasAccess={props.userHasAccess} />
       <ExperienceWrapper
         controls={{ orbitControls: {} }}
         initialCameraPosition={new THREE.Vector3(0, 0, 1)}
