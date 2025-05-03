@@ -110,7 +110,7 @@ export default function ShaderSettingsInterface(props: {
           </Button>
         </animated.div>
       </div>
-      <div className={`fixed top-8 right-0 w-full max-w-screen max-h-[90dvh] overflow-scroll md:w-fit md:right-8 flex flex-col items-center md:items-end z-50 ${isToggled ? '' : 'hidden'}`}>
+      <div className={`fixed top-8 right-0 w-full max-w-screen max-h-[93dvh] overflow-scroll md:w-fit md:right-8 flex flex-col items-center md:items-end z-50 ${isToggled ? '' : 'hidden'}`}>
         <animated.div
           id="shader-settings-interface"
           className="w-full h-full min-w-[280px] max-w-[360px] space-y-4 border rounded-md p-4 bg-background"
@@ -503,7 +503,9 @@ export default function ShaderSettingsInterface(props: {
               <AccordionContent>
                 <div className="w-full h-full flex flex-col">
                   <span>&#x0022;Breathing Life&#x0022; is a creative tool for animating images into breath-taking visual experiences. Inspired by altered visionary states, the images come to life in a natural way, while it is also possible to create otherworldly effects.</span>
-                  <span className="text-sm mt-6">Do you have any questions or feedback?<br />Leave a message via <Link className="text-primary underline" href="mailto:hi@studioluftbruecke.org">hi@studioluftbruecke.org</Link></span>
+                  <span className="mt-2">This tool harnesses the mathematical elegance of Simplex Noise — known for its natural-looking randomness — alongside Worley Noise, famous for creating organic cellular patterns resembling natural textures like stone, water, and biological surfaces. Together, these algorithmic foundations generate fluid, ever evolving landscapes that both complement and reimagine the original image.</span>
+                  <Separator className="my-4" />
+                  <span className="text-sm">Do you have any questions or feedback?<br />Leave a message via <Link className="text-primary underline" href="mailto:hi@studioluftbruecke.org">hi@studioluftbruecke.org</Link></span>
                 </div>
               </AccordionContent>
             </AccordionItem>

@@ -136,7 +136,7 @@ export default function Home() {
           </>}
         </> : <ShaderExperience />} */}
       </div>
-      <div className='fixed bottom-2 left-2 z-50 h-8 flex flex-row items-center'>
+      <div className='fixed bottom-2 left-2 z-10 h-8 flex flex-row items-center'>
         <Link
           href="https://studioluftbruecke.org"
           target="_blank"
@@ -151,7 +151,7 @@ export default function Home() {
         </Link>
       </div>
       {isMiniApp && <>
-        <div className='fixed bottom-2 right-2 z-50 h-8 flex flex-row items-center'>
+        <div className='fixed bottom-2 right-2 z-10 h-8 flex flex-row items-center'>
           {profileData ? <>
             <div className='flex flex-row items-center justify-center text-sm text-muted-foreground'>
               {/* <span className='mr-4'>Connected as:</span> */}
