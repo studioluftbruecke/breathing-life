@@ -19,6 +19,7 @@ import { useSpring, animated } from '@react-spring/web'
 import Image from "next/image"
 import { useProfile } from "../providers/ProfileProvider"
 import { useUpProvider } from "../providers/UpProvider"
+import Link from "next/link"
 
 
 const DARK_BACKGROUND_HEX = '#000000'
@@ -497,13 +498,12 @@ export default function ShaderSettingsInterface(props: {
                 </div>
               </AccordionContent>
             </AccordionItem>
-            <AccordionItem value="feedback" className="border-none">
-              <AccordionTrigger>Feedback</AccordionTrigger>
+            <AccordionItem value="about" className="border-none">
+              <AccordionTrigger>About</AccordionTrigger>
               <AccordionContent>
-                <div className="w-full h-full space-y-2 flex flex-col items-center">
-                  <span className="text-sm font-bold">Do you have any feedback or questions?</span>
-                  <span className="text-sm">Leave a message via</span>
-                  <span className="text-sm">hi@studioluftbruecke.org</span>
+                <div className="w-full h-full flex flex-col">
+                  <span>&#x0022;Breathing Life&#x0022; is a creative tool for animating images into breath-taking visual experiences. Inspired by altered visionary states, the images come to life in a natural way, while it is also possible to create otherworldly effects.</span>
+                  <span className="text-sm mt-6">Do you have any questions or feedback?<br />Leave a message via <Link className="text-primary underline" href="mailto:hi@studioluftbruecke.org">hi@studioluftbruecke.org</Link></span>
                 </div>
               </AccordionContent>
             </AccordionItem>
