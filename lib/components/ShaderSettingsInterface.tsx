@@ -102,7 +102,7 @@ export default function ShaderSettingsInterface(props: {
           }}
         >
           <Button
-            variant={'ghost'}
+            variant={'secondary'}
             className={`border rounded-md w-8 h-8 flex items-center justify-center`}
             onClick={handleToggle}
           >

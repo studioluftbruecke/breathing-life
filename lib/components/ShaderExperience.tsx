@@ -22,7 +22,8 @@ export default function ShaderExperience(props: {
       {new THREE.Vector3().copy(cameraPosition).sub(initCameraPosition).length() > 0.01 && (
         <div className="fixed bottom-2 z-50">
           <Button
-            variant={'ghost'}
+            variant={'secondary'}
+            size={'sm'}
             className={`border rounded-md flex items-center justify-center`}
             onClick={() => { setTriggerReset(Math.random().toString()) }}
           >
