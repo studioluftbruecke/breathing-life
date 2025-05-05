@@ -323,7 +323,7 @@ export default function ShaderSettingsInterface(props: {
                       <a data-tooltip-id="mix-tooltip" data-tooltip-content="Set the mix between Simplex and Worley noise.">
                         <Info size={14} className="cursor-pointer hover:opacity-70 text-muted-foreground" />
                       </a>
-                      <Tooltip id="mix-tooltip" openOnClick />
+                      <Tooltip id="mix-tooltip" openOnClick closeEvents={{ click: true }} />
                     </div>
                   </div>
 
@@ -355,7 +355,7 @@ export default function ShaderSettingsInterface(props: {
                       <a data-tooltip-id="simplex-speed-tooltip" data-tooltip-content="Set the speed of the Simplex noise.">
                         <Info size={14} className="cursor-pointer hover:opacity-70 text-muted-foreground" />
                       </a>
-                      <Tooltip id="simplex-speed-tooltip" openOnClick />
+                      <Tooltip id="simplex-speed-tooltip" openOnClick closeEvents={{ click: true }} />
                     </div>
                     <div className="flex flex-row items-center gap-2">
                       <div className="flex flex-row space-between items-center min-w-[95px]">
@@ -384,7 +384,7 @@ export default function ShaderSettingsInterface(props: {
                       <a data-tooltip-id="simplex-intensity-tooltip" data-tooltip-content="Set the intensity of the Simplex noise.">
                         <Info size={14} className="cursor-pointer hover:opacity-70 text-muted-foreground" />
                       </a>
-                      <Tooltip id="simplex-intensity-tooltip" openOnClick />
+                      <Tooltip id="simplex-intensity-tooltip" openOnClick closeEvents={{ click: true }} />
                     </div>
                     <div className="flex flex-row items-center gap-2">
                       <div className="flex flex-row space-between items-center min-w-[95px]">
@@ -414,7 +414,7 @@ export default function ShaderSettingsInterface(props: {
                       <a data-tooltip-id="simplex-scale-tooltip" data-tooltip-content="Set the scale of the Simplex noise.">
                         <Info size={14} className="cursor-pointer hover:opacity-70 text-muted-foreground" />
                       </a>
-                      <Tooltip id="simplex-scale-tooltip" openOnClick />
+                      <Tooltip id="simplex-scale-tooltip" openOnClick closeEvents={{ click: true }} />
                     </div>
                   </div>
                   <div className="border rounded-md p-4 space-y-4">
@@ -445,7 +445,7 @@ export default function ShaderSettingsInterface(props: {
                       <a data-tooltip-id="worley-speed-tooltip" data-tooltip-content="Set the speed of the Worley noise.">
                         <Info size={14} className="cursor-pointer hover:opacity-70 text-muted-foreground" />
                       </a>
-                      <Tooltip id="worley-speed-tooltip" openOnClick />
+                      <Tooltip id="worley-speed-tooltip" openOnClick closeEvents={{ click: true }} />
                     </div>
                     <div className="flex flex-row items-center gap-2">
                       <div className="flex flex-row space-between items-center min-w-[95px]">
@@ -474,7 +474,7 @@ export default function ShaderSettingsInterface(props: {
                       <a data-tooltip-id="worley-intensity-tooltip" data-tooltip-content="Set the intensity of the Worley noise.">
                         <Info size={14} className="cursor-pointer hover:opacity-70 text-muted-foreground" />
                       </a>
-                      <Tooltip id="worley-intensity-tooltip" openOnClick />
+                      <Tooltip id="worley-intensity-tooltip" openOnClick closeEvents={{ click: true }} />
                     </div>
                     <div className="flex flex-row items-center gap-2">
                       <div className="flex flex-row space-between items-center min-w-[95px]">
@@ -504,7 +504,7 @@ export default function ShaderSettingsInterface(props: {
                       <a data-tooltip-id="worley-scale-tooltip" data-tooltip-content="Set the scale of the Worley noise.">
                         <Info size={14} className="cursor-pointer hover:opacity-70 text-muted-foreground" />
                       </a>
-                      <Tooltip id="worley-scale-tooltip" openOnClick />
+                      <Tooltip id="worley-scale-tooltip" openOnClick closeEvents={{ click: true }} />
                     </div>
                   </div>
                 </div>
