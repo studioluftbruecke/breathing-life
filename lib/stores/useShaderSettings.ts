@@ -1,4 +1,5 @@
 import { create } from 'zustand'
+import * as THREE from 'three'
 
 interface ShaderSettingsState {
   mixNoise: number
@@ -11,6 +12,8 @@ interface ShaderSettingsState {
   image: string
   gradientColor1: string
   gradientColor2: string
+  cameraPosition: THREE.Vector3
+  triggerReset: string
   setMixNoise: (mixNoise: number) => void
   setWorleyNoiseScale: (worleyNoiseScale: number) => void
   setSimplexNoiseScale: (simplexNoiseScale: number) => void
@@ -21,6 +24,8 @@ interface ShaderSettingsState {
   setImage: (image: string) => void
   setGradientColor1: (gradientColor1: string) => void
   setGradientColor2: (gradientColor2: string) => void
+  setCameraPosition: (cameraPosition: THREE.Vector3) => void
+  setTriggerReset: (triggerReset: string) => void
 }
 
 export const useShaderSettings = create<ShaderSettingsState>((set) => ({
@@ -34,6 +39,8 @@ export const useShaderSettings = create<ShaderSettingsState>((set) => ({
   image: '/Breathing-Life-Cover-Image.jpg',
   gradientColor1: '#170056',
   gradientColor2: '#170056',
+  cameraPosition: new THREE.Vector3(0, 0, 1),
+  triggerReset: 'abc',
   setMixNoise: (mixNoise: number) => set({ mixNoise }),
   setWorleyNoiseScale: (worleyNoiseScale: number) => set({ worleyNoiseScale }),
   setSimplexNoiseScale: (simplexNoiseScale: number) => set({ simplexNoiseScale }),
@@ -44,4 +51,6 @@ export const useShaderSettings = create<ShaderSettingsState>((set) => ({
   setImage: (image: string) => set({ image }),
   setGradientColor1: (gradientColor1: string) => set({ gradientColor1 }),
   setGradientColor2: (gradientColor2: string) => set({ gradientColor2 }),
+  setCameraPosition: (cameraPosition: THREE.Vector3) => set({ cameraPosition }),
+  setTriggerReset: (triggerReset: string) => set({ triggerReset }),
 }))

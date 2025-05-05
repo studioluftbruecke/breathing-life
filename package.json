@@ -34,6 +34,7 @@
     "react": "^18",
     "react-dom": "^18",
     "react-toastify": "^11.0.3",
+    "react-tooltip": "^5.28.1",
     "tailwind-merge": "^2.6.0",
     "tailwindcss-animate": "^1.0.7",
     "viem": "^2.25.0",

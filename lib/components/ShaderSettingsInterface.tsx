@@ -20,6 +20,8 @@ import Image from "next/image"
 import { useProfile } from "../providers/ProfileProvider"
 import { useUpProvider } from "../providers/UpProvider"
 import Link from "next/link"
+import { Tooltip } from 'react-tooltip'
+import { Info } from "lucide-react"
 
 
 const DARK_BACKGROUND_HEX = '#000000'
@@ -102,7 +104,7 @@ export default function ShaderSettingsInterface(props: {
           }}
         >
           <Button
-            variant={'ghost'}
+            variant={'secondary'}
             className={`border rounded-md w-8 h-8 flex items-center justify-center`}
             onClick={handleToggle}
           >
@@ -229,44 +231,44 @@ export default function ShaderSettingsInterface(props: {
               <AccordionContent>
                 <div className="w-full h-full space-y-2">
                   <div
-                    // className="flex flex-row items-center gap-2 w-full justify-between"
+                  // className="flex flex-row items-center gap-2 w-full justify-between"
                   >
                     {isMiniApp && props.userHasAccess ? <>
-                    <div className="flex flex-row items-center gap-2">
-                      <input ref={fileInputRef} className="hidden" type="file" accept="image/*" onChange={(e) => {
-                        if (!e.target.files?.[0]) return;
-                        const fileUrl = URL.createObjectURL(e.target.files[0]);
-                        setImage(fileUrl);
-                        setAccordionValue('')
-                      }} />
-                      <Image
-                        src={image}
-                        alt="Image"
-                        width={50}
-                        height={50}
-                        className="rounded-md mr-1 w-12 h-12 object-cover aspect-square"
-                      />
-                      <Button
-                        variant={'default'}
-                        disabled={!props.userHasAccess || !isMiniApp}
-                        onClick={() => {
-                          if (!props.userHasAccess || !isMiniApp) {
-                            console.error('User has no access or is not on the grid.');
-                            return;
-                          }
-                          fileInputRef.current?.click()
-                        }}
-                      >
-                        {image ? 'Update image' : 'Select image'}
-                      </Button>
+                      <div className="flex flex-row items-center gap-2">
+                        <input ref={fileInputRef} className="hidden" type="file" accept="image/*" onChange={(e) => {
+                          if (!e.target.files?.[0]) return;
+                          const fileUrl = URL.createObjectURL(e.target.files[0]);
+                          setImage(fileUrl);
+                          setAccordionValue('')
+                        }} />
+                        <Image
+                          src={image}
+                          alt="Image"
+                          width={50}
+                          height={50}
+                          className="rounded-md mr-1 w-12 h-12 object-cover aspect-square"
+                        />
+                        <Button
+                          variant={'default'}
+                          disabled={!props.userHasAccess || !isMiniApp}
+                          onClick={() => {
+                            if (!props.userHasAccess || !isMiniApp) {
+                              console.error('User has no access or is not on the grid.');
+                              return;
+                            }
+                            fileInputRef.current?.click()
+                          }}
+                        >
+                          {image ? 'Update image' : 'Select image'}
+                        </Button>
                       </div>
                     </> : <>
-                    <div className="text-muted-foreground flex flex-row items-center gap-2 w-full">
-                      <span className="w-50">Access required for image upload.</span>
-                      {!isMiniApp ? <><span>Login currently only supported on the <a href={process.env.NEXT_PUBLIC_STUDIO_LUFTBRUECKE_UP_URL} target="_blank" className="underline text-blue-500">Grid</a>.</span></> : <>
-                        {!profileData ? <><span>Login via the &quot;Connect&quot; button on the top-left of this grid.</span></> : <><span>You don&apos;t have access yet. <a href={process.env.NEXT_PUBLIC_UNIVERSAL_PAGE_BREATHING_LIFE_DROP_URL} target="_blank" className="underline text-blue-500">Get access here</a>.</span></>}
-                      </>}
-                    </div>
+                      <div className="text-muted-foreground flex flex-row items-center gap-2 w-full">
+                        <span className="w-50">Access required for image upload.</span>
+                        {!isMiniApp ? <><span>Login currently only supported on the <a href={process.env.NEXT_PUBLIC_STUDIO_LUFTBRUECKE_UP_URL} target="_blank" className="underline text-blue-500">Grid</a>.</span></> : <>
+                          {!profileData ? <><span>Login via the &quot;Connect&quot; button on the top-left of this grid.</span></> : <><span>You don&apos;t have access yet. <a href={process.env.NEXT_PUBLIC_UNIVERSAL_PAGE_BREATHING_LIFE_DROP_URL} target="_blank" className="underline text-blue-500">Get access here</a>.</span></>}
+                        </>}
+                      </div>
                     </>}
                     {/* <div className="text-xs text-muted-foreground">
                         {!isMiniApp && <>
@@ -293,14 +295,14 @@ export default function ShaderSettingsInterface(props: {
                 <div className="w-full h-full space-y-2">
                   <div className="border rounded-md p-4 space-y-4">
                     <div className="flex flex-row items-center gap-2">
-                      <div className="flex flex-row space-between items-center w-[35%]">
+                      <div className="flex flex-row space-between items-center min-w-[95px]">
                         <Waves size={24} />
                         {/* <ArrowsHorizontal className="mx-2" size={24} /> */}
                         <Diamond size={24} />
                         <span className="text-sm font-bold mx-2">Mix</span>
                       </div>
                       <Slider
-                        className="w-[47%] ml-4"
+                        className=""
                         defaultValue={[33]}
                         max={1}
                         step={0.01}
@@ -308,27 +310,31 @@ export default function ShaderSettingsInterface(props: {
                         onValueChange={(value: number[]) => setMixNoise(value[0])}
                         disabled={image === ''}
                       />
-                      <div className="w-[18%]">
+                      <div className="">
                         <Input
                           type="number"
                           step="0.01"
                           value={Math.round(mixNoise * 100)}
                           onChange={(e) => setMixNoise((Number(e.target.value) / 100 || 0))}
-                          className="p-2 h-8"
+                          className="p-2 h-8 w-11"
                           disabled={image === ''}
                         />
                       </div>
+                      <a data-tooltip-id="mix-tooltip" data-tooltip-content="Set the mix between Simplex and Worley noise.">
+                        <Info size={14} className="cursor-pointer hover:opacity-70 text-muted-foreground" />
+                      </a>
+                      <Tooltip id="mix-tooltip" openOnClick closeEvents={{ click: true }} />
                     </div>
                   </div>
 
                   <div className="border rounded-md p-4 space-y-4">
                     <div className="flex flex-row items-center gap-2">
-                      <div className="flex flex-row space-between items-center w-[35%]">
+                      <div className="flex flex-row space-between items-center min-w-[95px]">
                         <Waves size={24} />
                         <span className="text-sm font-bold mx-2">Speed</span>
                       </div>
                       <Slider
-                        className="w-[47%] ml-4"
+                        className=""
                         defaultValue={[0.05]}
                         max={1.0}
                         step={0.01}
@@ -336,24 +342,28 @@ export default function ShaderSettingsInterface(props: {
                         onValueChange={(value: number[]) => setSimplexSpeed(value[0])}
                         disabled={image === ''}
                       />
-                      <div className="w-[18%]">
+                      <div className="">
                         <Input
                           type="number"
                           step="0.01"
                           value={Math.round(simplexSpeed * 100)}
                           onChange={(e) => setSimplexSpeed((Number(e.target.value) / 100 || 0))}
-                          className="p-2 h-8"
+                          className="p-2 h-8 w-11"
                           disabled={image === ''}
                         />
                       </div>
+                      <a data-tooltip-id="simplex-speed-tooltip" data-tooltip-content="Set the speed of the Simplex noise.">
+                        <Info size={14} className="cursor-pointer hover:opacity-70 text-muted-foreground" />
+                      </a>
+                      <Tooltip id="simplex-speed-tooltip" openOnClick closeEvents={{ click: true }} />
                     </div>
                     <div className="flex flex-row items-center gap-2">
-                      <div className="flex flex-row space-between items-center w-[35%]">
+                      <div className="flex flex-row space-between items-center min-w-[95px]">
                         <Waves size={24} />
                         <span className="text-sm font-bold mx-2">Intensity</span>
                       </div>
                       <Slider
-                        className="w-[47%] ml-4"
+                        className=""
                         defaultValue={[0.01]}
                         max={0.1}
                         step={0.001}
@@ -361,25 +371,29 @@ export default function ShaderSettingsInterface(props: {
                         onValueChange={(value: number[]) => setSimplexIntensity(value[0])}
                         disabled={image === ''}
                       />
-                      <div className="w-[18%]">
+                      <div className="">
                         <Input
                           type="number"
                           step="0.01"
                           value={Math.round(simplexIntensity * 1000)}
                           onChange={(e) => setSimplexIntensity((Number(e.target.value) / 1000 || 0))}
-                          className="p-2 h-8"
+                          className="p-2 h-8 w-11"
                           disabled={image === ''}
                         />
                       </div>
+                      <a data-tooltip-id="simplex-intensity-tooltip" data-tooltip-content="Set the intensity of the Simplex noise.">
+                        <Info size={14} className="cursor-pointer hover:opacity-70 text-muted-foreground" />
+                      </a>
+                      <Tooltip id="simplex-intensity-tooltip" openOnClick closeEvents={{ click: true }} />
                     </div>
                     <div className="flex flex-row items-center gap-2">
-                      <div className="flex flex-row space-between items-center w-[35%]">
+                      <div className="flex flex-row space-between items-center min-w-[95px]">
                         {/* <Resize size={24} /> */}
                         <Waves size={24} />
                         <span className="text-sm font-bold mx-2">Scale</span>
                       </div>
                       <Slider
-                        className="w-[47%] ml-4"
+                        className=""
                         defaultValue={[5.0]}
                         max={100.0}
                         step={0.1}
@@ -387,25 +401,30 @@ export default function ShaderSettingsInterface(props: {
                         onValueChange={(value: number[]) => setSimplexNoiseScale(value[0])}
                         disabled={image === ''}
                       />
-                      <div className="w-[18%]">
+                      <div className="">
                         <Input
                           type="number"
                           step="0.01"
                           value={Math.round(simplexNoiseScale)}
                           onChange={(e) => setSimplexNoiseScale((Number(e.target.value) || 0))}
-                          className="p-2 h-8"
+                          className="p-2 h-8 w-11"
                           disabled={image === ''}
                         />
                       </div>
+                      <a data-tooltip-id="simplex-scale-tooltip" data-tooltip-content="Set the scale of the Simplex noise.">
+                        <Info size={14} className="cursor-pointer hover:opacity-70 text-muted-foreground" />
+                      </a>
+                      <Tooltip id="simplex-scale-tooltip" openOnClick closeEvents={{ click: true }} />
                     </div>
                   </div>
                   <div className="border rounded-md p-4 space-y-4">
                     <div className="flex flex-row items-center gap-2">
-                      <div className="flex flex-row space-between items-center w-[35%]"><Diamond size={24} />
+                      <div className="flex flex-row space-between items-center min-w-[95px]">
+                        <Diamond size={24} />
                         <span className="text-sm font-bold mx-2">Speed</span>
                       </div>
                       <Slider
-                        className="w-[47%] ml-4"
+                        className=""
                         defaultValue={[0.05]}
                         max={1.0}
                         step={0.01}
@@ -413,24 +432,28 @@ export default function ShaderSettingsInterface(props: {
                         onValueChange={(value: number[]) => setWorleySpeed(value[0])}
                         disabled={image === ''}
                       />
-                      <div className="w-[18%]">
+                      <div className="">
                         <Input
                           type="number"
                           step="0.01"
                           value={Math.round(worleySpeed * 100)}
                           onChange={(e) => setWorleySpeed((Number(e.target.value) / 100 || 0))}
-                          className="p-2 h-8"
+                          className="p-2 h-8 w-11"
                           disabled={image === ''}
                         />
                       </div>
+                      <a data-tooltip-id="worley-speed-tooltip" data-tooltip-content="Set the speed of the Worley noise.">
+                        <Info size={14} className="cursor-pointer hover:opacity-70 text-muted-foreground" />
+                      </a>
+                      <Tooltip id="worley-speed-tooltip" openOnClick closeEvents={{ click: true }} />
                     </div>
                     <div className="flex flex-row items-center gap-2">
-                      <div className="flex flex-row space-between items-center w-[35%]">
+                      <div className="flex flex-row space-between items-center min-w-[95px]">
                         <Diamond size={24} />
                         <span className="text-sm font-bold mx-2">Intensity</span>
                       </div>
                       <Slider
-                        className="w-[47%] ml-4"
+                        className=""
                         defaultValue={[0.01]}
                         max={0.1}
                         step={0.001}
@@ -438,25 +461,29 @@ export default function ShaderSettingsInterface(props: {
                         onValueChange={(value: number[]) => setWorleyIntensity(value[0])}
                         disabled={image === ''}
                       />
-                      <div className="w-[18%]">
+                      <div className="">
                         <Input
                           type="number"
                           step="0.01"
                           value={Math.round(worleyIntensity * 1000)}
                           onChange={(e) => setWorleyIntensity((Number(e.target.value) / 1000 || 0))}
-                          className="p-2 h-8"
+                          className="p-2 h-8 w-11"
                           disabled={image === ''}
                         />
                       </div>
+                      <a data-tooltip-id="worley-intensity-tooltip" data-tooltip-content="Set the intensity of the Worley noise.">
+                        <Info size={14} className="cursor-pointer hover:opacity-70 text-muted-foreground" />
+                      </a>
+                      <Tooltip id="worley-intensity-tooltip" openOnClick closeEvents={{ click: true }} />
                     </div>
                     <div className="flex flex-row items-center gap-2">
-                      <div className="flex flex-row space-between items-center w-[35%]">
+                      <div className="flex flex-row space-between items-center min-w-[95px]">
                         {/* <Resize size={24} /> */}
                         <Diamond size={24} />
                         <span className="text-sm font-bold mx-2">Scale</span>
                       </div>
                       <Slider
-                        className="w-[47%] ml-4"
+                        className=""
                         defaultValue={[5.0]}
                         max={100.0}
                         step={0.1}
@@ -464,16 +491,20 @@ export default function ShaderSettingsInterface(props: {
                         onValueChange={(value: number[]) => setWorleyNoiseScale(value[0])}
                         disabled={image === ''}
                       />
-                      <div className="w-[18%]">
+                      <div className="">
                         <Input
                           type="number"
                           step="0.01"
                           value={Math.round(worleyNoiseScale)}
                           onChange={(e) => setWorleyNoiseScale((Number(e.target.value) || 0))}
-                          className="p-2 h-8"
+                          className="p-2 h-8 w-11"
                           disabled={image === ''}
                         />
                       </div>
+                      <a data-tooltip-id="worley-scale-tooltip" data-tooltip-content="Set the scale of the Worley noise.">
+                        <Info size={14} className="cursor-pointer hover:opacity-70 text-muted-foreground" />
+                      </a>
+                      <Tooltip id="worley-scale-tooltip" openOnClick closeEvents={{ click: true }} />
                     </div>
                   </div>
                 </div>

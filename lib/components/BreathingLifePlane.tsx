@@ -15,7 +15,9 @@ interface BreathingLifePlaneProps {
     simplexIntensity: number,
     worleySpeed: number,
     worleyIntensity: number,
-    image: string
+    image: string,
+    triggerReset: string,
+    setCameraPosition: (cameraPosition: THREE.Vector3) => void
   }
 }
 
@@ -26,11 +28,11 @@ export function BreathingLifePlaneWrapper(props: BreathingLifePlaneProps) {
 }
 
 function BreathingLifePlane(props: BreathingLifePlaneProps) {
-  const { mixNoise, worleyNoiseScale, simplexNoiseScale, simplexSpeed, simplexIntensity, worleySpeed, worleyIntensity, image } = props.settings
+  const { mixNoise, worleyNoiseScale, simplexNoiseScale, simplexSpeed, simplexIntensity, worleySpeed, worleyIntensity, image, triggerReset, setCameraPosition } = props.settings
 
   const meshRef = useRef<THREE.Mesh>(null)
   const [dimensions, setDimensions] = useState<{ width: number; height: number }>({ width: 0, height: 0 });
-  const { viewport } = useThree();
+  const { viewport, camera } = useThree();
 
   // Load texture
   const texture = useTexture(image)
@@ -90,10 +92,15 @@ function BreathingLifePlane(props: BreathingLifePlaneProps) {
     shaderMaterial.uniforms.uTexture.value = texture
   }, [texture])
 
+  useEffect(() => {
+    camera.position.set(0, 0, 1)
+  }, [triggerReset])
+
 
   // Update time uniform on each frame
   useFrame((state) => {
     if (meshRef.current) {
+      setCameraPosition(state.camera.position)
       const shaderMaterial = meshRef.current.material as THREE.ShaderMaterial
       shaderMaterial.uniforms.uTime.value = state.clock.getElapsedTime()
       shaderMaterial.uniforms.uSimplexSpeed.value = simplexSpeed
