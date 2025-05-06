@@ -28,7 +28,6 @@ const publicClient = createPublicClient({
 
 import { lsp7DigitalAssetAbi } from '@lukso/lsp-smart-contracts/abi';
 import { useProfile } from '@/lib/providers/ProfileProvider';
-import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/lib/components/ui/button';
 import { Info } from 'lucide-react';
@@ -45,24 +44,6 @@ export default function Home() {
     console.log('Setting isClient to true');
     setIsClient(true);
   }, []);
-
-  useEffect(() => {
-    async function getTotalSupply() {
-      try {
-        const totalSupply = await publicClient.readContract({
-          address: CONTRACT_ADDRESS as Address,
-          abi: lsp7DigitalAssetAbi,
-          functionName: 'totalSupply',
-        });
-        console.log('totalSupply', totalSupply);
-      } catch (error) {
-        console.error('Error fetching total supply:', error);
-        throw error;
-      }
-    }
-
-    getTotalSupply();
-  }, [])
 
   useEffect(() => {
     const fetchOffForNewShoresTestBalance = async (address: Address) => {
@@ -109,13 +90,6 @@ export default function Home() {
           >
             <Info size={16} className='text-muted-foreground' />
           </Button>
-          {/* <Image
-            src="/Studio Luftbrücke Full Symbol.jpg"
-            alt="Studio Luftbruecke Logo"
-            width={50}
-            height={50}
-            className="rounded-full aspect-square object-cover h-8 w-8"
-          /> */}
         </Link>
       </div>
       {isMiniApp && <>
