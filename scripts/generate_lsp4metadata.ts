@@ -1,9 +1,6 @@
 import { keccak256 } from "viem";
 import * as fs from 'fs'
 import * as path from 'path'
-// const { keccak256 } = require('viem');
-// const fs = require('fs');
-// const path = require('path');
 
 // Array of images
 const images = [
@@ -80,27 +77,6 @@ function generateLSP4Metadata(image: { width: number; height: number; path: stri
       ],
     }
   };
-
-  // const lsp4Metadata2 = {
-  //   LSP4Metadata: {
-  //     name: `Breathing Life #${index + 1}`,
-  //     description: `Breathing Life no. ${index + 1}`,
-  //     links: [
-  //       { title: 'Breathing Life - Studio Luftbruecke', url: 'https://breathinglife.studioluftbruecke.org' }
-  //     ],
-  //     images: [
-  //       [
-  //         {
-  //           width: image.width,
-  //           height: image.height,
-  //           url: image.url,
-  //           hashFunction: 'keccak256(bytes)',
-  //           hash: hash
-  //         }
-  //       ]
-  //     ],
-  //   }
-  // };
 
   return lsp4Metadata;
 }
